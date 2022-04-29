@@ -5,7 +5,7 @@ export const Text = ({
     text,
     color,
     textAlign,
-    style,
+    textStyle,
     letterSpacing,
     ...others
  }) => {
@@ -18,7 +18,7 @@ export const Text = ({
          [textAlign, letterSpacing],
      ); 
      return (
-         <MainText style={[propStyle, color, style]} {...others}>
+         <MainText style={[propStyle, color, textStyle]} {...others}>
             {text}
          </MainText>
      );
