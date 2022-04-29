@@ -9,8 +9,6 @@ import oboardingScreen from "./screens"
 export default function App() {
   return (
     <View style={styles.container}>
-      {/* <oboardingScreen /> */}
-
       <StatusBar style='auto' backgroundColor={themes.primary}/>
     </View>
   );
