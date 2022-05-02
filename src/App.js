@@ -6,10 +6,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Stack  = createNativeStackNavigator();
 import {Themes} from './constants'
-import {globalStyles} from './styles'
-import { Button } from './components/common';
 import Onboarding from './screens/Onboarding';
-import SignUp from './screens/SignUp';
+import SignIn from './screens/SignIn';
+import Register from './screens/Register';
+import RegisterSucess from './screens/RegisterSucess';
+import Home from './screens/Home';
+import RetrieveId from './screens/RetrieveId';
+import Recovery from './screens/Recovery';
+
 
 function App () {
 
@@ -34,7 +38,12 @@ function App () {
         {isAppFirstLaunch && (
           <Stack.Screen name='Onboarding' component={Onboarding}/>
         )}
-        <Stack.Screen name='SignUp' component={SignUp}/>
+        <Stack.Screen name='Register' component={Register}/>
+        <Stack.Screen name='SignIn' component={SignIn}/>
+        <Stack.Screen name='RegisterSucess' component={RegisterSucess}/>
+        <Stack.Screen name='Home' component={Home}/>
+        <Stack.Screen name='RetrieveId' component={RetrieveId}/>
+        <Stack.Screen name='Recovery' component={Recovery}/>
       </Stack.Navigator>
     </NavigationContainer>
     )

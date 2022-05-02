@@ -8,6 +8,7 @@ import { SafeAreaView,
     Image, 
     Dimensions,
     TouchableOpacity  } from "react-native";
+import {AntDesign} from '@expo/vector-icons'
 
 import { Text } from "../components/common";
 import { globalStyles } from "../styles";
@@ -65,25 +66,27 @@ const Onboarding = ({navigation}) => {
     const Footer = () => {
         return (
             <View style={styles.Footer}>
-                {
-                    currentIndex === onboardingData.length - 1 ? 
-                                    <View style={styles.innerContainer}>
+                {currentIndex === onboardingData.length - 1 ? 
+                
+                    <View style={styles.innerContainer}>
+
                <TouchableOpacity
                activeOpacity={0.6}
-               onPress={()=> navigation.replace('SignUp')}>
+               onPress={()=> navigation.replace('Register')}>
                    <MainText style={{fontSize: 20}}>Register</MainText>
                </TouchableOpacity>
                <TouchableOpacity
                activeOpacity={0.6}
-               onPress={goNextSlide}
+               onPress={()=> navigation.replace('SignIn')}
                style={styles.arrowContainer}>
                    <MainText style={{color:'#fff'}}>Sign in</MainText>
                </TouchableOpacity>
-                </View> :
+                </View> 
+                :
                 <View style={styles.innerContainer}>
                <TouchableOpacity
                activeOpacity={0.6}
-               onPress={()=> navigation.replace('SignUp')}
+               onPress={()=> navigation.replace('Register')}
                >
                    <MainText style={{fontSize: 20}}>Skip</MainText>
                </TouchableOpacity>
@@ -91,7 +94,7 @@ const Onboarding = ({navigation}) => {
                activeOpacity={0.6}
                onPress={goNextSlide}
                style={styles.arrowContainer}>
-                   <MainText style={{color:'#fff'}}>Next</MainText>
+                   <AntDesign color='#fff' size={24} name='arrowright' />
                </TouchableOpacity>
                 </View>
                 }
@@ -119,7 +122,7 @@ const Onboarding = ({navigation}) => {
             <StatusBar style='auto' backgroundColor='#fff'/>
             <FlatList
             ref={ref}
-            onMomentumScrollBegin={updateCurrentSlideIndex}
+            onMomentumScrollEnd={updateCurrentSlideIndex}
             pagingEnabled
             horizontal
             showsHorizontalScrollIndicator={false}
@@ -127,7 +130,8 @@ const Onboarding = ({navigation}) => {
             renderItem={renderItem}
             contentContainerStyle={{
                 height: Dimensions.get('window').height * 0.65,
-                marginVertical: "15%"
+                marginVertical: "15%",
+                overflow: 'hidden'
             }}/>
             {Slider()}
             {Footer()}
@@ -172,7 +176,9 @@ const styles = StyleSheet.create ({
     },
     arrowContainer: {
         backgroundColor: Themes.primary,
-        padding: 10,
+        padding: 7,
+        paddingLeft: 20,
+        paddingRight: 20,
         borderRadius: 2
     },
     innerContainer: {

@@ -1,7 +1,8 @@
 import { StyleSheet, Dimensions } from "react-native";
 import { Themes } from "../constants";
 
-export const globalStyles = StyleSheet.create ({
+
+export const globalStyles = StyleSheet.create ({ 
     textColor: {
         color: '#939599'
     },
@@ -22,7 +23,6 @@ export const globalStyles = StyleSheet.create ({
         fontSize: 16,
         fontWeight: 'normal',
         fontFamily: 'montserrat',
-        // backgroundColor: themes.primary
     },
     Heading3: {
         fontSize: 12,
@@ -31,13 +31,11 @@ export const globalStyles = StyleSheet.create ({
         color: Themes.text,
         letterSpacing: 1,
         textAlign: "center",
-        // backgroundColor: themes.primary
     },
     bodyText: {
         fontSize: 12,
         fontWeight: 'normal',
         fontFamily: 'montserrat',
-        // backgroundColor: themes.primary
     },
     rowCenter: {
         flexDirection: 'row',
