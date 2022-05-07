@@ -14,20 +14,15 @@ export const globalStyles = StyleSheet.create ({
     },
     Heading1: {
         fontSize: 20,
-        fontWeight: 'bold',
-        fontFamily: 'montserrat',
         textAlign: "center",
-        color: Themes.primary
+        color: Themes.primary,
     },
     Heading2: {
         fontSize: 16,
         fontWeight: 'normal',
-        fontFamily: 'montserrat',
     },
     Heading3: {
         fontSize: 12,
-        fontWeight: 'bold',
-        fontFamily: 'montserrat',
         color: Themes.text,
         letterSpacing: 1,
         textAlign: "center",
@@ -35,7 +30,6 @@ export const globalStyles = StyleSheet.create ({
     bodyText: {
         fontSize: 12,
         fontWeight: 'normal',
-        fontFamily: 'montserrat',
     },
     rowCenter: {
         flexDirection: 'row',

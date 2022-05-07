@@ -1,38 +1,53 @@
 import { StyleSheet, Text as MainText, View, Dimensions, Image, TouchableOpacity } from 'react-native'
 import React, {useState} from 'react'
 import { Picker } from '@react-native-picker/picker'
-
+import { useFonts } from '@use-expo/font';
+import AppLoading from 'expo-app-loading';
 
 import { Button, TextInput } from '../components/common'
 import { Themes } from '../constants'
 import { globalStyles } from '../styles'
 import { Text } from '../components/common'
 
+
+const customFonts = {
+  Montserrat: require("../assets/font/Montserrat.ttf")
+};
+
+
 const Register = ({navigation}) => {
 
+  const [isLoaded] = useFonts(customFonts)
+
   const [state, setState] = useState('')
+  
   const Header = () => {
     return (
       <View style={styles.headerContainer}/>
     )
   }
   const InputFields =  () => {
-    return (
-      <View style={{width: '90%', marginTop: '5%'}}>
+        if(!isLoaded) {
+        return <AppLoading />
+      } return (
+      <View style={{width: '90%', borderRadius: 10, marginTop: '5%'}}>
         <TextInput 
         placeholder='Hospital Name' 
         onChangeText={()=>{}}
+        textInputStyle={styles.TextInput}
         />
         <View style={{flexDirection: 'row', width: '100%', justifyContent: 'space-between'}}>
 
-        <View style={{width: '68%', borderWidth: 1, borderColor: 'lightgrey', marginTop: 16}}>
+        <View style={{width: '68%', borderWidth: 1, borderRadius: 7, borderColor: 'lightgrey', marginTop: 16}}>
          <Picker 
          selectedValue={state}
+         itemStyle={{fontFamily: 'Montserrat'}}
          onValueChange={(item, index) => setState(item)}
          style={{
-           borderWidth: 1,
            borderColor: 'red',
            color: Themes.text,
+           borderRadius: 5,
+           fontWeight: '200'
          }}>
            <Picker.Item label ='state' enabled={false}   value= 'state' />
            <Picker.Item label ='Bauchi'  value= 'Bauchi'/>
@@ -79,6 +94,8 @@ const Register = ({navigation}) => {
           <TextInput 
         placeholder='City' 
         onChangeText={()=>{}} 
+        textInputStyle={styles.TextInput}
+
         />
           </View>
         
@@ -86,28 +103,32 @@ const Register = ({navigation}) => {
         <TextInput 
         placeholder='Address' 
         onChangeText={()=>{}}
+        textInputStyle={styles.TextInput}
         // value
         />
         <Button title='Register' onPress={()=> navigation.replace('RegisterSucess')} containerStyle={styles.btnContainer} textStyle={styles.btnText}/>
         <View>
-          
         </View>
+         {!isLoaded ? <AppLoading /> : 
 
         <View style={{flexDirection: 'row', justifyContent: 'center',}}>
-        <Text text='Registered ?'style={[globalStyles.Heading3]}/>
+        <Text text='Registered ?'textStyle={[styles.register ,globalStyles.Heading3]}/>
         <TouchableOpacity
         activeOpacity={0.6}
         style={{marginLeft: '3%'}}
         onPress={()=> navigation.navigate('SignIn')}
         >
-          <Text style={{color: Themes.primary}} text='Sign In'/>
+          <Text textStyle={{color: Themes.primary, fontFamily: 'Montserrat'}} text='Sign In'/>
         </TouchableOpacity>
         </View>
+         }
       </View>
     )
   }
   const Body = () => {
-    return (
+       if(!isLoaded) {
+        return <AppLoading />
+      }  return (
       <View style={[styles.bodyContainer, globalStyles.rowCenter]}>
         <View style={styles.bodyContentContainer}>
             <Image 
@@ -149,17 +170,21 @@ image : {
   resizeMode: 'contain',
 },
 text: {
-  marginTop: '15%'
+  marginTop: '15%',
 },
 btnText: {
-  color: '#fff'
+  color: '#fff',
 },
 btnContainer: {
   padding: 20,
   marginTop: '12%',
   marginBottom: '3%',
   borderRadius: 5
-}
+},
+TextInput: {
+  borderRadius: 5
+},
+
 
 })
 

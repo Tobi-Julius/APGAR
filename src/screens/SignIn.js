@@ -1,12 +1,23 @@
 import { StyleSheet, View, Dimensions,Image, TouchableOpacity, } from 'react-native'
 import React from 'react'
+import { useFonts } from '@use-expo/font';
+import AppLoading from 'expo-app-loading';
+import { AntDesign } from '@expo/vector-icons';
+
 
 import { Themes } from '../constants'
 import { globalStyles } from '../styles'
 import { Button, Text } from '../components/common'
 import { TextInput } from '../components/common'
 
+const customFonts = {
+  Montserrat: require("../assets/font/Montserrat.ttf")
+};
+
+
 const SignIn = ({navigation}) => {
+  
+  const [isLoaded] =useFonts(customFonts)
 
     const Header = () => {
     return (
@@ -15,9 +26,17 @@ const SignIn = ({navigation}) => {
   }
 
   const Body = () => {
+      if(!isLoaded) {
+        return <AppLoading />
+      }
     return (
       <View style={[styles.bodyContainer, globalStyles.rowCenter]}>
         <View style={styles.bodyContentContainer}>
+          <TouchableOpacity 
+          onPress={() => navigation.navigate('Register')}
+          style={styles.AntDesign}>
+            <AntDesign color='black' size={24} name='left' />
+          </TouchableOpacity>
           <Image 
             style={styles.image}
             source={require('../images/onboarding2.png')}/>
@@ -25,6 +44,7 @@ const SignIn = ({navigation}) => {
             <View style={styles.inputContainer}>
             <TextInput textInputStyle={styles.textInputStyle} placeholder='Hospital name' />
             </View>
+
             <TouchableOpacity 
             activeOpacity={0.6}
             style={{alignSelf: 'flex-start'}}
@@ -32,7 +52,8 @@ const SignIn = ({navigation}) => {
             >
             <Text textStyle={styles.textStyle} text='Forget ID ?'/>
             </TouchableOpacity>
-        <Button containerStyle={styles.containerStyle} onPress={()=> navigation.replace('Home')} textStyle={styles.btnText} title='Sign In'/>
+            
+        <Button containerStyle={styles.containerStyle} onPress={()=> navigation.replace('SideMenu')} textStyle={styles.btnText} title='Sign In'/>
         </View>
       </View>
     )
@@ -68,7 +89,8 @@ image : {
   resizeMode: 'contain',
 },
 text: {
-  marginTop: '13%'
+  marginTop: '13%',
+  fontFamily: 'Montserrat'
 },
 inputContainer: {
   width: '90%',
@@ -92,6 +114,11 @@ containerStyle: {
 },
 btnText :{
   color: '#fff'
+},
+AntDesign: {
+  position: 'absolute',
+  left: '3%',
+  top: '4%'
 }
 })
 

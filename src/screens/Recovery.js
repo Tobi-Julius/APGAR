@@ -18,7 +18,7 @@ const Recovery = ({navigation}) => {
       <View style={[styles.bodyContainer, globalStyles.rowCenter]}>
         <View style={styles.bodyContentContainer}>
           <View style={{marginTop: '10%'}}>
-          <Text text='ID Recovery' textStyle={styles.textStyle} style={[globalStyles.Heading1]}/> 
+          <Text text='ID Recovery' textStyle={[styles.textStyle, globalStyles.Heading1]} /> 
           </View>
           <View style={[globalStyles.rowCenter, styles.container]}>
             <View style={{backgroundColor: '#fcfcfc', height: '50%', width: '75%',borderRadius: 10, alignItems: 'center', justifyContent: 'center'}}>
@@ -67,7 +67,7 @@ textStyle: {
   marginTop: '10%'
 },
 container: {
-  height: Dimensions.get('window').height *0.65
+  height: Dimensions.get('window').height *0.55
 },
 textStyle: {
   color: Themes.secondary,

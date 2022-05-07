@@ -9,14 +9,24 @@ import { SafeAreaView,
     Dimensions,
     TouchableOpacity  } from "react-native";
 import {AntDesign} from '@expo/vector-icons'
+import { useFonts } from '@use-expo/font';
+import AppLoading from 'expo-app-loading';
+
+
 
 import { Text } from "../components/common";
 import { globalStyles } from "../styles";
 import { Themes } from "../constants";
 
 
+const customFonts = {
+  Montserrat: require("../assets/font/Montserrat.ttf")
+};
+
+
 const Onboarding = ({navigation}) => {
     const ref = useRef(null)
+  const [isLoaded] =useFonts(customFonts)
 
     const onboardingData = [
         {
@@ -35,13 +45,15 @@ const Onboarding = ({navigation}) => {
 
 
     const renderItem = ({item}) => {
-        return (
+        if(!isLoaded) {
+        return <AppLoading />
+      } return (
             <View>
                 <Image 
                 source={item.image}
                 style={styles.image}/>  
-                <Text text={item.text} style={globalStyles.Heading1} />
-                <Text text={item.subText} style={globalStyles.Heading3} />
+                <Text  text={item.text} textStyle={[styles.text, globalStyles.Heading1]} />
+                <Text text={item.subText}  textStyle={[styles.text, globalStyles.Heading3]} />
             </View>
         )
     }
@@ -73,13 +85,13 @@ const Onboarding = ({navigation}) => {
                <TouchableOpacity
                activeOpacity={0.6}
                onPress={()=> navigation.replace('Register')}>
-                   <MainText style={{fontSize: 20}}>Register</MainText>
+                   <MainText style={{fontSize: 20,textAlignVertical: 'center', fontFamily: 'Montserrat'}}>Register</MainText>
                </TouchableOpacity>
                <TouchableOpacity
                activeOpacity={0.6}
                onPress={()=> navigation.replace('SignIn')}
                style={styles.arrowContainer}>
-                   <MainText style={{color:'#fff'}}>Sign in</MainText>
+                   <MainText style={{color:'#fff', padding: 1, fontFamily: 'Montserrat'}}>Sign in</MainText>
                </TouchableOpacity>
                 </View> 
                 :
@@ -88,13 +100,13 @@ const Onboarding = ({navigation}) => {
                activeOpacity={0.6}
                onPress={()=> navigation.replace('Register')}
                >
-                   <MainText style={{fontSize: 20}}>Skip</MainText>
+                   <MainText style={{fontSize: 20, fontFamily: 'Montserrat'}}>Skip</MainText>
                </TouchableOpacity>
                <TouchableOpacity
                activeOpacity={0.6}
                onPress={goNextSlide}
                style={styles.arrowContainer}>
-                   <AntDesign color='#fff' size={24} name='arrowright' />
+                   <AntDesign color='#fff' size={18} name='arrowright' />
                </TouchableOpacity>
                 </View>
                 }
@@ -117,7 +129,9 @@ const Onboarding = ({navigation}) => {
             setCurrentIndex(nextSlideIndex)
         }}
     }
-        return (
+        if(!isLoaded) {
+        return <AppLoading />
+      } return (
         <SafeAreaView style={styles.container}>
             <StatusBar style='auto' backgroundColor='#fff'/>
             <FlatList
@@ -129,7 +143,7 @@ const Onboarding = ({navigation}) => {
             data={onboardingData}
             renderItem={renderItem}
             contentContainerStyle={{
-                height: Dimensions.get('window').height * 0.65,
+                height: Dimensions.get('window').height * 0.60,
                 marginVertical: "15%",
                 overflow: 'hidden'
             }}/>
@@ -184,6 +198,12 @@ const styles = StyleSheet.create ({
     innerContainer: {
         justifyContent: 'space-between',
         flexDirection: 'row'
+    },
+    subText : {
+        fontFamily: 'Montserrat',
+    },
+    text: {
+        fontFamily: 'Montserrat'
     }
 })
 

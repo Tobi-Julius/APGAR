@@ -1,6 +1,9 @@
 import { StyleSheet, View , Dimensions, TouchableOpacity} from 'react-native'
 import React, {useState} from 'react'
 import { Picker } from '@react-native-picker/picker'
+import { useFonts } from '@use-expo/font';
+import AppLoading from 'expo-app-loading';
+import { AntDesign } from '@expo/vector-icons';
 
 
 
@@ -11,7 +14,14 @@ import { Button } from '../components/common'
 import { TextInput } from '../components/common'
 
 
+const customFonts = {
+  Montserrat: require("../assets/font/Montserrat.ttf")
+};
+
+
 const RetrieveId = ({navigation}) => {
+  const [isLoaded] = useFonts(customFonts)
+
   const [state, setState] = useState('')
 
 const Header = () => {
@@ -21,14 +31,20 @@ const Header = () => {
   }
 
 const Body = () => {
-    return (
+    if(!isLoaded) {
+        return <AppLoading />
+      } return (
       <View style={[styles.bodyContainer, globalStyles.rowCenter]}>
         <View style={styles.bodyContentContainer}>
-        
-           <Text text='Retrieve ID' style={[globalStyles.Heading1, styles.textStyle]} />
+            <TouchableOpacity 
+          onPress={() => navigation.navigate('SignIn')}
+            style={styles.AntDesign}>
+            <AntDesign color='black' size={24} name='left' />
+          </TouchableOpacity>
+           <Text text='Retrieve ID' textStyle={[globalStyles.Heading1, styles.textStyle]} />
 
            <View style={styles.container}>
-               
+  
             <TextInput 
         placeholder='Hospital Name' 
         onChangeText={()=>{}}
@@ -39,6 +55,7 @@ const Body = () => {
         <View style={{width: '68%', borderWidth: 1, borderColor: 'lightgrey', marginTop: 16}}>
          <Picker 
          selectedValue={state}
+         itemStyle={{fontFamily: 'Montserrat'}}
          onValueChange={(item, index) => setState(item)}
          style={{
            borderWidth: 1,
@@ -149,6 +166,11 @@ containerStyle: {
 },
 btnText: {
     color: '#fff'
+},
+AntDesign: {
+  position: 'absolute',
+  left: '3%',
+  top: '4%'
 }
 })
 

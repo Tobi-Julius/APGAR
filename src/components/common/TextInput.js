@@ -1,8 +1,15 @@
 import { StyleSheet, TextInput as Input, Text, View } from 'react-native'
 import React from 'react'
+import { useFonts } from '@use-expo/font';
+import AppLoading from 'expo-app-loading';
 
 import { globalStyles } from '../../styles'
 import { Themes } from '../../constants'
+
+const customFonts = {
+  Montserrat: require("../../assets/font/Montserrat.ttf")
+};
+
 
 export const TextInput = ({
     value,
@@ -13,9 +20,12 @@ export const TextInput = ({
     textInputStyle,
     ...others
 }) => {
-  return (
+      const [isLoaded] =useFonts(customFonts)
+      if(!isLoaded) {
+        return <AppLoading />
+      }return (
       <View>
-          <Text style={labelStyle}>{label}</Text>
+          <Text style={[labelStyle, styles.styleLable]}>{label}</Text>
           <Input 
           placeholder={placeholder}
           value={value}
@@ -34,6 +44,10 @@ const styles = StyleSheet.create({
         borderColor: 'lightgrey',
         borderWidth: 1,
         color: Themes.text,
-        padding: 10
+        padding: 10,
+        fontFamily: 'Montserrat',
+    },
+    styleLable: {
+      fontFamily: 'Montserrat'
     }
 })
