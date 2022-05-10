@@ -1,7 +1,5 @@
 import { StyleSheet, View, Dimensions } from 'react-native'
-import React, {useState, useEffect} from 'react'
-// import * as Font from 'expo-font'
-// import AppLoading from 'expo-app-loading'
+import React from 'react'
 
 
 
@@ -92,7 +90,6 @@ containerStyle: {
 },
 btnText : {
   color: '#fff',
-  fontFamily: 'montserrat'
 }
 
 })

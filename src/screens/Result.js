@@ -58,6 +58,10 @@ const Result = ({navigation}) => {
                 <Button title='Add Maternal Record' onPress={()=> navigation.navigate('MaternalRecord')} containerStyle={styles.btnContainer} textStyle={styles.btnText} />
             </View> 
             </View>
+            <View style={styles.warning}>
+             <AntDesign name='warning' size={11} color='red'/>
+            <Text textStyle={styles.warningStyle} text='Adding Maternal record is an added advantage'/>
+            </View>
         </View>
       </View>
     )
@@ -93,7 +97,7 @@ textStyle: {
   marginTop: '10%'
 },
 container: {
-  height: Dimensions.get('window').height *0.55
+  height: Dimensions.get('window').height *0.54
 },
 textStyle: {
   color: Themes.secondary,
@@ -130,5 +134,15 @@ textBtn: {
 },
 btnContainer: {
     borderRadius: 7
+},
+warning: {
+  flexDirection: 'row',
+  width: '85%',
+  marginTop: 15,
+},
+warningStyle: {
+  fontSize: 12,
+  marginLeft: 5,
+  textAlignVertical: 'top'
 }
 })

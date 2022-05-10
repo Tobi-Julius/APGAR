@@ -21,7 +21,7 @@ import MaternalRecord from './screens/MaternalRecord';
 import MaternalRecordSecond from './screens/MaternalRecordSecond';
 import Detail from './screens/Detail';
 import Delete from './screens/Delete';
-
+import MaternalHistory from './screens/MaternalHistory';
 
 
 function App () {
@@ -57,6 +57,7 @@ function App () {
         <Stack.Screen name='MaternalRecord' component={MaternalRecord}/>
         <Stack.Screen name='MaternalRecordSecond' component={MaternalRecordSecond}/>
         <Stack.Screen name='Detail' component={Detail}/>
+        <Stack.Screen name='MaternalHistory' component={MaternalHistory}/>
         <Stack.Screen name='Delete' component={Delete}/>
       </Stack.Navigator>
     </NavigationContainer>

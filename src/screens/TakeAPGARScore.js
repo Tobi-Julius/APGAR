@@ -1,7 +1,5 @@
-import { StyleSheet, View,Dimensions, TouchableOpacity, Image } from 'react-native'
+import { StyleSheet, View,Dimensions, TouchableOpacity, Image, Modal,Pressable } from 'react-native'
 import React, {useState} from 'react'
-import { useFonts } from '@use-expo/font';
-import AppLoading from 'expo-app-loading';
 import {Ionicons} from '@expo/vector-icons'
 import { AntDesign } from '@expo/vector-icons';
 import { Picker } from '@react-native-picker/picker'
@@ -16,10 +14,6 @@ import Logo from '../images/APGARlogo.png'
 import { globalStyles } from '../styles';
 
 
-const customFonts = {
-  Montserrat: require("../assets/font/Montserrat.ttf")
-};
-
 
 const TakeAPGARScore = ({navigation}) => {
 
@@ -29,13 +23,16 @@ const TakeAPGARScore = ({navigation}) => {
   const [grimace, setGrimace] = useState('')
   const [appearance, setAppearance] = useState('')
   const [respiration, setRespiration] = useState('')
-  const [index, setIndex] = useState([])
+  const [value, setValue] = useState([])
+  const [score, setScore] = useState('')
+  const [showModal, setShowModal] = useState(false)
 
 
+  const calculatedValue = (total, eachNumber) => {
+    return total + eachNumber
+  }
 
 
-
-  const [isLoaded] = useFonts(customFonts)
 
    const Header = () => {
     return (
@@ -64,9 +61,6 @@ const TakeAPGARScore = ({navigation}) => {
     )
   }
   const Body = () => {
-      if(!isLoaded) {
-        return <AppLoading />
-      }
     return (
       <View style={[styles.bodyContainer, globalStyles.rowCenter]}>
         <View style={styles.bodyContentContainer}>
@@ -87,9 +81,7 @@ const TakeAPGARScore = ({navigation}) => {
   
   
   const InputFields = () => {
-          if(!isLoaded) {
-        return <AppLoading />
-      } return (
+    return (
           <View style={{width: '90%', marginTop:'8%'}}>
             <View style={styles.calContainer}>
               <Text text='Activity'/>
@@ -101,7 +93,7 @@ const TakeAPGARScore = ({navigation}) => {
              mode={'dropdown'}
              itemStyle={{fontFamily: 'Montserrat'}}
              onValueChange={((item, index) => {
-               setIndex([index -1, {...index}])
+               setValue(prevState => [...prevState, (index -1)])
                setActivity(item)
              })}
              style={{
@@ -131,7 +123,7 @@ const TakeAPGARScore = ({navigation}) => {
              itemStyle={{fontFamily: 'Montserrat'}}
              mode={'dropdown'}
              onValueChange={((item, index) => {
-               setIndex([index -1, ...index])
+               setValue(prevState => [...prevState, (index -1)])
                setPulse(item)
              })}
              style={{
@@ -160,9 +152,10 @@ const TakeAPGARScore = ({navigation}) => {
               selectedValue={grimace}
              mode={'dropdown'}
              itemStyle={{fontFamily: 'Montserrat'}}
-             onValueChange={(item, index) => 
-              setGrimace(item)
-            }
+              onValueChange={((item, index) => {
+               setValue(prevState => [...prevState, (index -1)])
+               setGrimace(item)
+             })}
              style={{
                borderColor: 'red',
                color: Themes.text,
@@ -189,9 +182,10 @@ const TakeAPGARScore = ({navigation}) => {
               selectedValue={appearance}
              itemStyle={{fontFamily: 'Montserrat'}}
              mode={'dropdown'}
-             onValueChange={(item, index) => 
-              setAppearance(item)
-            }
+              onValueChange={((item, index) => {
+               setValue(prevState => [...prevState, (index -1)])
+               setAppearance(item)
+             })}
              style={{
                borderColor: 'red',
                color: Themes.text,
@@ -219,9 +213,10 @@ const TakeAPGARScore = ({navigation}) => {
               selectedValue={respiration}
              itemStyle={{fontFamily: 'Montserrat'}}
              mode={'dropdown'}
-             onValueChange={(item, index) => 
-              setRespiration(item)
-            }
+              onValueChange={((item, index) => {
+               setValue(prevState => [...prevState, (index -1)])
+               setRespiration(item)
+             })}
              style={{
                borderColor: 'red',
                color: Themes.text,
@@ -232,22 +227,64 @@ const TakeAPGARScore = ({navigation}) => {
                 <Picker.Item value='Select Option' color='lightgrey' fontFamily='Montserrat' enabled={false} label='Select Option'/>
                 <Picker.Item value= 'Absent : 0' number={1}   label= 'Absent : 0'/>
                 <Picker.Item value= 'Slow and Irregular: 1'  label='Slow and Irregular: 1'/>
-                <Picker.Item value= 'Vogorous Cry: 2'  label='Vogorous Cry: 2'/>
+                <Picker.Item value= 'Vigorous Cry: 2'  label='Vigorous Cry: 2'/>
               </Picker>
             </View>
             </View>
             <Button
             title = 'Take Score'
-            onPress={()=> navigation.navigate('Result')}
+            onPress={()=> {
+              if(activity === '' && respiration === '' && pulse ==='' && grimace === '', appearance === '') {
+                
+                setShowModal(true)
+          
+              } else {
+                setScore(value.reduce(calculatedValue, 0))
+                navigation.navigate('Result')
+                setValue([])
+                setActivity('')
+                setAppearance('')
+                setPulse('')
+                setGrimace('')
+                setRespiration('')
+              }
+              
+            }}
             textStyle={styles.btnText} containerStyle={styles.btnContainer}/>
           </View>
-          )
-            }
-
-      if(!isLoaded) {
-        return <AppLoading />
-      } return (
+    )
+  }
+  const popUpModal = () => {
+    return (
+      <View>
+        <Modal 
+        visible={showModal}
+        animationType= 'fade'
+        transparent
+        onRequestClose={() => {
+          setShowModal(false)
+        }}>
+          <View style={styles.centered_view}>
+          <View style={styles.warning_modal}>
+            <View style={styles.warningHeaderContainer}>
+              <Text textStyle={styles.warningHeaderText} text='Warning'/>
+            </View>
+          <Text textStyle={styles.warningText} text='Please, Fill all the Fields to Calculate Your Score'/>
+          <Pressable
+          onPress={()=> setShowModal(false)}
+          style={styles.modalBtnContainer}
+          >
+              <Text textStyle={styles.modalBtnText} text='Close'/>
+          </Pressable>
+          </View>
+          </View>
+        </Modal>
+      </View>
+    )
+  }
+        return (
     <View>
+      {popUpModal()}
       {Header()}
       {Body()}
     </View>
@@ -310,6 +347,48 @@ btnText: {
   padding: 20,
   color: '#fff',
   fontSize: 17
+},
+  warning_modal: {
+  backgroundColor: '#fff',
+  width: 250, 
+  height: 250,
+  borderTopLeftRadius: 5,
+  borderTopRightRadius: 5,
+},
+centered_view: {
+  flex:1,
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '100%',
+  height: '100%',
+  backgroundColor: '#00000099'
+},
+warningHeaderContainer: {
+  backgroundColor: Themes.secondary,
+  borderTopLeftRadius: 5,
+  borderTopRightRadius: 5,
+  alignItems: 'center',
+},
+warningHeaderText: {
+  padding: 16,
+  color: '#fff',
+  fontSize: 20
+},
+warningText: {
+  textAlign: 'center',
+  marginTop: '8%'
+},
+modalBtnContainer: {
+  position: 'absolute',
+  bottom: 0,
+  backgroundColor: Themes.primary,
+  width: '100%',
+},
+modalBtnText: {
+  padding: 10,
+  fontSize: 20,
+  textAlign: 'center',
+  color: '#fff'
 }
 
 })

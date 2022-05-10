@@ -12,8 +12,6 @@ import { globalStyles } from '../styles'
 
 
 
-
-
 const customFonts = {
   Montserrat: require("../assets/font/Montserrat.ttf")
 };
@@ -65,8 +63,8 @@ const MaternalRecordSecond = ({navigation}) => {
                fontWeight: '200',
              }}>
               <Picker.Item label='Select Option' color='lightgrey' fontFamily='Montserrat' enabled={false} value='Select Option'/>
-              <Picker.Item label='Normal' value='Normal'/>
-              <Picker.Item label='Abnormal' value='Abnormal'/>
+              <Picker.Item label='Yes' fontFamily='Montserrat' value='Yes'/>
+              <Picker.Item label='No' value='No'/>
             </Picker>
             </View>
             </View>

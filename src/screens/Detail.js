@@ -27,10 +27,53 @@ const Detail = ({navigation}) => {
          <Text text='ID: ' textStyle={[styles.parameters1]} />
          <Text text='03' textStyle={[styles.parameters1]} />
          </View>
-         <View style={{width: '100%', height: 100, backgroundColor:'red'}}>
-            <Text text='hello'/>
+         <View style={styles.container}>
+             <View style={styles.textHeadContainer}>
+                 <Text textStyle={styles.indicatorText} text='Indicator' />
+                 <Text textStyle={styles.indicatorText}  text='State' />
+                 <Text textStyle={styles.indicatorText}  text='Point'/>
+             </View>
+         <View style={styles.row}>
+             <Text text='Activity' textStyle={styles.text} />
+             <Text text='Flexed Arm and Leg'/>
+             <Text text='01' textStyle={styles.text}/>
          </View>
+         <View style={styles.row}>
+             <Text text='Activity' />
+             <Text text='Flexed Arm and Leg' />
+             <Text text='01'/>
+         </View>
+         <View style={styles.row}>
+             <Text text='Activity' />
+             <Text text='Flexed Arm and Leg' />
+             <Text text='01'/>
+         </View>
+         <View style={styles.row}>
+             <Text text='Activity' />
+             <Text text='Flexed Arm and Leg' />
+             <Text text='01'/>
+         </View>
+         <View style={styles.row}>
+             <Text text='Activity' />
+             <Text text='Flexed Arm and Leg' />
+             <Text text='01'/>
+         </View>
+
+        <View style={styles.footerContainer} >
+          <TouchableOpacity
+          activeOpacity={0.6}
+          onPress={()=> navigation.navigate('MaternalHistory')}
+          >
+            <Text textStyle={styles.linkText} text='Maternity History' />
+          </TouchableOpacity>
+          <View style={styles.scoreContainer}>
+            <Text textStyle={styles.scoreText} text='SCORE : 03'/>
+          </View>
         </View>
+         </View>
+         <Button onPress={()=> navigation.navigate('DataBase')} textStyle={styles.btnText} containerStyle={styles.btnContainer} title='Close' />
+        </View>
+
       </View>
     )
   }
@@ -75,5 +118,64 @@ parameters1: {
   fontSize: 24,
   color: Themes.primary,
   fontWeight: '900'
+},
+indicatorText: {
+    color: '#fff'
+},
+textHeadContainer :{
+    flexDirection: 'row', 
+    padding: 15, 
+    backgroundColor: Themes.primary, 
+    justifyContent:'space-between',
+     paddingLeft: 10,
+     paddingRight: 10,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+},
+container: {
+    width: '80%', 
+    height: '58%', 
+    marginTop: '20%', 
+    backgroundColor:'#fcfcfc',
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+},
+row: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: '15%'
+},
+text: {
+  fontSize: 18
+},
+footerContainer: {
+  flexDirection: 'row',
+  marginTop: '15%',
+  alignItems: 'center',
+  paddingLeft: 19,
+},
+scoreContainer: {
+  position: 'absolute',
+  right: 0,
+  backgroundColor: Themes.primary,
+  borderTopLeftRadius: 10
+},
+linkText: {
+  color: Themes.primary,
+  textDecorationLine: 'underline',
+},
+scoreText:{
+  color: '#fff',
+  padding: 8,
+  fontSize: 18
+},
+btnContainer: {
+  marginTop: '9%',
+  borderRadius: 5
+},
+btnText: {
+  padding: 20,
+  color: "#fff",
+  fontSize: 18
 }
 })

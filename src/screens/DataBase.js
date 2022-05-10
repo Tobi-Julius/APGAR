@@ -80,7 +80,7 @@ const DataBase = ({navigation}) => {
               </View>
             <View>
               <Text text='Score' />
-              <Text text='03' style={{color: Themes.primary}} />
+              <Text text='03' textStyle={{color: Themes.primary}} />
             </View>
             </View>
 
@@ -95,7 +95,7 @@ const DataBase = ({navigation}) => {
               <TouchableOpacity
               activeOpacity={0.6}
               onPress={() => navigation.navigate('Detail')}
-              sontainerStyle={styles.detailBtnContainer}>
+              containerStyle={styles.detailBtnContainer}>
                 <Text textStyle={styles.detailBtnText}   text='Detail'/>
               </TouchableOpacity>
             </View>
@@ -168,13 +168,15 @@ idNumber: {
 deleteBtnContainer : {
   borderWidth: 1,
   borderColor: 'lightgray',
-  marginBottom: 5
+  marginBottom: 5,
+  borderRadius: 7
 },
 deleteBtnText: {
   paddingLeft: 5,
   padding: 4,
 },
 detailBtnContainer: {
+  borderRadius: 7
 },
 detailBtnText: {
   padding: 5,
