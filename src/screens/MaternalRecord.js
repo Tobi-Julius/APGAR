@@ -1,8 +1,6 @@
 import { StyleSheet, View, Dimensions, TouchableOpacity } from 'react-native'
 import React, {useState} from 'react'
 import { AntDesign } from '@expo/vector-icons'
-import { useFonts } from '@use-expo/font';
-import AppLoading from 'expo-app-loading';
 import { Picker } from '@react-native-picker/picker'
 
 
@@ -13,16 +11,10 @@ import { Button, TextInput } from '../components/common'
 import { Text } from '../components/common'
 
 
-const customFonts = {
-  Montserrat: require("../assets/font/Montserrat.ttf")
-};
-
 
 const MaternalRecord = ({navigation}) => {
 
   const [deliveryMode, setdeliveryMode] = useState('')
-  const [isLoaded] = useFonts(customFonts)
-
 
     const Header = () => {
     return (
@@ -31,9 +23,7 @@ const MaternalRecord = ({navigation}) => {
   }
 
      const Body = () => {
-    if(!isLoaded) {
-        return <AppLoading />
-      } return (
+        return (
       <View style={[styles.bodyContainer, globalStyles.rowCenter]}>
         <View style={styles.bodyContentContainer}>
           <View style={{marginTop: '5%', width:'100%'}}>
@@ -54,7 +44,6 @@ const MaternalRecord = ({navigation}) => {
             <View style={{width: '90%', marginTop: '12%'}}>
               <Text text='Delivery Mode'/>
             <View style={{ borderWidth: 1, borderRadius: 5, borderColor: 'lightgrey', marginTop: 2}}>
-              {!isLoaded ? <AppLoading /> :
             <Picker
               selectedValue={deliveryMode}
              mode={'dropdown'}
@@ -73,7 +62,6 @@ const MaternalRecord = ({navigation}) => {
               <Picker.Item label='CS' value='CS'/>
             </Picker>
               
-              }
             </View>
             </View>
             <View style={styles.inputContainer}>

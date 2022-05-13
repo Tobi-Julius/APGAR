@@ -1,7 +1,6 @@
 import { StyleSheet, View, Dimensions, TouchableOpacity,FlatList } from 'react-native'
 import React, {useState} from 'react'
 import { AntDesign } from '@expo/vector-icons'
-import { Picker } from '@react-native-picker/picker'
 
 
 import { Themes } from '../constants'
@@ -70,7 +69,7 @@ const Notification = ({navigation}) => {
       <View keyExtractor ={item.id} style={{width: '100%', alignItems: 'center'}}>
         <View >
           <View style={styles.messageContainer}>
-            <Text textStyle={styles.messageNumber} text='06'/>
+            <Text textStyle={styles.messageNumber} text={`0${index}`}/>
             <View>
             <Text textStyle={styles.messageText} text='An APGAR score of ID no 06 has been recorded'/>
             <Text textStyle={styles.timeAgo} text='time ago'/>
@@ -83,6 +82,7 @@ const Notification = ({navigation}) => {
             </TouchableOpacity>
           </View>
         </View>
+          <View style={styles.messageSeparator}/>
       </View>
     )
   }
@@ -168,16 +168,23 @@ messageText: {
   fontSize: 13,
   marginLeft: 8,
   marginRight: 8,
+  marginBottom: 5
 },
 messageNumber: {
   backgroundColor: Themes.secondary,
   color: Themes.white,
-  padding: 12,
+  padding: 10,
   borderRadius: 7,
   marginLeft: 8,
   marginRight: 8,
 },
 timeAgo: {
   marginLeft: 10
+},
+messageSeparator: {
+  width: '60%',
+  borderWidth: 1,
+  backgroundColor: 'lightgray',
+  marginTop: 10
 }
 })

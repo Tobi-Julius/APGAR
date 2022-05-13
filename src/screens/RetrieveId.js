@@ -2,8 +2,6 @@ import { StyleSheet, View , Dimensions, TouchableOpacity} from 'react-native'
 import React, {useState} from 'react'
 import { Picker } from '@react-native-picker/picker'
 import { useFonts } from '@use-expo/font';
-import AppLoading from 'expo-app-loading';
-import { AntDesign } from '@expo/vector-icons';
 
 
 
@@ -14,13 +12,8 @@ import { Button } from '../components/common'
 import { TextInput } from '../components/common'
 
 
-const customFonts = {
-  Montserrat: require("../assets/font/Montserrat.ttf")
-};
-
 
 const RetrieveId = ({navigation}) => {
-  const [isLoaded] = useFonts(customFonts)
 
   const [state, setState] = useState('')
 
@@ -31,9 +24,7 @@ const Header = () => {
   }
 
 const Body = () => {
-    if(!isLoaded) {
-        return <AppLoading />
-      } return (
+   return (
       <View style={[styles.bodyContainer, globalStyles.rowCenter]}>
         <View style={styles.bodyContentContainer}>
             <TouchableOpacity 

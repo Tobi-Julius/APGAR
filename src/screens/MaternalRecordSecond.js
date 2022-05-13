@@ -2,8 +2,6 @@ import { StyleSheet, View, Dimensions, TouchableOpacity } from 'react-native'
 import React, {useState} from 'react'
 import { AntDesign } from '@expo/vector-icons'
 import { Picker } from '@react-native-picker/picker'
-import { useFonts } from '@use-expo/font';
-import AppLoading from 'expo-app-loading';
 
 
 import { Themes } from '../constants'
@@ -12,9 +10,7 @@ import { globalStyles } from '../styles'
 
 
 
-const customFonts = {
-  Montserrat: require("../assets/font/Montserrat.ttf")
-};
+
 
 const MaternalRecordSecond = ({navigation}) => {
 
@@ -22,7 +18,6 @@ const MaternalRecordSecond = ({navigation}) => {
   const [fetalPosition, setFetalPosition] = useState('')
   const [MSL, setMSL] = useState('')
 
-  const [isLoaded] = useFonts(customFonts)
 
 
       const Header = () => {
@@ -32,9 +27,7 @@ const MaternalRecordSecond = ({navigation}) => {
   }
 
      const Body = () => {
-    if(!isLoaded) {
-        return <AppLoading />
-      } return (
+        return (
       <View style={[styles.bodyContainer, globalStyles.rowCenter]}>
         <View style={styles.bodyContentContainer}>
           <View style={{marginTop: '5%', width:'100%'}}>

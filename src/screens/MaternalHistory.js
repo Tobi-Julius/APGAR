@@ -32,31 +32,36 @@ const MaternalHistory = ({navigation}) => {
                activeOpacity={0.6}
                onPress={()=> navigation.goBack()}
                style={styles.X}>
-                   <Text textStyle={{color:Themes.secondary, fontWeight: '900', fontSize: 20}} text='X'/>
+                   <Text textStyle={styles.XStyles} text='X'/>
                </TouchableOpacity>
                    <View style={styles.maternalContainer}>
-                <View style={{flexDirection: 'row', justifyContent: 'space-around', width: '100%', marginTop: 25}}>
+                <View style={styles.headerTextContainer}>
                 <Text text='Maternal Hypertension'/>
                 <Text text='No'/>
                 </View>
                        <View style={{width: '100%', borderColor: 'lightgray', borderWidth: 1, marginTop: 15}}/>
                 <View style={{flexDirection: 'row', justifyContent: 'space-around', width: '100%', marginTop: 25}}>
-                <Text text='Maternal Hypertension'/>
+                <Text text='Gestation Period'/>
                 <Text text='No'/>
                 </View>
                        <View style={{width: '100%', borderColor: 'lightgray', borderWidth: 1, marginTop: 15}}/>
                 <View style={{flexDirection: 'row', justifyContent: 'space-around', width: '100%', marginTop: 25}}>
-                <Text text='Maternal Hypertension'/>
+                <Text text='Delivery Mode'/>
                 <Text text='No'/>
                 </View>
                        <View style={{width: '100%', borderColor: 'lightgray', borderWidth: 1, marginTop: 15}}/>
                 <View style={{flexDirection: 'row', justifyContent: 'space-around', width: '100%', marginTop: 25}}>
-                <Text text='Maternal Hypertension'/>
+                <Text text='Birth Weight'/>
                 <Text text='No'/>
                 </View>
                        <View style={{width: '100%', borderColor: 'lightgray', borderWidth: 1, marginTop: 15}}/>
                 <View style={{flexDirection: 'row', justifyContent: 'space-around', width: '100%', marginTop: 25}}>
-                <Text text='Maternal Hypertension'/>
+                <Text text='Fetal Position'/>
+                <Text text='No'/>
+                </View>
+                       <View style={{width: '100%', borderColor: 'lightgray', borderWidth: 1, marginTop: 15}}/>
+                <View style={{flexDirection: 'row', justifyContent: 'space-around', width: '100%', marginTop: 25}}>
+                <Text text='MSL'/>
                 <Text text='No'/>
                 </View>
                        <View style={{width: '100%', borderColor: 'lightgray', borderWidth: 1, marginTop: 15}}/>
@@ -111,7 +116,7 @@ parameters1: {
 },
 container: {
     width: '80%', 
-    height: '58%', 
+    height: '62%', 
     marginTop: '20%', 
     backgroundColor:'#fcfcfc',
     borderTopLeftRadius: 10,
@@ -121,6 +126,10 @@ X: {
     position: 'absolute',
     right: '5%',
     top: '5%'
+},
+XStyles: {
+  color:Themes.secondary, 
+  fontWeight: '900', fontSize: 20
 },
 maternalContainer: {
     marginTop: '20%'
@@ -136,5 +145,11 @@ btnText: {
     color: '#fff',
     padding: 12,
     fontSize: 20
-}
+},
+headerTextContainer:  {
+  flexDirection: 'row',
+  justifyContent: 'space-around',
+  width: '100%',
+  marginTop: 25
+  }
 })

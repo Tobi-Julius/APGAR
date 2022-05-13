@@ -39,22 +39,22 @@ const Detail = ({navigation}) => {
              <Text text='01' textStyle={styles.text}/>
          </View>
          <View style={styles.row}>
-             <Text text='Activity' />
+             <Text textStyle={styles.text} text='Pulse' />
              <Text text='Flexed Arm and Leg' />
              <Text text='01'/>
          </View>
          <View style={styles.row}>
-             <Text text='Activity' />
+             <Text textStyle={styles.text} text='Grimace' />
              <Text text='Flexed Arm and Leg' />
              <Text text='01'/>
          </View>
          <View style={styles.row}>
-             <Text text='Activity' />
+             <Text textStyle={styles.text} text='Appearance' />
              <Text text='Flexed Arm and Leg' />
              <Text text='01'/>
          </View>
          <View style={styles.row}>
-             <Text text='Activity' />
+             <Text textStyle={styles.text} text='Respiration' />
              <Text text='Flexed Arm and Leg' />
              <Text text='01'/>
          </View>

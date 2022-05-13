@@ -1,12 +1,10 @@
 import { StyleSheet, View, Dimensions, TouchableOpacity } from 'react-native'
 import React from 'react'
-import { AntDesign } from '@expo/vector-icons'
 import { useFonts } from '@use-expo/font';
 import AppLoading from 'expo-app-loading';
 
 import { Themes } from '../constants'
 import { Button, Text } from '../components/common'
-import { globalStyles } from '../styles'
 
 
 const customFonts = {

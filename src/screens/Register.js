@@ -1,8 +1,6 @@
 import { StyleSheet, Text as MainText, View, Dimensions, Image, TouchableOpacity } from 'react-native'
 import React, {useState} from 'react'
 import { Picker } from '@react-native-picker/picker'
-import { useFonts } from '@use-expo/font';
-import AppLoading from 'expo-app-loading';
 
 import { Button, TextInput } from '../components/common'
 import { Themes } from '../constants'
@@ -10,14 +8,10 @@ import { globalStyles } from '../styles'
 import { Text } from '../components/common'
 
 
-const customFonts = {
-  Montserrat: require("../assets/font/Montserrat.ttf")
-};
 
 
 const Register = ({navigation}) => {
 
-  const [isLoaded] = useFonts(customFonts)
 
   const [state, setState] = useState('')
   
@@ -27,9 +21,7 @@ const Register = ({navigation}) => {
     )
   }
   const InputFields =  () => {
-        if(!isLoaded) {
-        return <AppLoading />
-      } return (
+     return (
       <View style={{width: '90%', borderRadius: 10, marginTop: '5%'}}>
         <TextInput 
         placeholder='Hospital Name' 
@@ -109,8 +101,6 @@ const Register = ({navigation}) => {
         <Button title='Register' onPress={()=> navigation.replace('RegisterSucess')} containerStyle={styles.btnContainer} textStyle={styles.btnText}/>
         <View>
         </View>
-         {!isLoaded ? <AppLoading /> : 
-
         <View style={{flexDirection: 'row', justifyContent: 'center',}}>
         <Text text='Registered ?'textStyle={[styles.register ,globalStyles.Heading3]}/>
         <TouchableOpacity
@@ -118,17 +108,14 @@ const Register = ({navigation}) => {
         style={{marginLeft: '3%'}}
         onPress={()=> navigation.navigate('SignIn')}
         >
-          <Text textStyle={{color: Themes.primary, fontFamily: 'Montserrat'}} text='Sign In'/>
+          <Text textStyle={{color: Themes.primary,}} text='Sign In'/>
         </TouchableOpacity>
         </View>
-         }
       </View>
     )
   }
   const Body = () => {
-       if(!isLoaded) {
-        return <AppLoading />
-      }  return (
+    return (
       <View style={[styles.bodyContainer, globalStyles.rowCenter]}>
         <View style={styles.bodyContentContainer}>
             <Image 

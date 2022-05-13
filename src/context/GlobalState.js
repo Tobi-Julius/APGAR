@@ -3,7 +3,26 @@ import AppReducer from './AppReducer'
 
 
 const initialState = {
-    user: [ {id: 10}]
+    user: {
+        hospitalId: '',
+        state: '',
+        city: '',
+        adress: '',
+        APGAR: [{
+            id: Math.random() * 1000,
+            activityValue: '',
+            activityNumber: '',
+            pulseValue: '',
+            pulseNumber: '',
+            grimaceValue: '',
+            grimaceNumber: '',
+            appearanceValue: '',
+            appearanceNumber: '',
+            respirationValue: '',
+            respirationNumber: '',
+            totalScore: '',
+        }]
+    }
 }
 
 export let GlobalContext = createContext(initialState)

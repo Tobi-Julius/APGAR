@@ -2,7 +2,6 @@ import { StyleSheet, View, TouchableOpacity, Dimensions, Image,FlatList,statusba
 import React, {useContext, useState} from 'react'
 import {Ionicons} from '@expo/vector-icons'
 import {EvilIcons} from '@expo/vector-icons'
-import { GlobalContext } from '../context/GlobalState'
 import {Octicons} from "@expo/vector-icons"
 
 import { Themes } from '../constants'
@@ -12,9 +11,10 @@ import { TextInput, Text, Button } from '../components/common'
 
 const Home = ({navigation}) => {
 
-  const {user} = useContext(GlobalContext)
+  // const {user} = useContext(GlobalContext)
 
 
+  // console.warn(user)
 
   const homeData = [
     {
@@ -68,8 +68,6 @@ const Home = ({navigation}) => {
         }
       }))
   }
-
-
 
 
    const Header = () => {
@@ -189,7 +187,8 @@ const Home = ({navigation}) => {
         data = {data}
         renderItem={FooterList}
         contentContainerStyle={{
-          height: Dimensions.get('screen').height * 0.095
+          marginVertical: 5,
+          justifyContent: 'flex-end'
         }}
         />
       </View>
@@ -203,7 +202,7 @@ const Home = ({navigation}) => {
       {Body()}
       {Footer()}
       <View>
-        <View style={{height: Dimensions.get('screen').height * 0.095 }}> 
+        <View style={{height: Dimensions.get('screen').height * 0.12, marginTop: -5 }}> 
         <View style={styles.topColor}/>
         <View style={styles.homeIconContainer}>
           <Octicons name='home' size={20} color={Themes.primary}/>
@@ -296,7 +295,7 @@ btnTextContainer: {
   homeIconContainer: {
     position: 'absolute',
     left: '45%',
-    top: '30%',
+    top: '24%',
     zIndex: 1,
     width: 40,
     height: 40,
@@ -307,13 +306,13 @@ btnTextContainer: {
   },
   topColor: {
     width: '100%',
-    height: '50%' ,
+    height: '38%' ,
     backgroundColor: Themes.white
   },
   bottomColor: {
     width: '100%',
-    height:'50%' ,
-    backgroundColor: Themes.primary
+    height:'60%' ,
+    backgroundColor: Themes.primary,
   },
   imageTopText: {
     position: 'absolute',
