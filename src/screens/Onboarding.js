@@ -48,7 +48,7 @@ const Onboarding = ({navigation}) => {
         if(!isLoaded) {
         return <AppLoading />
       } return (
-            <View>
+            <View style={styles.screenWidth}>
                 <Image 
                 source={item.image}
                 style={styles.image}/>  
@@ -163,11 +163,15 @@ const styles = StyleSheet.create ({
     list: {
         alignItems: 'center',
     },
-    image: {
-        height: '68%',
+    screenWidth: {
         width: Dimensions.get('window').width,
+        alignItems:'center'
+    },
+    image: {
+        height: '70%',
         resizeMode: 'contain',
         overflow: 'hidden',
+        width: '85%'
     },
     Slider: {
         height: Dimensions.get('window').height * 0.1,

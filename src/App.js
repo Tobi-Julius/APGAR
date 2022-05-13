@@ -1,10 +1,9 @@
 import 'react-native-gesture-handler'
-import { StyleSheet, Text, View,StatusBar } from 'react-native';
+import { StyleSheet,StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React, {useState, useEffect} from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 
 const Stack  = createNativeStackNavigator();
 import {Themes} from './constants'
@@ -22,6 +21,7 @@ import MaternalRecordSecond from './screens/MaternalRecordSecond';
 import Detail from './screens/Detail';
 import Delete from './screens/Delete';
 import MaternalHistory from './screens/MaternalHistory';
+import { GlobalProvider } from './context/GlobalState';
 
 
 function App () {
@@ -39,6 +39,7 @@ function App () {
 
   return (
     isAppFirstLaunch !== null && (
+      <GlobalProvider>
     <NavigationContainer>
       <StatusBar style='auto' backgroundColor={Themes.primary}/>
       <Stack.Navigator 
@@ -61,12 +62,10 @@ function App () {
         <Stack.Screen name='Delete' component={Delete}/>
       </Stack.Navigator>
     </NavigationContainer>
+    </GlobalProvider>
     )
   );
 }
 
 
 export default App;
-const styles = StyleSheet.create({
-
-});

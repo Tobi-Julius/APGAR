@@ -75,8 +75,8 @@ icon:{
   alignItems: "flex-end"
 },
 circleContainer: {
-  width: 180,
-  height: 180,
+  width: 170,
+  height: 170,
   backgroundColor: '#fcfcfc',
   position: 'absolute',
   bottom: '-35%',

@@ -30,7 +30,7 @@ const MaternalHistory = ({navigation}) => {
            <View style={styles.container}>
                <TouchableOpacity
                activeOpacity={0.6}
-               onPress={()=> navigation.navigate('Delete')}
+               onPress={()=> navigation.goBack()}
                style={styles.X}>
                    <Text textStyle={{color:Themes.secondary, fontWeight: '900', fontSize: 20}} text='X'/>
                </TouchableOpacity>

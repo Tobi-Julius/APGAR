@@ -11,7 +11,7 @@ import AppLoading from 'expo-app-loading';
 
 import TakeAPGARScore from '../screens/TakeAPGARScore'
 import DataBase from '../screens/DataBase'
-import Feedback from '../screens/Feedback'
+// import Feedback from '../screens/Feedback'
 import Home from '../screens/Home'
 import CustomDrawer from './CustomDrawer'
 
@@ -33,7 +33,7 @@ const SideMenu = () => {
     <Drawer.Navigator
     initialRouteName='Home'
     drawerContent={props => <CustomDrawer {...props} />}
-    screenOptions={{headerShown: false, drawerLabelStyle: {marginLeft: -20, fontFamily: 'Montserrat', padding: 2}}}
+    screenOptions={{headerShown: false, drawerLabelStyle: {marginLeft: -20, fontFamily: 'Montserrat', padding: 5}}}
     >
         <Drawer.Screen name='Home' component={Home}  options={{
           drawerIcon: ({color}) => (
@@ -50,11 +50,11 @@ const SideMenu = () => {
             <Feather color={color} size={20} name='database' />
           )
         }}/>
-        <Drawer.Screen name='Feedback' component={Feedback}  options={{
+        {/* <Drawer.Screen name='Feedback' component={Feedback}  options={{
           drawerIcon: ({color}) => (
             <MaterialCommunityIcons color={color} size={20} name='message-text-outline' />
           )
-        }}/>
+        }}/> */}
     </Drawer.Navigator>
   )
 }

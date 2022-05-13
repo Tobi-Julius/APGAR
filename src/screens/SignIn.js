@@ -1,7 +1,5 @@
 import { StyleSheet, View, Dimensions,Image, TouchableOpacity, } from 'react-native'
 import React from 'react'
-import { useFonts } from '@use-expo/font';
-import AppLoading from 'expo-app-loading';
 import { AntDesign } from '@expo/vector-icons';
 
 
@@ -10,14 +8,8 @@ import { globalStyles } from '../styles'
 import { Button, Text } from '../components/common'
 import { TextInput } from '../components/common'
 
-const customFonts = {
-  Montserrat: require("../assets/font/Montserrat.ttf")
-};
-
-
 const SignIn = ({navigation}) => {
   
-  const [isLoaded] =useFonts(customFonts)
 
     const Header = () => {
     return (
@@ -26,9 +18,6 @@ const SignIn = ({navigation}) => {
   }
 
   const Body = () => {
-      if(!isLoaded) {
-        return <AppLoading />
-      }
     return (
       <View style={[styles.bodyContainer, globalStyles.rowCenter]}>
         <View style={styles.bodyContentContainer}>
@@ -42,7 +31,7 @@ const SignIn = ({navigation}) => {
             source={require('../images/onboarding2.png')}/>
             <Text textStyle={[styles.text, globalStyles.Heading1]} text='Welcome Back !' />  
             <View style={styles.inputContainer}>
-            <TextInput textInputStyle={styles.textInputStyle} placeholder='Hospital name' />
+            <TextInput textInputStyle={styles.textInputStyle} placeholder='Hospital ID' />
             </View>
 
             <TouchableOpacity 

@@ -1,22 +1,14 @@
 import { StyleSheet, View, Dimensions } from 'react-native'
 import React from 'react'
 import { AntDesign } from '@expo/vector-icons'
-import { useFonts } from '@use-expo/font';
-import AppLoading from 'expo-app-loading';
 
 import { Themes } from '../constants'
 import { Button, Text } from '../components/common'
 import { globalStyles } from '../styles'
 
 
-const customFonts = {
-  Montserrat: require("../assets/font/Montserrat.ttf")
-};
-
 
 const RegisterSucess = ({navigation}) => {
-
-  const [isLoaded] =useFonts(customFonts)
 
     const Header = () => {
     return (
@@ -66,9 +58,7 @@ const RegisterSucess = ({navigation}) => {
     )
   }
 
-  if(!isLoaded) {
-        return <AppLoading />
-    } return (    
+   return (    
     <View>
       {Header()}
       {Body()}
@@ -119,7 +109,6 @@ textStyle: {
   color: '#fff'
 },
 title: {
-  fontFamily: 'Montserrat'
 }
 })
 
