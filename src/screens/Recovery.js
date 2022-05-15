@@ -22,10 +22,10 @@ const Recovery = ({navigation}) => {
             <View style={{backgroundColor: '#fcfcfc', height: '50%', width: '75%',borderRadius: 10, alignItems: 'center', justifyContent: 'center'}}>
               <Text text='Your Hospital'/>
               <Text text='ID No is'/>
-              <Text textStyle={styles.textStyle} text='03'/>
+              <Text textStyle={styles.textStyle} text='10'/>
               <View style={styles.footer}/>
             </View>
-            <Button textStyle={styles.btnText} onPress={()=> navigation.replace('SignIn')} containerStyle={styles.containerStyle} title='Sign In'/>
+            <Button textStyle={styles.btnText} onPress={()=> navigation.replace('SignIn', {id: 10})} containerStyle={styles.containerStyle} title='Sign In'/>
           </View>
         </View>
       </View>

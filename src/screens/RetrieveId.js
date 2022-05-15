@@ -1,7 +1,7 @@
 import { StyleSheet, View , Dimensions, TouchableOpacity} from 'react-native'
 import React, {useState} from 'react'
 import { Picker } from '@react-native-picker/picker'
-import { useFonts } from '@use-expo/font';
+import { AntDesign } from '@expo/vector-icons'
 
 
 

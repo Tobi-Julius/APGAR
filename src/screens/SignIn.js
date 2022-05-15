@@ -67,7 +67,6 @@ const SignIn = ({navigation}) => {
               id: id,
               notificationMessage: 'An APGAR score of ID no 01 has been recorded'
             }
-            // data.notificationMessage = `An APGAR score of ID No 0${newUser.id}  has been recorded`
             addUser(newUser)
             navigation.replace('SideMenu', {id: newUser.id})
           }

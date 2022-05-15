@@ -47,7 +47,33 @@ const CustomDrawer = (props) => {
       <SimpleLineIcons name='logout' size={20} color={Themes.secondary} />
       <TouchableOpacity
       activeOpacity={0.6}
-      onPress={()=> props.navigation.replace('SignIn')}
+      onPress={()=> {
+         props.data.hospitalName = '',
+         props.data.id = '',
+         props.data.state = '',
+         props.data.address = '',
+         props.data.city = '',
+         props.data.activity = '',
+         props.data.pulse = '',
+         props.data.grimace = '',
+         props.data.appearance = '',
+         props.data.respiration = '',
+         props.data.score = '',
+         props.data.motherID = '',
+         props.data.deliveryMode = '',
+         props.data.gestationPeriod = '',
+         props.data.birthWeight = '',
+         props.data.maternalHtpertension = '',
+         props.data.fetalPosition = '',
+         props.data.MSL = '',
+         props.data.activityScore = '',
+         props.data.pulseScore = '',
+         props.data.grimaceScore = '',
+         props.data.appearanceScore = '',
+         props.data.respirationScore = ''
+
+        props.navigation.replace('SignIn')
+      }}
       style={{
         marginLeft: 7
       }}>

@@ -1,9 +1,11 @@
 import { StyleSheet } from 'react-native'
-import React from 'react'
+import React, {useContext} from 'react'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import {AntDesign} from '@expo/vector-icons'
 import {FontAwesome5} from '@expo/vector-icons'
 import {Feather} from '@expo/vector-icons'
+import { GlobalContext } from '../context/GlobalState'
+
 
 
 import TakeAPGARScore from '../screens/TakeAPGARScore'
@@ -18,12 +20,18 @@ const Drawer = createDrawerNavigator()
 
 const SideMenu = ({route}) => {
 
+  const {users} = useContext(GlobalContext)
+
   const {id} = route.params
+
+   const data = users.find((item) => {
+   return item.id === id
+ })
 
      return (
     <Drawer.Navigator
     initialRouteName='Home'
-    drawerContent={props => <CustomDrawer {...props} id = {id} />}
+    drawerContent={props => <CustomDrawer {...props} id = {id} data = {data}/>}
     screenOptions={{headerShown: false, drawerLabelStyle: {marginLeft: -20, fontFamily: 'Montserrat', padding: 5}}}
     >
         <Drawer.Screen name='Home' component={Home}  options={{
