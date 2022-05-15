@@ -3,7 +3,6 @@ import React from 'react'
 import { useFonts } from '@use-expo/font';
 import AppLoading from 'expo-app-loading';
 
-import { globalStyles } from '../../styles'
 import { Themes } from '../../constants'
 
 const customFonts = {

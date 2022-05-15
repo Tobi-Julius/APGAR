@@ -1,8 +1,8 @@
 import { StyleSheet, View, Dimensions, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, {useContext} from 'react'
 import { AntDesign } from '@expo/vector-icons'
 
-
+import { GlobalContext } from '../context/GlobalState'
 import { Text } from '../components/common'
 import { Themes } from '../constants'
 import { globalStyles } from '../styles'
@@ -10,9 +10,15 @@ import { Button } from '../components/common';
 
 
 
-const Result = ({navigation}) => {
+const Result = ({navigation, route}) => {
 
-  
+  const {users} = useContext(GlobalContext)
+  const {id, score} = route.params
+
+  const data = users.find((item) => {
+   return item.id === id
+ })
+
   const Header = () => {
     return (
       <View style={styles.headerContainer}/>
@@ -35,7 +41,7 @@ const Result = ({navigation}) => {
             <View style={{backgroundColor: '#fcfcfc', height: '50%', width: '75%',borderRadius: 10, alignItems: 'center', justifyContent: 'center'}}>
               <Text text='APGAR Score'/>
               <Text text='is'/>
-              <Text textStyle={styles.textStyle} text='03'/>
+              <Text textStyle={styles.textStyle} text={data.score}/>
               <View style={styles.footer}/>
             </View>
           </View>
@@ -55,7 +61,7 @@ const Result = ({navigation}) => {
                 </TouchableOpacity>
             </View>
             <View style={{width: '55%'}}>
-                <Button title='Add Maternal Record' onPress={()=> navigation.navigate('MaternalRecord')} containerStyle={styles.btnContainer} textStyle={styles.btnText} />
+                <Button title='Add Maternal Record' onPress={()=> navigation.navigate('MaternalRecord', {id: data.id})} containerStyle={styles.btnContainer} textStyle={styles.btnText} />
             </View> 
             </View>
             <View style={styles.warning}>

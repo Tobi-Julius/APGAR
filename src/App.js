@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler'
-import { StyleSheet,StatusBar } from 'react-native';
+import { StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React, {useState, useEffect} from 'react'
@@ -21,6 +21,8 @@ import MaternalRecordSecond from './screens/MaternalRecordSecond';
 import Detail from './screens/Detail';
 import Delete from './screens/Delete';
 import MaternalHistory from './screens/MaternalHistory';
+
+
 import { GlobalProvider } from './context/GlobalState';
 
 
@@ -36,6 +38,7 @@ function App () {
       setIsAppFirstLaunch(false)
     }
   }, [])
+
 
   return (
     isAppFirstLaunch !== null && (

@@ -1,8 +1,9 @@
 import { StyleSheet, View,Dimensions, TouchableOpacity, Image, Modal,Pressable } from 'react-native'
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
 import {Ionicons} from '@expo/vector-icons'
 import { AntDesign } from '@expo/vector-icons';
 import { Picker } from '@react-native-picker/picker'
+import { GlobalContext } from '../context/GlobalState';
 
 
 
@@ -15,22 +16,30 @@ import { globalStyles } from '../styles';
 
 
 
-const TakeAPGARScore = ({navigation}) => {
+const TakeAPGARScore = ({navigation, route}) => {
+
+  const {id} = route.params
+
+  const {addUser, users} = useContext(GlobalContext)
+
+  const data = users.find((item) => {
+   return item.id === id
+ })
 
 
   const [activity, setActivity] = useState('')
+  const [activityScore, setActivityScore] = useState('')
   const [pulse, setPulse] = useState('')
-  const [grimace, setGrimace] = useState('')
+  const [pulseScore, setPulseScore] = useState('')
+  const [grimace , setGrimace] = useState('')
+  const [grimaceScore, setGrimaceScore] = useState('')
   const [appearance, setAppearance] = useState('')
+  const [appearanceScore, setAppearanceScore] = useState('')
   const [respiration, setRespiration] = useState('')
+  const [respirationScore, setRespirationScore] = useState('')
   const [value, setValue] = useState([])
   const [score, setScore] = useState('')
   const [showModal, setShowModal] = useState(false)
-
-
-  const calculatedValue = (total, eachNumber) => {
-    return total + eachNumber
-  }
 
 
 
@@ -95,6 +104,7 @@ const TakeAPGARScore = ({navigation}) => {
              onValueChange={((item, index) => {
                setValue(prevState => [...prevState, (index -1)])
                setActivity(item)
+               setActivityScore( index - 1 )
              })}
              style={{
                borderColor: 'red',
@@ -125,6 +135,7 @@ const TakeAPGARScore = ({navigation}) => {
              onValueChange={((item, index) => {
                setValue(prevState => [...prevState, (index -1)])
                setPulse(item)
+               setPulseScore(index - 1)
              })}
              style={{
                borderColor: 'red',
@@ -155,6 +166,7 @@ const TakeAPGARScore = ({navigation}) => {
               onValueChange={((item, index) => {
                setValue(prevState => [...prevState, (index -1)])
                setGrimace(item)
+               setGrimaceScore(index - 1)
              })}
              style={{
                borderColor: 'red',
@@ -184,6 +196,7 @@ const TakeAPGARScore = ({navigation}) => {
              mode={'dropdown'}
               onValueChange={((item, index) => {
                setValue(prevState => [...prevState, (index -1)])
+               setAppearanceScore(index - 1)
                setAppearance(item)
              })}
              style={{
@@ -216,6 +229,7 @@ const TakeAPGARScore = ({navigation}) => {
               onValueChange={((item, index) => {
                setValue(prevState => [...prevState, (index -1)])
                setRespiration(item)
+               setRespirationScore(index - 1)
              })}
              style={{
                borderColor: 'red',
@@ -239,16 +253,30 @@ const TakeAPGARScore = ({navigation}) => {
                 setShowModal(true)
           
               } else {
-                setScore(value.reduce(calculatedValue, 0))
-                navigation.navigate('Result')
+                const Result = value.reduce((acc, curr) => parseInt(curr) + parseInt(acc));
+                let score =  Result
+                setScore(score)
+                navigation.navigate('Result', {id: data.id})
+                  data.activity = activity
+                  data.pulse = pulse
+                  data.grimace = grimace
+                  data.appearance = appearance
+                  data.respiration = respiration
+                  data.activityScore = activityScore
+                  data.pulseScore = pulseScore
+                  data.grimaceScore = grimaceScore
+                  data.appearanceScore = appearanceScore
+                  data.respirationScore = respirationScore
+                  data.score = score
+
                 setValue([])
                 setActivity('')
                 setAppearance('')
                 setPulse('')
                 setGrimace('')
                 setRespiration('')
+                // setScore('')
               }
-              
             }}
             textStyle={styles.btnText} containerStyle={styles.btnContainer}/>
           </View>

@@ -1,8 +1,17 @@
 export default (state, action) => {
-    switch (action.type) {
+    switch(action.type) {
+        case 'DELETE_TODO':
+        return {
+            users: state.users.filter(user => {
+              return  user.id !== action.payload
+            })
+        }
 
-        
-        default:
+        case "ADD_USER" :
+        return {
+            users: [action.payload, ...state.users]
+        }
+        default :
         return state
     }
 }

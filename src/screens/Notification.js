@@ -1,7 +1,7 @@
 import { StyleSheet, View, Dimensions, TouchableOpacity,FlatList } from 'react-native'
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
 import { AntDesign } from '@expo/vector-icons'
-
+import { GlobalContext } from '../context/GlobalState'
 
 import { Themes } from '../constants'
 import { Text } from '../components/common'
@@ -10,19 +10,11 @@ import { globalStyles } from '../styles'
 
 const Notification = ({navigation}) => {
     
-  const data =[
-    {id: 1},
-    {id: 2},
-    {id: 3},
-    {id: 4},
-    {id: 5},
-    {id: 6},
-    {id: 7},
-    {id: 8},  
-    {id: 9},
-  ]
+
+  const {users} = useContext(GlobalContext)
+
   
-  const [first, setfirst] = useState(data)
+  const [first, setfirst] = useState(users)
 
     const deleteItem = (id) => {
       setfirst(first.filter(each => {
@@ -69,9 +61,9 @@ const Notification = ({navigation}) => {
       <View keyExtractor ={item.id} style={{width: '100%', alignItems: 'center'}}>
         <View >
           <View style={styles.messageContainer}>
-            <Text textStyle={styles.messageNumber} text={`0${index}`}/>
+            <Text textStyle={styles.messageNumber} text={`0${index + 1}`}/>
             <View>
-            <Text textStyle={styles.messageText} text='An APGAR score of ID no 06 has been recorded'/>
+            <Text textStyle={styles.messageText} text={item.notificationMessage}/>
             <Text textStyle={styles.timeAgo} text='time ago'/>
             </View>
             <TouchableOpacity 
@@ -86,8 +78,6 @@ const Notification = ({navigation}) => {
       </View>
     )
   }
-
-
 
 
   return (

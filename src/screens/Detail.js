@@ -1,73 +1,97 @@
 import { StyleSheet,  View, Dimensions, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, {useContext} from 'react'
 import { AntDesign } from '@expo/vector-icons'
+import { GlobalContext } from '../context/GlobalState'
 
 import { Themes } from '../constants'
 import { globalStyles } from '../styles'
 import { Text, Button } from '../components/common'
 
-const Detail = ({navigation}) => {
+const Detail = ({navigation, route}) => {
 
   const Header = () => {
     return (
       <View style={styles.headerContainer}/>
     )
   }
+  const {users} = useContext(GlobalContext)
+
+  const {id} = route.params
+
+   const data = users.find((item) => {
+   return item.id === id
+ })
 
     const Body = () => {
     return (
       <View style={[styles.bodyContainer, globalStyles.rowCenter]}>
         <View style={styles.bodyContentContainer}>
+
           <TouchableOpacity 
          onPress={()=> navigation.goBack()}
          style={styles.left}>
             <AntDesign color='blue' size={28} name='left' />
          </TouchableOpacity>
+
          <View style={styles.paramsContainer}>
-         <Text text='ID: ' textStyle={[styles.parameters1]} />
-         <Text text='03' textStyle={[styles.parameters1]} />
+         <Text text='ID : ' textStyle={[styles.parameters1]} />
+         <Text text={`0${data.id}`} textStyle={[styles.parameters1]} />
          </View>
          <View style={styles.container}>
+
              <View style={styles.textHeadContainer}>
                  <Text textStyle={styles.indicatorText} text='Indicator' />
                  <Text textStyle={styles.indicatorText}  text='State' />
                  <Text textStyle={styles.indicatorText}  text='Point'/>
              </View>
+
          <View style={styles.row}>
              <Text text='Activity' textStyle={styles.text} />
-             <Text text='Flexed Arm and Leg'/>
-             <Text text='01' textStyle={styles.text}/>
+             <Text text={data.activity}/>
+             <Text text= {data.activityScore} textStyle={styles.text}/>
          </View>
+
          <View style={styles.row}>
              <Text textStyle={styles.text} text='Pulse' />
-             <Text text='Flexed Arm and Leg' />
-             <Text text='01'/>
+             <Text text={data.pulse} />
+             <Text textStyle={styles.text} text={data.pulseScore}/>
          </View>
+
          <View style={styles.row}>
              <Text textStyle={styles.text} text='Grimace' />
-             <Text text='Flexed Arm and Leg' />
-             <Text text='01'/>
+             <Text text= {data.grimace} />
+             <Text textStyle={styles.text} text={data.grimaceScore}/>
          </View>
+
          <View style={styles.row}>
              <Text textStyle={styles.text} text='Appearance' />
-             <Text text='Flexed Arm and Leg' />
-             <Text text='01'/>
+             <Text text={data.appearance} />
+             <Text textStyle={styles.text} text={data.appearanceScore}/>
          </View>
+
          <View style={styles.row}>
              <Text textStyle={styles.text} text='Respiration' />
-             <Text text='Flexed Arm and Leg' />
-             <Text text='01'/>
+             <Text text={data.respiration} />
+             <Text textStyle={styles.text} text={data.respirationScore}/>
          </View>
 
         <View style={styles.footerContainer} >
+          {data.maternalHtpertension ? 
           <TouchableOpacity
           activeOpacity={0.6}
-          onPress={()=> navigation.navigate('MaternalHistory')}
+          onPress={()=> navigation.navigate('MaternalHistory', {id: data.id})}
           >
             <Text textStyle={styles.linkText} text='Maternity History' />
+          </TouchableOpacity> :
+            <TouchableOpacity
+          activeOpacity={0.6}
+          onPress={()=> navigation.navigate('MaternalRecord', {id: data.id})}
+          >
+            <Text textStyle={styles.linkTextAdd} text='Add Maternity History' />
           </TouchableOpacity>
+        }
           <View style={styles.scoreContainer}>
-            <Text textStyle={styles.scoreText} text='SCORE : 03'/>
+            <Text textStyle={styles.scoreText} text={` SCORE : 0${data.score}`}/>
           </View>
         </View>
          </View>
@@ -162,6 +186,10 @@ scoreContainer: {
 },
 linkText: {
   color: Themes.primary,
+  textDecorationLine: 'underline',
+},
+linkTextAdd: {
+  color: Themes.secondary,
   textDecorationLine: 'underline',
 },
 scoreText:{

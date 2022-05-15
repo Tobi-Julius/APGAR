@@ -1,8 +1,9 @@
-import { StyleSheet, View, TouchableOpacity, Dimensions, Image,FlatList,statusbar } from 'react-native'
-import React, {useContext, useState} from 'react'
+import { StyleSheet, View, TouchableOpacity, Dimensions, Image,FlatList } from 'react-native'
+import React, { useState} from 'react'
 import {Ionicons} from '@expo/vector-icons'
 import {EvilIcons} from '@expo/vector-icons'
 import {Octicons} from "@expo/vector-icons"
+
 
 import { Themes } from '../constants'
 import openMenu from '../images/Icon/menuOpen.png'
@@ -11,10 +12,7 @@ import { TextInput, Text, Button } from '../components/common'
 
 const Home = ({navigation}) => {
 
-  // const {user} = useContext(GlobalContext)
 
-
-  // console.warn(user)
 
   const homeData = [
     {
@@ -99,6 +97,7 @@ const Home = ({navigation}) => {
           <EvilIcons  name='search' color='black' size={30}/>
           </View>
         </View>
+        
       </View>
     )
   }

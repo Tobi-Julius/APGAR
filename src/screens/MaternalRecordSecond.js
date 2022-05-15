@@ -1,7 +1,8 @@
 import { StyleSheet, View, Dimensions, TouchableOpacity } from 'react-native'
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
 import { AntDesign } from '@expo/vector-icons'
 import { Picker } from '@react-native-picker/picker'
+import { GlobalContext } from '../context/GlobalState'
 
 
 import { Themes } from '../constants'
@@ -12,15 +13,23 @@ import { globalStyles } from '../styles'
 
 
 
-const MaternalRecordSecond = ({navigation}) => {
+const MaternalRecordSecond = ({navigation, route}) => {
+
+  const {id} = route.params
+
+  const {users} = useContext(GlobalContext)
 
   const [maternalHypertension, setMaternalHypertension] = useState('')
   const [fetalPosition, setFetalPosition] = useState('')
   const [MSL, setMSL] = useState('')
 
+  
+  const data = users.find((item) => {
+   return item.id === id
+ })
+  
 
-
-      const Header = () => {
+    const Header = () => {
     return (
       <View style={styles.headerContainer}/>
     )
@@ -105,7 +114,14 @@ const MaternalRecordSecond = ({navigation}) => {
             </Picker>
             </View>
             </View>
-            <Button title='SAVE' onPress={()=> navigation.navigate('DataBase')} textStyle={styles.btnText} containerStyle={styles.btnContainer}/>
+            <Button title='SAVE' onPress={() => {
+              data.MSL = MSL
+              data.maternalHtpertension = maternalHypertension
+              data.fetalPosition = fetalPosition
+              navigation.navigate('DataBase')
+            }}
+            
+            textStyle={styles.btnText} containerStyle={styles.btnContainer}/>
         </View>
       </View>
     )
@@ -152,7 +168,6 @@ leftIcon: {
 },
 textInputStyle: {
   borderRadius: 8,
-  // marginTop: 
 },
 inputContainer: {
   width: '90%',

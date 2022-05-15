@@ -1,20 +1,22 @@
 import { StyleSheet, View, Dimensions, TouchableOpacity } from 'react-native'
-import React from 'react'
-import { useFonts } from '@use-expo/font';
-import AppLoading from 'expo-app-loading';
+import React, {useContext} from 'react'
+
+import { GlobalContext } from '../context/GlobalState';
 
 import { Themes } from '../constants'
-import { Button, Text } from '../components/common'
+import { Text } from '../components/common'
 
 
-const customFonts = {
-  Montserrat: require("../assets/font/Montserrat.ttf")
-};
+const Delete = ({navigation, route}) => {
 
 
-const Delete = ({navigation}) => {
+  const {users, deleteTodo} = useContext(GlobalContext)
 
-  const [isLoaded] =useFonts(customFonts)
+  const {id} = route.params
+
+  const data = users.find((item) => {
+   return item.id === id
+ })
 
     const Header = () => {
     return (
@@ -43,6 +45,33 @@ const Delete = ({navigation}) => {
         </TouchableOpacity>
 
         <TouchableOpacity
+        onPress={() => {
+          deleteTodo(data.id)
+          navigation.navigate('Register')
+        data.hospitalName = '',
+        data.id = '',
+         data.state = '',
+         data.address = '',
+         data.city = '',
+         data.activity = '',
+         data.pulse = '',
+         data.grimace = '',
+         data.appearance = '',
+         data.respiration = '',
+         data.score = '',
+         data.motherID = '',
+         data.deliveryMode = '',
+         data.gestationPeriod = '',
+         data.birthWeight = '',
+         data.maternalHtpertension = '',
+         data.fetalPosition = '',
+         data.MSL = '',
+         data.activityScore = '',
+         data.pulseScore = '',
+         data.grimaceScore = '',
+         data.appearanceScore = '',
+         data.respirationScore = ''
+        }}
           activeOpacity={0.6}
         style={styles.yesBtn}
         >
@@ -61,9 +90,7 @@ const Delete = ({navigation}) => {
   }
 
 
-  if(!isLoaded) {
-        return <AppLoading />
-    } return (    
+    return (    
     <View>
       {Header()}
       {Body()}

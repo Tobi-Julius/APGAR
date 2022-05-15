@@ -1,8 +1,8 @@
 import { StyleSheet, View, Dimensions, TouchableOpacity } from 'react-native'
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
 import { AntDesign } from '@expo/vector-icons'
 import { Picker } from '@react-native-picker/picker'
-
+import { GlobalContext } from '../context/GlobalState'
 
 
 import { Themes } from '../constants'
@@ -12,9 +12,20 @@ import { Text } from '../components/common'
 
 
 
-const MaternalRecord = ({navigation}) => {
+const MaternalRecord = ({navigation, route}) => {
+
+  const {users} = useContext(GlobalContext)
+
+  const {id} = route.params
+
+  const data = users.find((item) => {
+   return item.id === id
+ })
 
   const [deliveryMode, setdeliveryMode] = useState('')
+  const [birthWeight, setBirthWeight] = useState('')
+  const [motherId, setMotherId] = useState('')
+  const [gestationPeriod, setGestationPeriod] = useState('')
 
     const Header = () => {
     return (
@@ -36,12 +47,12 @@ const MaternalRecord = ({navigation}) => {
           <Text text='Maternal Records' textStyle={[styles.textStyle, globalStyles.Heading1]} /> 
             </View>
             <View style={styles.inputContainer}>
-            <TextInput textInputStyle={styles.textInputStyle} placeholder="Type Mother's ID" label="Mother's ID"/>
+            <TextInput textInputStyle={styles.textInputStyle} onChangeText={(item)=> setMotherId(item)} placeholder="Type Mother's ID" label="Mother's ID"/>
             </View>
             <View style={styles.inputContainer}>
-            <TextInput textInputStyle={styles.textInputStyle} placeholder="Type Gestation Period (Weeks)" label="Gestation Period"/>
+            <TextInput textInputStyle={styles.textInputStyle} onChangeText={(item)=> setGestationPeriod(item)} placeholder="Type Gestation Period (Weeks)" label="Gestation Period"/>
             </View>
-            <View style={{width: '90%', marginTop: '12%'}}>
+            <View style={{width: '90%', marginTop: '7%'}}>
               <Text text='Delivery Mode'/>
             <View style={{ borderWidth: 1, borderRadius: 5, borderColor: 'lightgrey', marginTop: 2}}>
             <Picker
@@ -65,9 +76,18 @@ const MaternalRecord = ({navigation}) => {
             </View>
             </View>
             <View style={styles.inputContainer}>
-            <TextInput textInputStyle={styles.textInputStyle} placeholder="Type Birth Weight (Kg)" label="Birth Weight"/>
+            <TextInput textInputStyle={styles.textInputStyle} onChangeText={(item)=> setBirthWeight(item)} placeholder="Type Birth Weight (Kg)" label="Birth Weight"/>
             </View>
-            <Button title='NEXT' onPress={()=> navigation.navigate('MaternalRecordSecond')} textStyle={styles.btnText} containerStyle={styles.btnContainer}/>
+            <Button title='NEXT' onPress={()=> {
+              data.birthWeight = birthWeight
+              data.motherID = motherId
+              data.deliveryMode = deliveryMode
+              data.gestationPeriod = gestationPeriod
+            navigation.navigate('MaternalRecordSecond',
+             {id: data.id})
+            }}
+              textStyle={styles.btnText} 
+              containerStyle={styles.btnContainer}/>
         </View>
       </View>
     )
@@ -116,10 +136,10 @@ textInputStyle: {
 },
 inputContainer: {
   width: '90%',
-  marginTop: '12%',
+  marginTop: '8%',
 },
 btnContainer: {
-  marginTop: '10%',
+  marginTop: '8%',
   width: '90%',
   borderRadius: 7
 },

@@ -11,6 +11,7 @@ import {Text} from '../components/common'
 
 const CustomDrawer = (props) => {
 
+
       const Header = () => {
     return (
       <View style={{height : Dimensions.get('window').height * 0.35}}>
@@ -30,7 +31,7 @@ const CustomDrawer = (props) => {
           style={styles.styleImage}
           />
           <Text text='ID' textStyle={[styles.id]}/>
-          <Text text='04' textStyle={[styles.number]}/>
+          <Text text={props.id} textStyle={[styles.number]}/>
         </View>
       </View>
       </View>
@@ -40,7 +41,7 @@ const CustomDrawer = (props) => {
     <View style={styles.container}>
         {Header()}
     <DrawerContentScrollView {...props} > 
-        <DrawerItemList {...props}/>
+        <DrawerItemList {...props} id={props.id}/>
     </DrawerContentScrollView>
     <View style={styles.footer}>
       <SimpleLineIcons name='logout' size={20} color={Themes.secondary} />

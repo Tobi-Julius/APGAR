@@ -1,6 +1,7 @@
 import { StyleSheet, Text as MainText, View, Dimensions, Image, TouchableOpacity } from 'react-native'
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
 import { Picker } from '@react-native-picker/picker'
+import { GlobalContext } from '../context/GlobalState'
 
 import { Button, TextInput } from '../components/common'
 import { Themes } from '../constants'
@@ -12,8 +13,35 @@ import { Text } from '../components/common'
 
 const Register = ({navigation}) => {
 
+ const {addUser} = useContext(GlobalContext)
 
   const [state, setState] = useState('')
+  const [city, setCity] = useState('')
+  const [address, setAddress] = useState('')
+  const [hospitalName, setHospitalName] = useState('')
+  const [inputFields, setInputFields] = useState('')
+
+  const onSubmit = () => {
+    if(state === '' && city === '' && address === '' && hospitalName === '') {
+      setInputFields(!inputFields)
+    } else {
+      const newUser = {
+        id: 10,
+        hospitalName: hospitalName,
+        state: state,
+        city: city,
+        address: address,
+        notificationMessage: 'An APGAR score of ID no 01 has been recorded'
+      }
+      
+      navigation.navigate('RegisterSucess', {id: newUser.id})
+      addUser(newUser)
+      setAddress('')
+      setCity('')
+      setHospitalName('')
+      setState('')
+    }
+    }
   
   const Header = () => {
     return (
@@ -25,7 +53,7 @@ const Register = ({navigation}) => {
       <View style={{width: '90%', borderRadius: 10, marginTop: '5%'}}>
         <TextInput 
         placeholder='Hospital Name' 
-        onChangeText={()=>{}}
+        onChangeText={(item)=> setHospitalName(item)}
         textInputStyle={styles.TextInput}
         />
         <View style={{flexDirection: 'row', width: '100%', justifyContent: 'space-between'}}>
@@ -85,7 +113,7 @@ const Register = ({navigation}) => {
           <View style={{width: '28%'}}>
           <TextInput 
         placeholder='City' 
-        onChangeText={()=>{}} 
+        onChangeText={(item)=>setCity(item)} 
         textInputStyle={styles.TextInput}
 
         />
@@ -94,11 +122,12 @@ const Register = ({navigation}) => {
         </View>
         <TextInput 
         placeholder='Address' 
-        onChangeText={()=>{}}
+        onChangeText={(item)=>setAddress(item)}
         textInputStyle={styles.TextInput}
-        // value
         />
-        <Button title='Register' onPress={()=> navigation.replace('RegisterSucess')} containerStyle={styles.btnContainer} textStyle={styles.btnText}/>
+        {inputFields ? <Text textStyle={styles.errText} text='Pls, Input all fields'/> : null}
+        
+        <Button title='Register' onPress={()=> onSubmit()} containerStyle={styles.btnContainer} textStyle={styles.btnText}/>
         <View>
         </View>
         <View style={{flexDirection: 'row', justifyContent: 'center',}}>
@@ -106,7 +135,7 @@ const Register = ({navigation}) => {
         <TouchableOpacity
         activeOpacity={0.6}
         style={{marginLeft: '3%'}}
-        onPress={()=> navigation.navigate('SignIn')}
+        onPress={()=> navigation.navigate('SignIn',)}
         >
           <Text textStyle={{color: Themes.primary,}} text='Sign In'/>
         </TouchableOpacity>
@@ -171,8 +200,11 @@ btnContainer: {
 TextInput: {
   borderRadius: 5
 },
-
-
+errText: {
+  color: Themes.secondary,
+  fontSize: 12,
+  paddingTop: 4
+},
 })
 
 export default Register;

@@ -1,13 +1,21 @@
 import { StyleSheet,  View, Dimensions, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, {useContext} from 'react'
 import { AntDesign } from '@expo/vector-icons'
+import { GlobalContext } from '../context/GlobalState'
 
 import { Themes } from '../constants'
 import { globalStyles } from '../styles'
 import { Text, Button } from '../components/common'
 
-const MaternalHistory = ({navigation}) => {
+const MaternalHistory = ({navigation, route}) => {
 
+
+  const {users} = useContext(GlobalContext)
+  const {id} = route.params
+
+  const data = users.find((item) => {
+   return item.id === id
+ })
   const Header = () => {
     return (
       <View style={styles.headerContainer}/>
@@ -24,8 +32,8 @@ const MaternalHistory = ({navigation}) => {
             <AntDesign color='blue' size={28} name='left' />
          </TouchableOpacity>
          <View style={styles.paramsContainer}>
-         <Text text='ID: ' textStyle={[styles.parameters1]} />
-         <Text text='03' textStyle={[styles.parameters1]} />
+         <Text text='ID : ' textStyle={[styles.parameters1]} />
+         <Text text={`0${data.id}`} textStyle={[styles.parameters1]} />
          </View>
            <View style={styles.container}>
                <TouchableOpacity
@@ -37,36 +45,36 @@ const MaternalHistory = ({navigation}) => {
                    <View style={styles.maternalContainer}>
                 <View style={styles.headerTextContainer}>
                 <Text text='Maternal Hypertension'/>
-                <Text text='No'/>
+                <Text text={data.maternalHtpertension}/>
                 </View>
                        <View style={{width: '100%', borderColor: 'lightgray', borderWidth: 1, marginTop: 15}}/>
-                <View style={{flexDirection: 'row', justifyContent: 'space-around', width: '100%', marginTop: 25}}>
+                <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '100%', marginTop: 25}}>
                 <Text text='Gestation Period'/>
-                <Text text='No'/>
+                <Text text={data.gestationPeriod}/>
                 </View>
                        <View style={{width: '100%', borderColor: 'lightgray', borderWidth: 1, marginTop: 15}}/>
-                <View style={{flexDirection: 'row', justifyContent: 'space-around', width: '100%', marginTop: 25}}>
+                <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '100%', marginTop: 25, paddingLeft: 5,paddingRight: 5}}>
                 <Text text='Delivery Mode'/>
-                <Text text='No'/>
+                <Text text={data.deliveryMode}/>
                 </View>
                        <View style={{width: '100%', borderColor: 'lightgray', borderWidth: 1, marginTop: 15}}/>
-                <View style={{flexDirection: 'row', justifyContent: 'space-around', width: '100%', marginTop: 25}}>
+                <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '100%', marginTop: 25, paddingLeft: 5,paddingRight: 5}}>
                 <Text text='Birth Weight'/>
-                <Text text='No'/>
+                <Text text={data.birthWeight}/>
                 </View>
                        <View style={{width: '100%', borderColor: 'lightgray', borderWidth: 1, marginTop: 15}}/>
-                <View style={{flexDirection: 'row', justifyContent: 'space-around', width: '100%', marginTop: 25}}>
+                <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '100%', marginTop: 25, paddingLeft: 5,paddingRight: 5}}>
                 <Text text='Fetal Position'/>
-                <Text text='No'/>
+                <Text text={data.fetalPosition}/>
                 </View>
                        <View style={{width: '100%', borderColor: 'lightgray', borderWidth: 1, marginTop: 15}}/>
-                <View style={{flexDirection: 'row', justifyContent: 'space-around', width: '100%', marginTop: 25}}>
+                <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '100%', marginTop: 25, paddingLeft: 5,paddingRight: 5}}>
                 <Text text='MSL'/>
-                <Text text='No'/>
+                <Text text={data.MSL}/>
                 </View>
                        <View style={{width: '100%', borderColor: 'lightgray', borderWidth: 1, marginTop: 15}}/>
                    </View>
-                    <Button textStyle={styles.btnText} containerStyle={styles.btnContainer} title='Score : 03'/>
+                    <Button textStyle={styles.btnText} containerStyle={styles.btnContainer} title={`Score : 0${data.score}`}/>
                </View>
         </View>
       </View>
@@ -132,7 +140,7 @@ XStyles: {
   fontWeight: '900', fontSize: 20
 },
 maternalContainer: {
-    marginTop: '20%'
+    marginTop: '20%',
 },
 btnContainer: {
     position: 'absolute',
@@ -148,8 +156,10 @@ btnText: {
 },
 headerTextContainer:  {
   flexDirection: 'row',
-  justifyContent: 'space-around',
+  justifyContent: 'space-between',
   width: '100%',
-  marginTop: 25
+  marginTop: 25,
+  paddingLeft: 5,
+  paddingRight: 5
   }
 })

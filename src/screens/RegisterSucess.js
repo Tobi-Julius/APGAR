@@ -1,6 +1,7 @@
 import { StyleSheet, View, Dimensions } from 'react-native'
-import React from 'react'
+import React, {useContext} from 'react'
 import { AntDesign } from '@expo/vector-icons'
+import { GlobalContext } from '../context/GlobalState'
 
 import { Themes } from '../constants'
 import { Button, Text } from '../components/common'
@@ -8,8 +9,15 @@ import { globalStyles } from '../styles'
 
 
 
-const RegisterSucess = ({navigation}) => {
+const RegisterSucess = ({navigation, route}) => {
 
+  const {users} = useContext(GlobalContext)
+
+  const {id} = route.params
+
+  const data = users.find((item) => {
+   return item.id === id
+ })
     const Header = () => {
     return (
       <View style={styles.headerContainer}/>
@@ -38,7 +46,7 @@ const RegisterSucess = ({navigation}) => {
         borderBottomLeftRadius: 10
       }}>
           <Text textStyle={styles.id}  text='ID No '/>
-          <Text textStyle={styles.number} text='O3'/>
+          <Text textStyle={styles.number} text={id}/>
         </View>
         </View>
       {Footer()}
@@ -53,7 +61,7 @@ const RegisterSucess = ({navigation}) => {
         <AntDesign name='warning' size={11} color='red'/>
         <Text color={Themes.secondary} text='Keep ID safe'/>
         </View>
-        <Button containerStyle={styles.containerStyle} onPress={() => navigation.replace('SideMenu')} textStyle={styles.textStyle} title='Continue'/>
+        <Button containerStyle={styles.containerStyle} onPress={() => navigation.replace('SideMenu', {id: data.id})} textStyle={styles.textStyle} title='Continue'/>
       </View>
     )
   }

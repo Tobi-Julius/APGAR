@@ -1,12 +1,14 @@
-import { StyleSheet, View, Dimensions, TouchableOpacity, Image } from 'react-native'
-import React from 'react'
+import { StyleSheet, View, Dimensions, TouchableOpacity, Image, FlatList  } from 'react-native'
+import React, {useContext} from 'react'
 import { AntDesign } from '@expo/vector-icons'
 import { Ionicons } from '@expo/vector-icons'
 
 
 
+
+import { GlobalContext } from '../context/GlobalState'
 import { Themes } from '../constants'
-import { Text, Button } from '../components/common'
+import { Text } from '../components/common'
 import { globalStyles } from '../styles'
 import openMenu from '../images/Icon/menuOpen.png'
 import Logo from "../images/APGARlogo.png"
@@ -14,6 +16,8 @@ import Logo from "../images/APGARlogo.png"
 
 
 const DataBase = ({navigation}) => {
+
+  const {users} = useContext(GlobalContext)
 
   const Header = () => {
     return (
@@ -54,14 +58,28 @@ const DataBase = ({navigation}) => {
          <View style={styles.paramsContainer}>
          <Text text='Database' textStyle={[styles.parameters1]} />
          </View>
+        <View style={{padding: 5}}>
+          <FlatList 
+          data={users}
+          renderItem={Data}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{
+            paddingBottom: '15%'
+          }}
+          />
+        </View>
+        </View>
+      </View>
+    )
+  }
 
-         <View style={{width: '90%', marginTop: 18, borderColor: '#fcfcfc', borderBottomWidth: 12, borderWidth: 2}}>
+  const Data = ({item, index}) => {
+    return (
+       <View key={item.id} style={{width: '100%', marginTop: 18, borderColor: '#fcfcfc', borderBottomWidth: 12, borderWidth: 2,}}>
            <View>
-
-
              <View style={{flexDirection: 'row',marginBottom: 5, width: '100%', justifyContent:'space-between'}}>
              <View>
-               <Text text='03' textStyle={styles.idNumber}/>
+               <Text text={item.id} textStyle={styles.idNumber}/>
                <Text text='ID'/>
              </View>
              <View>
@@ -80,40 +98,36 @@ const DataBase = ({navigation}) => {
               </View>
             <View>
               <Text text='Score' />
-              <Text text='03' textStyle={{color: Themes.primary}} />
+              <Text text={item.score} textStyle={{color: Themes.primary}} />
             </View>
             </View>
 
             <View>
               <TouchableOpacity
               activeOpacity={0.6}
-              onPress={() => navigation.navigate('Delete')}
+              onPress={() => navigation.navigate('Delete', {id: item.id})}
               style={styles.deleteBtnContainer}>
                 <Text textStyle={styles.deleteBtnText} text='Delete'/>
               </TouchableOpacity>
 
               <TouchableOpacity
               activeOpacity={0.6}
-              onPress={() => navigation.navigate('Detail')}
+              onPress={() => navigation.navigate('Detail', {id: item.id})}
               containerStyle={styles.detailBtnContainer}>
                 <Text textStyle={styles.detailBtnText}   text='Detail'/>
               </TouchableOpacity>
             </View>
-
           </View>
             </View>
            </View>
-
          </View>
-        </View>
-      </View>
-    )
-  }
+        ) }
   
   return (
     <View>
       {Header()}
       {Body()}
+
     </View>
   )
 }
@@ -139,6 +153,7 @@ menuStyle: {
 },
 bodyContainer: {
   top: '-12%',
+  overflow: 'hidden',
 },
 bodyContentContainer: {
   backgroundColor: '#fff',
