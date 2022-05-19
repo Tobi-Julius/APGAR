@@ -96,6 +96,7 @@ const Home = ({ navigation }) => {
                 textStyle={styles.btnText}
                 title="Take Score"
                 style={styles.btnContainer}
+                onPress={() => navigation.navigate("TakeAPGARScore")}
               />
             </View>
           </View>
@@ -119,6 +120,7 @@ const Home = ({ navigation }) => {
                 textStyle={styles.btnText}
                 title="Check Database"
                 style={styles.btnContainer}
+                onPress={() => navigation.navigate("DataBase")}
               />
             </View>
           </View>
