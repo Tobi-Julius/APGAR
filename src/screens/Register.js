@@ -13,7 +13,7 @@ import { Text } from '../components/common'
 
 const Register = ({navigation}) => {
 
- const {addUser} = useContext(GlobalContext)
+ const { addUser } = useContext(GlobalContext)
 
   const [state, setState] = useState('')
   const [city, setCity] = useState('')
@@ -22,7 +22,7 @@ const Register = ({navigation}) => {
   const [inputFields, setInputFields] = useState('')
 
   const onSubmit = () => {
-    if(state === '' && city === '' && address === '' && hospitalName === '') {
+    if(state === '' || city === '' || address === '' || hospitalName === '') {
       setInputFields(!inputFields)
     } else {
       const newUser = {
@@ -31,8 +31,8 @@ const Register = ({navigation}) => {
         state: state,
         city: city,
         address: address,
-        notificationMessage: 'An APGAR score of ID no 01 has been recorded'
-      }
+        image: require("../images/Home/baby4.png"),
+      };
       
       navigation.navigate('RegisterSucess', {id: newUser.id})
       addUser(newUser)
@@ -184,16 +184,18 @@ bodyContentContainer: {
 image : {
   marginTop: '4%',
   resizeMode: 'contain',
+  width: '70%',
+  height: '20%'
 },
 text: {
-  marginTop: '15%',
+  marginTop: '10%',
 },
 btnText: {
   color: '#fff',
 },
 btnContainer: {
   padding: 20,
-  marginTop: '12%',
+  marginTop: '8%',
   marginBottom: '3%',
   borderRadius: 5
 },

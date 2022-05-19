@@ -1,4 +1,4 @@
-import { StyleSheet, View, Dimensions, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, Dimensions, TouchableOpacity, KeyboardAvoidingView } from 'react-native'
 import React, {useState, useContext} from 'react'
 import { AntDesign } from '@expo/vector-icons'
 import { Picker } from '@react-native-picker/picker'
@@ -9,7 +9,7 @@ import { Themes } from '../constants'
 import { globalStyles } from '../styles'
 import { Button, TextInput } from '../components/common'
 import { Text } from '../components/common'
-
+import KeyBoardAvoidingWrapper from '../components/Keyboard/KeyBoardAvoidingWrapper'
 
 
 const MaternalRecord = ({navigation, route}) => {
@@ -26,16 +26,14 @@ const MaternalRecord = ({navigation, route}) => {
   const [birthWeight, setBirthWeight] = useState('')
   const [motherId, setMotherId] = useState('')
   const [gestationPeriod, setGestationPeriod] = useState('')
+  const [input, setInput] = useState(false)
 
-    const Header = () => {
-    return (
+
+  return (
+    <KeyBoardAvoidingWrapper>
+      <View>
       <View style={styles.headerContainer}/>
-    )
-  }
-
-     const Body = () => {
-        return (
-      <View style={[styles.bodyContainer, globalStyles.rowCenter]}>
+        <View style={[styles.bodyContainer, globalStyles.rowCenter]}>
         <View style={styles.bodyContentContainer}>
           <View style={{marginTop: '5%', width:'100%'}}>
               <TouchableOpacity 
@@ -46,13 +44,14 @@ const MaternalRecord = ({navigation, route}) => {
               </TouchableOpacity>
           <Text text='Maternal Records' textStyle={[styles.textStyle, globalStyles.Heading1]} /> 
             </View>
-            <View style={styles.inputContainer}>
-            <TextInput textInputStyle={styles.textInputStyle} onChangeText={(item)=> setMotherId(item)} placeholder="Type Mother's ID" label="Mother's ID"/>
+             <View style={styles.inputContainer}>
+            <TextInput inputType = 'Numeric' textInputStyle={styles.textInputStyle} onChangeText={(item)=> setMotherId(item)} placeholder="Type Mother's ID" label="Mother's ID"/>
             </View>
+
             <View style={styles.inputContainer}>
             <TextInput textInputStyle={styles.textInputStyle} onChangeText={(item)=> setGestationPeriod(item)} placeholder="Type Gestation Period (Weeks)" label="Gestation Period"/>
             </View>
-            <View style={{width: '90%', marginTop: '7%'}}>
+            <View style={{width: '90%', marginTop: '10%'}}>
               <Text text='Delivery Mode'/>
             <View style={{ borderWidth: 1, borderRadius: 5, borderColor: 'lightgrey', marginTop: 2}}>
             <Picker
@@ -67,7 +66,7 @@ const MaternalRecord = ({navigation, route}) => {
                color: Themes.text,
                borderRadius: 5,
                fontWeight: '200',
-             }}>
+              }}>
               <Picker.Item label='Select Option' color='lightgrey' fontFamily='Montserrat' value='Select Option'/>
               <Picker.Item label='SVG' value='SVG'/>
               <Picker.Item label='CS' value='CS'/>
@@ -77,26 +76,27 @@ const MaternalRecord = ({navigation, route}) => {
             </View>
             <View style={styles.inputContainer}>
             <TextInput textInputStyle={styles.textInputStyle} onChangeText={(item)=> setBirthWeight(item)} placeholder="Type Birth Weight (Kg)" label="Birth Weight"/>
+            {input ? <Text style={styles.errText} text='Pls, Input all fields'/> : null}
             </View>
+
             <Button title='NEXT' onPress={()=> {
+              if (birthWeight === '' || motherId === '' || deliveryMode === '' || gestationPeriod === '') {
+                setInput(!input)
+              } else {
+                data.motherID = motherId
+                data.deliveryMode = deliveryMode
+                data.gestationPeriod = gestationPeriod
+                navigation.navigate('MaternalRecordSecond',
+               {id: data.id})
+              }
               data.birthWeight = birthWeight
-              data.motherID = motherId
-              data.deliveryMode = deliveryMode
-              data.gestationPeriod = gestationPeriod
-            navigation.navigate('MaternalRecordSecond',
-             {id: data.id})
             }}
               textStyle={styles.btnText} 
               containerStyle={styles.btnContainer}/>
         </View>
       </View>
-    )
-  }
-  return (
-    <View>
-      {Header()}
-      {Body()}
-    </View>
+      </View>
+    </KeyBoardAvoidingWrapper>  
   )
 }
 
@@ -132,14 +132,13 @@ leftIcon: {
 },
 textInputStyle: {
   borderRadius: 8,
-  // marginTop: 
 },
 inputContainer: {
   width: '90%',
-  marginTop: '8%',
+  marginTop: '10%',
 },
 btnContainer: {
-  marginTop: '8%',
+  marginTop: '10%',
   width: '90%',
   borderRadius: 7
 },
@@ -147,5 +146,10 @@ btnText: {
   padding: '5%',
   color: '#fff',
   fontSize: 20
+},
+errText: {
+  color: Themes.secondary,
+  fontSize: 12,
+  paddingTop: 4
 }
 })

@@ -16,6 +16,7 @@ const MaternalHistory = ({navigation, route}) => {
   const data = users.find((item) => {
    return item.id === id
  })
+ 
   const Header = () => {
     return (
       <View style={styles.headerContainer}/>
@@ -74,7 +75,15 @@ const MaternalHistory = ({navigation, route}) => {
                 </View>
                        <View style={{width: '100%', borderColor: 'lightgray', borderWidth: 1, marginTop: 15}}/>
                    </View>
-                    <Button textStyle={styles.btnText} containerStyle={styles.btnContainer} title={`Score : 0${data.score}`}/>
+                   {data.score !== undefined ? 
+                   <Button textStyle={styles.btnText} containerStyle={styles.btnContainer} title={`Score: ${data.score === 10 ? data.score : `0${data.score}`}`}/>
+                   :             
+                  <TouchableOpacity
+              activeOpacity={0.6}
+              onPress={() => navigation.navigate('TakeAPGARScore')}
+              style={styles.takeScore}>
+              <Text textStyle={styles.linkTextAdd} text='Take Score'/>
+            </TouchableOpacity>}
                </View>
         </View>
       </View>
@@ -161,5 +170,17 @@ headerTextContainer:  {
   marginTop: 25,
   paddingLeft: 5,
   paddingRight: 5
-  }
+  },
+  linkTextAdd: {
+  color: Themes.secondary,
+  textDecorationLine: 'underline',
+},
+takeScore: {
+  position: 'absolute',
+  right: 0,
+  color: Themes.secondary,
+  borderTopLeftRadius: 10,
+  position: 'absolute',
+  bottom: 0,
+},
 })

@@ -13,40 +13,51 @@ import { Button } from '../components/common';
 const Result = ({navigation, route}) => {
 
   const {users} = useContext(GlobalContext)
-  const {id, score} = route.params
+  const {id} = route.params
 
   const data = users.find((item) => {
    return item.id === id
  })
+
 
   const Header = () => {
     return (
       <View style={styles.headerContainer}/>
     )
   }
+
+
     const Body = () => {
     return (
       <View style={[styles.bodyContainer, globalStyles.rowCenter]}>
         <View style={styles.bodyContentContainer}>
           <View style={{marginTop: '5%', width:'100%'}}>
+
               <TouchableOpacity 
               activeOpacity={0.6}
               onPress={()=> navigation.goBack()}
               style={styles.leftIcon}>
               <AntDesign name='left' color='blue' size={28}/>
               </TouchableOpacity>
+
           <Text text='Result' textStyle={[styles.textStyle, globalStyles.Heading1]} /> 
+
           </View>
           <View style={[globalStyles.rowCenter, styles.container]}>
-            <View style={{backgroundColor: '#fcfcfc', height: '50%', width: '75%',borderRadius: 10, alignItems: 'center', justifyContent: 'center'}}>
+
+            <View style={styles.resultContainer}>
               <Text text='APGAR Score'/>
               <Text text='is'/>
-              <Text textStyle={styles.textStyle} text={data.score}/>
+              <Text textStyle={styles.textStyle} text={`${data.score === 10 ? data.score : `0${data.score}`}`}/>
+
               <View style={styles.footer}/>
+              <Text textStyle={styles.comment} text={data.comment}/>
+
             </View>
           </View>
-            <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '90%'}}>
+            <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '75%'}}>
             <View style={{width: '37%',}}>
+
                 <TouchableOpacity
                 onPress={()=> navigation.navigate('DataBase')}
                 activeOpacity={0.6}
@@ -59,15 +70,16 @@ const Result = ({navigation, route}) => {
                 }} >
                     <Text textStyle={styles.textBtn} text='Skip'/>
                 </TouchableOpacity>
+
             </View>
-            <View style={{width: '55%'}}>
-                <Button title='Add Maternal Record' onPress={()=> navigation.navigate('MaternalRecord', {id: data.id})} containerStyle={styles.btnContainer} textStyle={styles.btnText} />
-            </View> 
+            <Button title='Add Maternal Record' onPress={()=> navigation.navigate('MaternalRecord', {id: data.id})} containerStyle={styles.btnContainer} textStyle={styles.btnText} /> 
             </View>
+
             <View style={styles.warning}>
              <AntDesign name='warning' size={11} color='red'/>
             <Text textStyle={styles.warningStyle} text='Adding Maternal record is an added advantage'/>
             </View>
+            
         </View>
       </View>
     )
@@ -107,12 +119,12 @@ container: {
 },
 textStyle: {
   color: Themes.secondary,
-  marginTop: '8%'
+  marginTop: '5%'
 },
 footer: {
   backgroundColor: Themes.primary,
   width: '100%',
-  height: '15%',
+  height: '17%',
   borderBottomRightRadius: 10,
   borderBottomLeftRadius: 10,
   bottom: 0,
@@ -128,7 +140,7 @@ containerStyle: {
 },
 btnText : {
   color: '#fff',
-  padding: 20,
+  padding: 10,
 },
 leftIcon: {
     position: 'absolute',
@@ -150,5 +162,24 @@ warningStyle: {
   fontSize: 12,
   marginLeft: 5,
   textAlignVertical: 'top'
+},
+resultContainer: {
+  backgroundColor: '#fcfcfc',
+  height: '75%', 
+  width: '75%',
+  borderRadius: 13, 
+  alignItems: 'center', 
+  justifyContent: 'center',
+  shadowColor: '#000',
+  shadowOffset: {
+    width: 0,
+    height: 4,
+  },
+  shadowOpacity: 0.35,
+  shadowRadius: 4.65,
+  elevation: 6
+},
+comment: {
+  marginTop: 16
 }
 })

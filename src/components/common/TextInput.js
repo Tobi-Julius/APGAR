@@ -17,6 +17,7 @@ export const TextInput = ({
     label,
     labelStyle,
     textInputStyle,
+    inputType,
     ...others
 }) => {
       const [isLoaded] =useFonts(customFonts)
@@ -30,6 +31,7 @@ export const TextInput = ({
           value={value}
           autoCorrect={false}
           onChangeText={onChangeText}
+          keyboardType = {inputType}
           style={[styles.inputStyle, textInputStyle]}
           {...others}
           />

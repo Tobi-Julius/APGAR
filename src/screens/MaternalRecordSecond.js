@@ -1,4 +1,4 @@
-import { StyleSheet, View, Dimensions, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, Dimensions, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native'
 import React, {useState, useContext} from 'react'
 import { AntDesign } from '@expo/vector-icons'
 import { Picker } from '@react-native-picker/picker'
@@ -8,7 +8,7 @@ import { GlobalContext } from '../context/GlobalState'
 import { Themes } from '../constants'
 import { Text, Button } from '../components/common'
 import { globalStyles } from '../styles'
-
+import KeyBoardAvoidingWrapper from '../components/Keyboard/KeyBoardAvoidingWrapper'
 
 
 
@@ -22,6 +22,7 @@ const MaternalRecordSecond = ({navigation, route}) => {
   const [maternalHypertension, setMaternalHypertension] = useState('')
   const [fetalPosition, setFetalPosition] = useState('')
   const [MSL, setMSL] = useState('')
+  const [input, setInput] = useState(false)
 
   
   const data = users.find((item) => {
@@ -113,12 +114,17 @@ const MaternalRecordSecond = ({navigation, route}) => {
               <Picker.Item label='Abnormal' value='Abnormal'/>
             </Picker>
             </View>
+            {input ? <Text style={styles.errText} text='Pls, Input all fields'/> : null}
             </View>
             <Button title='SAVE' onPress={() => {
-              data.MSL = MSL
-              data.maternalHtpertension = maternalHypertension
-              data.fetalPosition = fetalPosition
-              navigation.navigate('DataBase')
+              if (MSL === '' || maternalHypertension === ''|| fetalPosition === '') {
+                setInput(!input)
+              } else {
+                data.MSL = MSL
+                data.maternalHtpertension = maternalHypertension
+                data.fetalPosition = fetalPosition
+                navigation.navigate('DataBase')
+              }
             }}
             
             textStyle={styles.btnText} containerStyle={styles.btnContainer}/>
@@ -182,5 +188,10 @@ btnText: {
   padding: '5%',
   color: '#fff',
   fontSize: 20
+},
+errText: {
+  color: Themes.secondary,
+  fontSize: 12,
+  paddingTop: 4
 }
 })

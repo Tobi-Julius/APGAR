@@ -35,7 +35,7 @@ const Detail = ({navigation, route}) => {
 
          <View style={styles.paramsContainer}>
          <Text text='ID : ' textStyle={[styles.parameters1]} />
-         <Text text={`0${data.id}`} textStyle={[styles.parameters1]} />
+         <Text text={data.id} textStyle={[styles.parameters1]} />
          </View>
          <View style={styles.container}>
 
@@ -90,9 +90,17 @@ const Detail = ({navigation, route}) => {
             <Text textStyle={styles.linkTextAdd} text='Add Maternity History' />
           </TouchableOpacity>
         }
+        {data.score !== undefined ? 
           <View style={styles.scoreContainer}>
-            <Text textStyle={styles.scoreText} text={` SCORE : 0${data.score}`}/>
-          </View>
+            <Text textStyle={styles.scoreText} text={`SCORE: ${data.score === 10 ? data.score : `0${data.score}`}`}/> 
+          </View> :
+            <TouchableOpacity
+            activeOpacity={0.6}
+            onPress={() => navigation.navigate('TakeAPGARScore')}
+            style={styles.takeScore}>
+              <Text textStyle={styles.linkTextAdd} text='Take Score'/>
+            </TouchableOpacity>
+          }
         </View>
          </View>
          <Button onPress={()=> navigation.navigate('DataBase')} textStyle={styles.btnText} containerStyle={styles.btnContainer} title='Close' />
@@ -183,6 +191,12 @@ scoreContainer: {
   right: 0,
   backgroundColor: Themes.primary,
   borderTopLeftRadius: 10
+},
+takeScore: {
+  position: 'absolute',
+  right: "3%",
+  color: Themes.secondary,
+  borderTopLeftRadius: 10,
 },
 linkText: {
   color: Themes.primary,
