@@ -13,7 +13,7 @@ import { SimpleLineIcons } from "@expo/vector-icons";
 
 import { GlobalContext } from "../context/GlobalState";
 import { Themes } from "../constants";
-import { Text } from "../components/common";
+import { Text, TextBold } from "../components/common";
 import { globalStyles } from "../styles";
 import FadeAnim from "../components/Animated/FadeAnim";
 
@@ -41,7 +41,7 @@ const DataBase = ({ navigation, route }) => {
             <AntDesign color="blue" size={28} name="left" />
           </TouchableOpacity>
           <View style={styles.paramsContainer}>
-            <Text text="Database" textStyle={[styles.parameters1]} />
+            <TextBold text="Database" textStyle={[styles.parameters1]} />
           </View>
           <FlatList
             data={users}

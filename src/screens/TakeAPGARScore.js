@@ -8,22 +8,18 @@ import {
   Pressable,
 } from "react-native";
 import React, { useState, useContext } from "react";
-import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
 import { GlobalContext } from "../context/GlobalState";
 
 import { Themes } from "../constants";
-import { Text } from "../components/common";
-import openMenu from "../images/Icon/menuOpen.png";
-import { Button } from "../components/common";
-import Logo from "../images/APGARlogo.png";
+import { Text, Button, TextBold } from "../components/common";
 import { globalStyles } from "../styles";
 
 const TakeAPGARScore = ({ navigation, route }) => {
   const { id } = route.params;
 
-  const { addUser, users } = useContext(GlobalContext);
+  const { users } = useContext(GlobalContext);
 
   const data = users.find((item) => {
     return item.id === id;
@@ -58,8 +54,8 @@ const TakeAPGARScore = ({ navigation, route }) => {
           </TouchableOpacity>
 
           <View style={styles.paramsContainer}>
-            <Text text="APGAR " textStyle={[styles.parameters1]} />
-            <Text text=" Parameters" textStyle={[styles.parameters1]} />
+            <TextBold text="APGAR " textStyle={[styles.parameters1]} />
+            <TextBold text=" Parameters" textStyle={[styles.parameters1]} />
           </View>
 
           {InputFields()}

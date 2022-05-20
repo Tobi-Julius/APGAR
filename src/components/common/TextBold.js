@@ -4,10 +4,10 @@ import { useFonts } from "@use-expo/font";
 import AppLoading from "expo-app-loading";
 
 const customFonts = {
-  Montserrat: require("../../assets/font/Montserrat.ttf"),
+  MontserratBold: require("../../assets/font/MontserratBold.ttf"),
 };
 
-export const Text = ({
+export const TextBold = ({
   text,
   color,
   textAlign,
@@ -40,6 +40,6 @@ export const Text = ({
 
 const styles = StyleSheet.create({
   styleText: {
-    fontFamily: "Montserrat",
+    fontFamily: "MontserratBold",
   },
 });

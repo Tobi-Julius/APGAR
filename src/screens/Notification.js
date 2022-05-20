@@ -10,7 +10,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { GlobalContext } from "../context/GlobalState";
 
 import { Themes } from "../constants";
-import { Text } from "../components/common";
+import { Text, TextBold } from "../components/common";
 import { globalStyles } from "../styles";
 
 const Notification = ({ navigation }) => {
@@ -43,7 +43,7 @@ const Notification = ({ navigation }) => {
               <AntDesign name="left" color="blue" size={28} />
             </TouchableOpacity>
 
-            <Text
+            <TextBold
               text="Notifications"
               textStyle={[styles.textStyle, globalStyles.Heading1]}
             />

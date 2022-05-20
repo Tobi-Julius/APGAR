@@ -15,7 +15,7 @@ import { SimpleLineIcons } from "@expo/vector-icons";
 import Hospital from "../images/hospital.png";
 import CloseIcon from "../images/Icon/menuClose.png";
 import { Themes } from "../constants";
-import { Text } from "../components/common";
+import { Text, TextBold } from "../components/common";
 
 const CustomDrawer = (props) => {
   const Header = () => {
@@ -32,7 +32,7 @@ const CustomDrawer = (props) => {
           <View style={styles.circleContainer}>
             <Image source={Hospital} style={styles.styleImage} />
             <Text text="ID" textStyle={[styles.id]} />
-            <Text text={props.id} textStyle={[styles.number]} />
+            <TextBold text={props.id} textStyle={[styles.number]} />
           </View>
         </View>
       </View>
