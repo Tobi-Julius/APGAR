@@ -11,8 +11,8 @@ import { GlobalContext } from "../context/GlobalState";
 
 import { Themes } from "../constants";
 import { globalStyles } from "../styles";
-import { Button, Text } from "../components/common";
-import { TextInput } from "../components/common";
+import { Button, Text, TextInput, TextBold } from "../components/common";
+import {  } from "../components/common";
 
 const SignIn = ({ navigation }) => {
   const [id, setId] = useState("");
@@ -45,10 +45,7 @@ const SignIn = ({ navigation }) => {
             source={require("../images/onboarding2.png")}
           />
 
-          <Text
-            textStyle={[styles.text, globalStyles.Heading1]}
-            text="Welcome Back !"
-          />
+          <TextBold textStyle={[styles.text]} text="Welcome Back !" />
           <View style={styles.inputContainer}>
             <TextInput
               inputType="Numeric"
@@ -121,8 +118,10 @@ const styles = StyleSheet.create({
     height: "20%",
   },
   text: {
-    marginTop: "13%",
+    marginTop: "8%",
     fontFamily: "Montserrat",
+    fontSize: 15,
+    color: Themes.primary,
   },
   inputContainer: {
     width: "90%",
@@ -130,22 +129,22 @@ const styles = StyleSheet.create({
   },
   textInputStyle: {
     borderRadius: 6,
+    fontSize: 12,
   },
   textStyle: {
     color: Themes.primary,
     alignSelf: "flex-start",
     paddingLeft: "7%",
     paddingTop: "3%",
+    fontSize: 11,
   },
   containerStyle: {
-    paddingLeft: 20,
-    paddingRight: 20,
-    padding: 14,
     marginTop: "8%",
     borderRadius: 6,
   },
   btnText: {
     color: "#fff",
+    padding: 14,
   },
   AntDesign: {
     position: "absolute",
@@ -154,7 +153,7 @@ const styles = StyleSheet.create({
   },
   errText: {
     color: Themes.secondary,
-    fontSize: 12,
+    fontSize: 9,
     alignSelf: "flex-start",
     marginLeft: "6%",
     paddingTop: "1%",

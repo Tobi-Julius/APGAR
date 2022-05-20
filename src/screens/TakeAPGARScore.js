@@ -66,15 +66,17 @@ const TakeAPGARScore = ({ navigation, route }) => {
 
   const InputFields = () => {
     return (
-      <View style={{ width: "90%", marginTop: "8%" }}>
+      <View style={{ width: "90%", marginTop: "2%" }}>
         <View style={styles.calContainer}>
-          <Text text="Activity" />
+          <Text textStyle={{ fontSize: 13 }} text="Activity" />
           <View
             style={{
               borderWidth: 1,
               borderRadius: 5,
               borderColor: "lightgrey",
-              marginTop: 2,
+              marginTop: 4,
+              height: 39,
+              justifyContent: "center",
             }}
           >
             <Picker
@@ -115,13 +117,15 @@ const TakeAPGARScore = ({ navigation, route }) => {
           {/* pulse */}
         </View>
         <View style={styles.calContainer}>
-          <Text text="Pulse" />
+          <Text textStyle={{ fontSize: 13 }} text="Pulse" />
           <View
             style={{
               borderWidth: 1,
               borderRadius: 5,
               borderColor: "lightgrey",
-              marginTop: 2,
+              marginTop: 4,
+              height: 39,
+              justifyContent: "center",
             }}
           >
             <Picker
@@ -156,13 +160,15 @@ const TakeAPGARScore = ({ navigation, route }) => {
           {/* Grimace */}
         </View>
         <View style={styles.calContainer}>
-          <Text text="Grimace" />
+          <Text textStyle={{ fontSize: 13 }} text="Grimace" />
           <View
             style={{
               borderWidth: 1,
               borderRadius: 5,
               borderColor: "lightgrey",
-              marginTop: 2,
+              marginTop: 4,
+              height: 39,
+              justifyContent: "center",
             }}
           >
             <Picker
@@ -200,13 +206,15 @@ const TakeAPGARScore = ({ navigation, route }) => {
           {/* Appearance */}
         </View>
         <View style={styles.calContainer}>
-          <Text text="Appearance" />
+          <Text textStyle={{ fontSize: 13 }} text="Appearance" />
           <View
             style={{
               borderWidth: 1,
               borderRadius: 5,
               borderColor: "lightgrey",
-              marginTop: 2,
+              marginTop: 4,
+              height: 39,
+              justifyContent: "center",
             }}
           >
             <Picker
@@ -241,13 +249,17 @@ const TakeAPGARScore = ({ navigation, route }) => {
           {/* Respiration */}
         </View>
         <View style={styles.calContainer}>
-          <Text text="Respiration" />
+          <Text textStyle={{ fontSize: 13 }} text="Respiration" />
           <View
             style={{
               borderWidth: 1,
               borderRadius: 5,
               borderColor: "lightgrey",
-              marginTop: 2,
+              marginTop: 4,
+              height: 37,
+              justifyContent: "center",
+              height: 39,
+              justifyContent: "center",
             }}
           >
             <Picker
@@ -397,7 +409,7 @@ const styles = StyleSheet.create({
   bodyContentContainer: {
     backgroundColor: "#fff",
     width: Dimensions.get("window").width * 0.9,
-    height: Dimensions.get("screen").height * 0.8,
+    height: Dimensions.get("window").height * 0.8,
     borderRadius: 10,
     alignItems: "center",
   },
@@ -408,24 +420,24 @@ const styles = StyleSheet.create({
   headContainer: {},
   left: {
     position: "absolute",
-    left: "4%",
+    left: "2%",
     marginTop: "6%",
   },
   parameters1: {
-    fontSize: 24,
+    fontSize: 16,
     color: Themes.primary,
     fontWeight: "900",
   },
   calContainer: {
     width: "100%",
-    marginTop: "8%",
+    marginTop: "4%",
   },
   btnContainer: {
     marginTop: "10%",
     borderRadius: 8,
   },
   btnText: {
-    padding: 20,
+    padding: 17,
     color: "#fff",
     fontSize: 17,
   },

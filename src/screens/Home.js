@@ -5,6 +5,7 @@ import {
   Dimensions,
   Image,
   FlatList,
+  ImageBackground,
 } from "react-native";
 import React, { useState, useContext } from "react";
 import { Ionicons } from "@expo/vector-icons";
@@ -17,14 +18,20 @@ import { GlobalContext } from "../context/GlobalState";
 import { Themes } from "../constants";
 import openMenu from "../images/Icon/menuOpen.png";
 import Logo from "../images/APGARlogo.png";
-import { TextInput, Button, TextBold, Text } from "../components/common";
-import { color } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
+import {
+  TextInput,
+  Button,
+  TextBold,
+  Text,
+  TextMedium,
+} from "../components/common";
 
 const Home = ({ navigation }) => {
   const { users } = useContext(GlobalContext);
   const [data, setdata] = useState(users);
 
   function handleChange(textValue) {
+    console.warn(textValue);
     setdata(
       data.filter((each) => {
         if (textValue === "") {
@@ -42,32 +49,58 @@ const Home = ({ navigation }) => {
   const Header = () => {
     return (
       <View style={styles.headerContainer}>
-        <View style={styles.container}>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+            width: "90%",
+            marginTop: "8%",
+          }}
+        >
           <TouchableOpacity
             activeOpacity={0.6}
             onPress={() => navigation.openDrawer()}
           >
-            <Image source={openMenu} style={styles.menuStyle} />
+            <Image
+              source={openMenu}
+              style={{
+                width: 20,
+                height: 20,
+              }}
+            />
           </TouchableOpacity>
-          <Image source={Logo} style={styles.styleLogo} />
+          <View>
+            <Image source={Logo} />
+          </View>
           <TouchableOpacity
             activeOpacity={0.6}
             onPress={() => navigation.navigate("Notification")}
           >
-            <Ionicons name="notifications-outline" size={24} color="#fff" />
+            <Ionicons
+              name="md-notifications-outline"
+              size={25}
+              color={Themes.white}
+            />
           </TouchableOpacity>
         </View>
-        <View style={styles.searchContainer}>
-          <View style={styles.innerContainer}>
-            <TextInput
-              placeholder="Search ID"
-              onChangeText={handleChange}
-              textInputStyle={styles.inputStyle}
-            />
-            <View style={styles.searchIcon}>
-              <EvilIcons name="search" color={Themes.text} size={30} />
-            </View>
-          </View>
+        <TextInput
+          onChangeText={handleChange}
+          containerStyle={{
+            width: " 90%",
+            height: 40,
+            borderRadius: 6,
+            marginTop: 8,
+          }}
+          placeholder="Search ID"
+          textInputStyle={{
+            color: Themes.text,
+            backgroundColor: Themes.white,
+            borderRadius: 5,
+          }}
+        />
+        <View style={{ alignSelf: "flex-end", right: "10%", bottom: "8%" }}>
+          <EvilIcons name="search" color="black" size={30} />
         </View>
       </View>
     );
@@ -76,62 +109,64 @@ const Home = ({ navigation }) => {
     return (
       <View style={styles.body}>
         <View style={styles.one}>
-          <View style={styles.innerOne}>
+          <View style={{ marginTop: 12 }}>
             <TextBold
-              textStyle={{ marginTop: "8%", fontSize: 16 }}
+              textStyle={{ fontSize: 11, marginBottom: 3 }}
               text="Take APGAR Score"
             />
-            <View
-              style={{
-                borderRadius: 15,
-                marginTop: 10,
-                height: 180,
-              }}
-            >
+            <View style={{ borderRadius: 20, height: "93%" }}>
               <Image
                 source={require("../images/Home/APGARScore.png")}
                 style={{
-                  resizeMode: "cover",
-                  height: "100%",
                   width: "100%",
-                  borderRadius: 15,
+                  height: "100%",
+                  borderRadius: 20,
+                  position: "relative",
                 }}
               />
               <View
                 style={{
                   position: "absolute",
-                  flexDirection: "row",
-                  alignItems: "center",
                   bottom: 0,
-                  backgroundColor: Themes.fadeBackground,
+                  flexDirection: "row",
                   width: "100%",
-                  borderBottomLeftRadius: 15,
-                  borderBottomRightadius: 15,
+                  backgroundColor: Themes.fadeBackground,
                   justifyContent: "space-between",
+                  paddingRight: 5,
+                  alignItems: "center",
+                  borderBottomRightRadius: 19,
+                  borderBottomLeftRadius: 19,
+                  zIndex: 1,
                 }}
               >
-                <View style={{ width: "75%", marginLeft: 7, paddingTop: 5 }}>
-                  <TextBold
-                    textStyle={{ fontSize: 13 }}
+                <View
+                  style={{
+                    marginBottom: 5,
+                    width: "77%",
+                  }}
+                >
+                  <TextMedium
+                    textStyle={{ fontSize: 9, letterSpacing: -0.8 }}
                     text="Instantly input APGAR parameters and generate"
                   />
-                  <TextBold
-                    textStyle={{ fontSize: 13 }}
+                  <TextMedium
+                    textStyle={{ fontSize: 9, letterSpacing: -0.7 }}
                     text="APGAR score of a new born baby"
                   />
                 </View>
                 <Button
-                  onPress={() => navigation.navigate("TakeAPGARScore")}
-                  textStyle={{
-                    padding: 5,
-                    color: Themes.white,
-                    paddingTop: 8,
-                    paddingBottom: 8,
+                  onPress={() => {
+                    navigation.navigate("TakeAPGARScore");
                   }}
                   containerStyle={{
-                    width: "20%",
-                    marginRight: 10,
                     borderRadius: 5,
+                    width: "23%",
+                  }}
+                  textStyle={{
+                    fontSize: 9,
+                    padding: 6,
+                    color: Themes.white,
+                    letterSpacing: -0.8,
                   }}
                   title="Take Score"
                 />
@@ -140,58 +175,62 @@ const Home = ({ navigation }) => {
           </View>
         </View>
         <View style={styles.two}>
-          <View>
+          <View style={{ marginTop: 17 }}>
             <TextBold
-              textStyle={{ marginTop: "7%" }}
-              text="Check APGAR Database"
+              textStyle={{ fontSize: 11, marginBottom: 3 }}
+              text="Check APGAR database"
             />
-            <View
-              style={{
-                borderRadius: 15,
-                marginTop: 10,
-                height: 180,
-              }}
-            >
+            <View style={{ borderRadius: 20, height: "93%" }}>
               <Image
-                source={require("../images/Home/database.png")}
+                source={require("../images/Home/APGARScore.png")}
                 style={{
-                  resizeMode: "cover",
-                  height: "100%",
                   width: "100%",
-                  borderRadius: 15,
+                  height: "100%",
+                  borderRadius: 20,
+                  position: "relative",
                 }}
               />
               <View
                 style={{
                   position: "absolute",
-                  flexDirection: "row",
-                  alignItems: "center",
                   bottom: 0,
-                  backgroundColor: Themes.fadeBackground,
+                  flexDirection: "row",
                   width: "100%",
-                  borderBottomLeftRadius: 15,
-                  borderBottomRightadius: 15,
+                  backgroundColor: Themes.fadeBackground,
                   justifyContent: "space-between",
+                  paddingRight: 5,
+                  alignItems: "center",
+                  borderBottomRightRadius: 19,
+                  borderBottomLeftRadius: 19,
+                  zIndex: 1,
+                  padding: 5,
                 }}
               >
-                <View style={{ width: "60%", marginLeft: 7, paddingTop: 5 }}>
-                  <TextBold
-                    textStyle={{ fontSize: 13 }}
-                    text="Easy access to APGAR past records "
+                <View
+                  style={{
+                    marginBottom: 5,
+                    width: "65%",
+                  }}
+                >
+                  <TextMedium
+                    textStyle={{ fontSize: 9, letterSpacing: -0.5 }}
+                    text="Easy access to APGAR database"
                   />
                 </View>
                 <Button
-                  onPress={() => navigation.navigate("DataBase")}
-                  textStyle={{
-                    padding: 5,
-                    color: Themes.white,
-                    paddingTop: 10,
-                    paddingBottom: 10,
+                  onPress={() => {
+                    console.warn("first");
+                    navigation.navigate("DataBase");
                   }}
                   containerStyle={{
-                    width: "30%",
-                    marginRight: 10,
                     borderRadius: 5,
+                    width: "30%",
+                  }}
+                  textStyle={{
+                    fontSize: 9,
+                    padding: 6,
+                    color: Themes.white,
+                    letterSpacing: -0.8,
                   }}
                   title="Check Database"
                 />
@@ -201,7 +240,7 @@ const Home = ({ navigation }) => {
         </View>
         <View style={styles.three}>
           <TextBold
-            textStyle={{ fontSize: 17, marginBottom: "3%" }}
+            textStyle={{ fontSize: 13, marginBottom: "3%" }}
             text="Past Records"
           />
           <FlatList
@@ -219,19 +258,19 @@ const Home = ({ navigation }) => {
                   <Image source={item.image} style={styles.babyImage} />
                   <View style={styles.idContainer}>
                     <TextBold
-                      textStyle={{ fontSize: 10, color: "#000" }}
+                      textStyle={{ fontSize: 6, color: "#000" }}
                       text="ID"
                     />
                     <TextBold
-                      textStyle={{ fontSize: 18, color: Themes.primary }}
+                      textStyle={{ fontSize: 12, color: Themes.primary }}
                       text={`${item.id === 10 ? item.id : `0${item.id}`}`}
                     />
                   </View>
                   <View style={styles.scoreContainer}>
                     <View>
-                      <Text textStyle={{ fontSize: 12 }} text="Score" />
+                      <Text textStyle={{ fontSize: 6 }} text="Score" />
                       <TextBold
-                        textStyle={{ color: Themes.primary }}
+                        textStyle={{ color: Themes.primary, fontSize: 10 }}
                         text={`${
                           item.score === 10 ? item.score : `0${item.score}`
                         }`}
@@ -272,7 +311,7 @@ const styles = StyleSheet.create({
   headerContainer: {
     height: Dimensions.get("window").height * 0.2,
     backgroundColor: Themes.primary,
-    justifyContent: "center",
+    alignItems: "center",
   },
   container: {
     alignSelf: "center",
@@ -285,24 +324,15 @@ const styles = StyleSheet.create({
   searchContainer: {
     alignItems: "center",
     justifyContent: "center",
+    borderWidth: 1,
+    borderColor: "red",
+    height: 40,
   },
   menuStyle: {
     width: 22,
     height: 22,
   },
-  innerContainer: {
-    width: "90%",
-    justifyContent: "center",
-    height: "35%",
-  },
-  inputStyle: {
-    backgroundColor: Themes.white,
-    borderRadius: 7,
-    padding: 8,
-    fontSize: 18,
-    paddingLeft: 15,
-    paddingRight: 32,
-  },
+  inputStyle: {},
   searchIcon: {
     position: "absolute",
     justifyContent: "center",
@@ -315,78 +345,33 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   one: {
-    height: "34%",
+    height: "31%",
     width: "95%",
-    overflow: "hidden",
     borderRadius: 10,
   },
   two: {
-    height: "34%",
+    height: "31%",
     width: "95%",
-    overflow: "hidden",
+    // overflow: "hidden",
     borderRadius: 10,
   },
   three: {
-    height: "20%",
+    height: "22%",
     width: "92%",
     overflow: "hidden",
+    marginTop: "4.5%",
   },
   four: {
     marginTop: "2%",
-    height: "12%",
+    height: "14%",
     width: "100%",
   },
-  imageOne: {
-    resizeMode: "cover",
-    height: "94%",
-    width: "100%",
-    borderRadius: 10,
-  },
-  textOne: {
-    fontSize: 17,
-    marginTop: 8,
-    marginLeft: 5,
-  },
-  bottomTextContainerOne: {
-    position: "absolute",
-    backgroundColor: Themes.fadeBackground,
-    width: "100%",
-    height: "26%",
-    zIndex: 1,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    bottom: 0,
-    paddingRight: 10,
-  },
-  bottomTextContainerTwo: {
-    position: "absolute",
-    backgroundColor: Themes.fadeBackground,
-    width: "100%",
-    height: "24%",
-    zIndex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    bottom: 0,
-    paddingRight: 10,
-  },
+
   text: {
     width: "80%",
   },
-
-  btnContainer: {
-    zIndex: 1,
-    alignSelf: "flex-start",
-    backgroundColor: Themes.primary,
-    marginTop: 8,
-    borderRadius: 5,
-  },
-  btnText: {
-    padding: 6,
-    color: Themes.white,
-  },
   babyImage: {
-    width: 107,
+    width: 100,
     height: "100%",
     resizeMode: "cover",
     borderRadius: 8,
@@ -396,7 +381,7 @@ const styles = StyleSheet.create({
     right: "5%",
     top: "5%",
     backgroundColor: Themes.fadeBackground,
-    padding: 2,
+    padding: 1,
     borderRadius: 5,
     alignItems: "center",
   },
@@ -406,9 +391,10 @@ const styles = StyleSheet.create({
     backgroundColor: Themes.fadeBackground,
     flexDirection: "row",
     width: "100%",
+    height: "30%",
     justifyContent: "space-between",
-    paddingLeft: 4,
-    paddingRight: 4,
+    paddingLeft: 2,
+    paddingRight: 2,
     alignItems: "flex-end",
   },
   top: {

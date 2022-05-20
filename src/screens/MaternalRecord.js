@@ -46,7 +46,7 @@ const MaternalRecord = ({ navigation, route }) => {
               </TouchableOpacity>
               <TextBold
                 text="Maternal Records"
-                textStyle={[styles.textStyle, globalStyles.Heading1]}
+                textStyle={[styles.textStyle]}
               />
             </View>
             <View style={styles.inputContainer}>
@@ -75,6 +75,8 @@ const MaternalRecord = ({ navigation, route }) => {
                   borderRadius: 5,
                   borderColor: "lightgrey",
                   marginTop: 2,
+                  height: 39,
+                  justifyContent: "center",
                 }}
               >
                 <Picker
@@ -165,6 +167,9 @@ const styles = StyleSheet.create({
   textStyle: {
     color: Themes.secondary,
     marginTop: "4%",
+    fontSize: 16,
+    color: Themes.primary,
+    textAlign: "center",
   },
   leftIcon: {
     position: "absolute",
@@ -174,6 +179,8 @@ const styles = StyleSheet.create({
   },
   textInputStyle: {
     borderRadius: 8,
+    fontSize: 12,
+    height: 39,
   },
   inputContainer: {
     width: "90%",
@@ -185,9 +192,9 @@ const styles = StyleSheet.create({
     borderRadius: 7,
   },
   btnText: {
-    padding: "5%",
+    padding: 14,
     color: "#fff",
-    fontSize: 20,
+    fontSize: 16,
   },
   errText: {
     color: Themes.secondary,

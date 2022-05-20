@@ -69,7 +69,10 @@ const Notification = ({ navigation }) => {
     return (
       <View
         keyExtractor={item.id}
-        style={{ width: "100%", alignItems: "center" }}
+        style={{
+          maxWidth: "100%",
+          alignItems: "center",
+        }}
       >
         <View>
           <View style={styles.messageContainer}>
@@ -93,7 +96,7 @@ const Notification = ({ navigation }) => {
               onPress={() => deleteItem(item.id)}
               activeOpacity={0.6}
             >
-              <AntDesign name="delete" size={20} color={Themes.secondary} />
+              <AntDesign name="delete" size={15} color={Themes.secondary} />
             </TouchableOpacity>
           </View>
         </View>
@@ -157,48 +160,45 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 20,
   },
-  separator: {
-    height: 2,
-    backgroundColor: "lightgray",
-    width: "100%",
-  },
-  separatorText: {
-    marginTop: "5%",
-  },
+
   notificationText: {
-    fontSize: 20,
+    fontSize: 13,
     color: Themes.primary,
     marginLeft: "1%",
   },
   messageContainer: {
     justifyContent: "space-between",
     flexDirection: "row",
-    marginTop: 30,
+    marginTop: 15,
     alignItems: "center",
-    width: "95%",
+    width: "84%",
   },
   messageText: {
-    fontSize: 13,
-    marginLeft: 8,
-    marginRight: 8,
-    marginBottom: 5,
-    maxWidth: "95%",
+    fontSize: 12,
+    margin: 8,
+    // maxWidth: "84%",
   },
   messageNumber: {
     backgroundColor: Themes.secondary,
     color: Themes.white,
-    padding: 10,
-    borderRadius: 7,
+    padding: 6,
+    borderRadius: 5,
     marginLeft: 8,
     marginRight: 8,
   },
   timeAgo: {
     marginLeft: 10,
   },
+  separator: {
+    borderTopWidth: 1,
+    width: "100%",
+    color: "#fcfcfc",
+    marginTop: 4,
+  },
   messageSeparator: {
-    width: "60%",
-    borderWidth: 1,
-    backgroundColor: "lightgray",
-    marginTop: 10,
+    borderTopWidth: 1,
+    width: "70%",
+    color: "#fcfcfc",
+    marginTop: 4,
   },
 });

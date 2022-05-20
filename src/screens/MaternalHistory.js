@@ -43,8 +43,14 @@ const MaternalHistory = ({ navigation, route }) => {
             </TouchableOpacity>
             <View style={styles.maternalContainer}>
               <View style={styles.headerTextContainer}>
-                <Text text="Maternal Hypertension" />
-                <Text text={data.maternalHtpertension} />
+                <Text
+                  textStyle={{ fontSize: 12 }}
+                  text="Maternal Hypertension"
+                />
+                <Text
+                  textStyle={{ fontSize: 10 }}
+                  text={data.maternalHtpertension}
+                />
               </View>
               <View
                 style={{
@@ -62,50 +68,11 @@ const MaternalHistory = ({ navigation, route }) => {
                   marginTop: 25,
                 }}
               >
-                <Text text="Gestation Period" />
-                <Text text={data.gestationPeriod} />
-              </View>
-              <View
-                style={{
-                  width: "100%",
-                  borderColor: "lightgray",
-                  borderWidth: 1,
-                  marginTop: 15,
-                }}
-              />
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  width: "100%",
-                  marginTop: 25,
-                  paddingLeft: 5,
-                  paddingRight: 5,
-                }}
-              >
-                <Text text="Delivery Mode" />
-                <Text text={data.deliveryMode} />
-              </View>
-              <View
-                style={{
-                  width: "100%",
-                  borderColor: "lightgray",
-                  borderWidth: 1,
-                  marginTop: 15,
-                }}
-              />
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  width: "100%",
-                  marginTop: 25,
-                  paddingLeft: 5,
-                  paddingRight: 5,
-                }}
-              >
-                <Text text="Birth Weight" />
-                <Text text={data.birthWeight} />
+                <Text textStyle={{ fontSize: 12 }} text="Gestation Period" />
+                <Text
+                  textStyle={{ fontSize: 10 }}
+                  text={data.gestationPeriod}
+                />
               </View>
               <View
                 style={{
@@ -125,8 +92,8 @@ const MaternalHistory = ({ navigation, route }) => {
                   paddingRight: 5,
                 }}
               >
-                <Text text="Fetal Position" />
-                <Text text={data.fetalPosition} />
+                <Text textStyle={{ fontSize: 12 }} text="Delivery Mode" />
+                <Text textStyle={{ fontSize: 10 }} text={data.deliveryMode} />
               </View>
               <View
                 style={{
@@ -146,8 +113,50 @@ const MaternalHistory = ({ navigation, route }) => {
                   paddingRight: 5,
                 }}
               >
-                <Text text="MSL" />
-                <Text text={data.MSL} />
+                <Text textStyle={{ fontSize: 12 }} text="Birth Weight" />
+                <Text textStyle={{ fontSize: 10 }} text={data.birthWeight} />
+              </View>
+              <View
+                style={{
+                  width: "100%",
+                  borderColor: "lightgray",
+                  borderWidth: 1,
+                  marginTop: 15,
+                }}
+              />
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  width: "100%",
+                  marginTop: 25,
+                  paddingLeft: 5,
+                  paddingRight: 5,
+                }}
+              >
+                <Text textStyle={{ fontSize: 12 }} text="Fetal Position" />
+                <Text textStyle={{ fontSize: 10 }} text={data.fetalPosition} />
+              </View>
+              <View
+                style={{
+                  width: "100%",
+                  borderColor: "lightgray",
+                  borderWidth: 1,
+                  marginTop: 15,
+                }}
+              />
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  width: "100%",
+                  marginTop: 25,
+                  paddingLeft: 5,
+                  paddingRight: 5,
+                }}
+              >
+                <Text textStyle={{ fontSize: 12 }} text="MSL" />
+                <Text textStyle={{ fontSize: 10 }} text={data.MSL} />
               </View>
               <View
                 style={{
@@ -202,7 +211,7 @@ const styles = StyleSheet.create({
   bodyContentContainer: {
     backgroundColor: "#fff",
     width: Dimensions.get("window").width * 0.9,
-    height: Dimensions.get("screen").height * 0.8,
+    height: Dimensions.get("screen").height * 0.9,
     borderRadius: 10,
     alignItems: "center",
   },
@@ -222,8 +231,7 @@ const styles = StyleSheet.create({
   },
   container: {
     width: "80%",
-    height: "62%",
-    marginTop: "20%",
+    marginTop: "10%",
     backgroundColor: "#fcfcfc",
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
@@ -232,6 +240,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: "5%",
     top: "5%",
+    zIndex: 1,
   },
   XStyles: {
     color: Themes.secondary,
@@ -242,7 +251,6 @@ const styles = StyleSheet.create({
     marginTop: "20%",
   },
   btnContainer: {
-    position: "absolute",
     bottom: 0,
     width: "100%",
     borderBottomLeftRadius: 10,

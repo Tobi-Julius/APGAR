@@ -69,12 +69,12 @@ const DataBase = ({ navigation, route }) => {
                 text={`${item.id >= 10 ? item.id : `0${item.id}`}`}
                 textStyle={styles.idNumber}
               />
-              <Text text="ID" />
+              <Text textStyle={{ fontSize: 10 }} text="ID" />
             </View>
 
             <View>
-              <Text text="Year" />
-              <Text text="Time" />
+              <Text textStyle={{ fontSize: 10 }} text="Year" />
+              <Text textStyle={{ fontSize: 10 }} text="Time" />
             </View>
           </View>
           <View style={styles.separator} />
@@ -87,7 +87,13 @@ const DataBase = ({ navigation, route }) => {
                 justifyContent: "space-between",
               }}
             >
-              <View style={{ flexDirection: "row", alignSelf: "flex-end" }}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignSelf: "flex-end",
+                  width: "41%",
+                }}
+              >
                 <View>
                   <Image
                     source={require("../images//Home/baby1.png")}
@@ -101,14 +107,22 @@ const DataBase = ({ navigation, route }) => {
                   />
                 </View>
                 <View>
-                  <Text text="Score" />
+                  <Text textStyle={{ fontSize: 10 }} text="Score" />
                   <Text
                     text={item.score}
-                    textStyle={{ color: Themes.primary, marginTop: 5 }}
+                    textStyle={{
+                      color: Themes.primary,
+                      marginTop: 5,
+                      fontSize: 10,
+                    }}
                   />
                   <Text
                     text={item.comment}
-                    textStyle={{ color: Themes.primary, marginTop: 5 }}
+                    textStyle={{
+                      color: Themes.primary,
+                      marginTop: 5,
+                      fontSize: 10,
+                    }}
                   />
                 </View>
               </View>
@@ -154,7 +168,10 @@ const DataBase = ({ navigation, route }) => {
                           style={styles.deleteBtnContainerModal}
                         >
                           <Text
-                            textStyle={styles.deleteBtnTextModal}
+                            textStyle={{
+                              color: Themes.secondary,
+                              fontSize: 11,
+                            }}
                             text="Delete"
                           />
                         </TouchableOpacity>
@@ -167,7 +184,7 @@ const DataBase = ({ navigation, route }) => {
                           containerStyle={styles.detailBtnContainerModal}
                         >
                           <Text
-                            textStyle={styles.detailBtnText}
+                            textStyle={{ color: Themes.primary, fontSize: 11 }}
                             text="Detail"
                           />
                         </TouchableOpacity>
@@ -238,8 +255,8 @@ const styles = StyleSheet.create({
   },
   bodyContentContainer: {
     backgroundColor: "#fff",
-    width: Dimensions.get("window").width * 0.9,
-    height: Dimensions.get("screen").height * 0.8,
+    width: Dimensions.get("window").width * 0.95,
+    height: Dimensions.get("screen").height * 0.93,
     borderRadius: 10,
     alignItems: "center",
   },
@@ -259,7 +276,7 @@ const styles = StyleSheet.create({
   },
   idNumber: {
     color: Themes.primary,
-    fontSize: 20,
+    fontSize: 14,
   },
   deleteBtnContainer: {
     borderWidth: 1,
@@ -268,10 +285,9 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   deleteBtnText: {
-    paddingLeft: 5,
-    paddingRight: 7,
-    padding: 2,
+    padding: 5,
     textAlign: "center",
+    fontSize: 10,
   },
   detailBtnContainer: {
     borderRadius: 7,
@@ -282,6 +298,7 @@ const styles = StyleSheet.create({
     color: Themes.primary,
     backgroundColor: "lightblue",
     textAlign: "center",
+    fontSize: 10,
   },
   separator: {
     backgroundColor: "lightgray",
@@ -305,6 +322,7 @@ const styles = StyleSheet.create({
   maternalText: {
     textDecorationLine: "underline",
     color: Themes.secondary,
+    fontSize: 10,
   },
   modal: {
     height: 47,
@@ -312,7 +330,8 @@ const styles = StyleSheet.create({
     backgroundColor: "lightblue",
     position: "absolute",
     right: "18%",
-    top: -8,
+    top: -7,
+    justifyContent: "space-around",
     alignItems: "center",
     borderRadius: 5,
     zIndex: 2,

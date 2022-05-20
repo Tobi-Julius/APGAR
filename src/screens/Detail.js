@@ -32,7 +32,7 @@ const Detail = ({ navigation, route }) => {
 
           <View style={styles.paramsContainer}>
             <TextBold text="ID : " textStyle={[styles.parameters1]} />
-            <TextBold text={data.id} textStyle={[styles.parameters1]} />
+            <TextBold text={`0${data.id}`} textStyle={[styles.parameters1]} />
           </View>
           <View style={styles.container}>
             <View style={styles.textHeadContainer}>
@@ -43,31 +43,39 @@ const Detail = ({ navigation, route }) => {
 
             <View style={styles.row}>
               <Text text="Activity" textStyle={styles.text} />
-              <Text text={data.activity} />
+              <Text
+                textAlign="center"
+                textStyle={{
+                  fontSize: 10,
+                  width: "70%",
+                  alignSelf: "center",
+                }}
+                text={data.activity}
+              />
               <Text text={data.activityScore} textStyle={styles.text} />
             </View>
 
             <View style={styles.row}>
               <Text textStyle={styles.text} text="Pulse" />
-              <Text text={data.pulse} />
+              <Text textStyle={{ fontSize: 10 }} text={data.pulse} />
               <Text textStyle={styles.text} text={data.pulseScore} />
             </View>
 
             <View style={styles.row}>
               <Text textStyle={styles.text} text="Grimace" />
-              <Text text={data.grimace} />
+              <Text textStyle={{ fontSize: 10 }} text={data.grimace} />
               <Text textStyle={styles.text} text={data.grimaceScore} />
             </View>
 
             <View style={styles.row}>
               <Text textStyle={styles.text} text="Appearance" />
-              <Text text={data.appearance} />
+              <Text textStyle={{ fontSize: 10 }} text={data.appearance} />
               <Text textStyle={styles.text} text={data.appearanceScore} />
             </View>
 
             <View style={styles.row}>
               <Text textStyle={styles.text} text="Respiration" />
-              <Text text={data.respiration} />
+              <Text textStyle={{ fontSize: 10 }} text={data.respiration} />
               <Text textStyle={styles.text} text={data.respirationScore} />
             </View>
 
@@ -75,25 +83,14 @@ const Detail = ({ navigation, route }) => {
               {data.maternalHtpertension ? (
                 <TouchableOpacity
                   activeOpacity={0.6}
+                  style={{ marginTop: "15%" }}
                   onPress={() =>
                     navigation.navigate("MaternalHistory", { id: data.id })
                   }
                 >
                   <Text textStyle={styles.linkText} text="Maternity History" />
                 </TouchableOpacity>
-              ) : (
-                <TouchableOpacity
-                  activeOpacity={0.6}
-                  onPress={() =>
-                    navigation.navigate("MaternalRecord", { id: data.id })
-                  }
-                >
-                  <Text
-                    textStyle={styles.linkTextAdd}
-                    text="Add Maternity History"
-                  />
-                </TouchableOpacity>
-              )}
+              ) : null}
               {data.score !== undefined ? (
                 <View style={styles.scoreContainer}>
                   <Text
@@ -105,21 +102,23 @@ const Detail = ({ navigation, route }) => {
                 </View>
               ) : (
                 <TouchableOpacity
-                  activeOpacity={0.6}
-                  onPress={() => navigation.navigate("TakeAPGARScore")}
+                  activeOpacity={0.8}
+                  onPress={() => {
+                    navigation.navigate("TakeAPGARScore");
+                  }}
                   style={styles.takeScore}
                 >
                   <Text textStyle={styles.linkTextAdd} text="Take Score" />
                 </TouchableOpacity>
               )}
             </View>
+            <Button
+              onPress={() => navigation.navigate("DataBase")}
+              textStyle={styles.btnText}
+              containerStyle={styles.btnContainer}
+              title="Close"
+            />
           </View>
-          <Button
-            onPress={() => navigation.navigate("DataBase")}
-            textStyle={styles.btnText}
-            containerStyle={styles.btnContainer}
-            title="Close"
-          />
         </View>
       </View>
     );
@@ -146,9 +145,10 @@ const styles = StyleSheet.create({
   bodyContentContainer: {
     backgroundColor: "#fff",
     width: Dimensions.get("window").width * 0.9,
-    height: Dimensions.get("screen").height * 0.8,
+    height: Dimensions.get("screen").height * 0.86,
     borderRadius: 10,
     alignItems: "center",
+    zIndex: 1,
   },
   paramsContainer: {
     flexDirection: "row",
@@ -178,8 +178,8 @@ const styles = StyleSheet.create({
   },
   container: {
     width: "88%",
-    height: "58%",
-    marginTop: "20%",
+    height: "75%",
+    marginTop: "10%",
     backgroundColor: "#fcfcfc",
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
@@ -190,47 +190,55 @@ const styles = StyleSheet.create({
     marginTop: "12%",
   },
   text: {
-    fontSize: 18,
+    fontSize: 12,
   },
   footerContainer: {
     flexDirection: "row",
-    marginTop: "15%",
+    // height: "30%",
     alignItems: "center",
-    paddingLeft: 19,
   },
   scoreContainer: {
-    position: "absolute",
-    right: 0,
-    bottom: "5%",
     backgroundColor: Themes.primary,
     borderTopLeftRadius: 10,
+    position: "absolute",
+    right: 0,
+    top: "30%",
+    width: "45%",
   },
   takeScore: {
     position: "absolute",
     right: "3%",
+    top: "6%",
+    marginTop: "15%",
     color: Themes.secondary,
     borderTopLeftRadius: 10,
   },
   linkText: {
     color: Themes.primary,
     textDecorationLine: "underline",
+    fontSize: 11,
   },
   linkTextAdd: {
     color: Themes.secondary,
     textDecorationLine: "underline",
+    fontSize: 10,
+    zIndex: 1,
   },
   scoreText: {
     color: "#fff",
-    padding: 8,
+    padding: 10,
     fontSize: 18,
     textAlignVertical: "center",
+    fontSize: 13,
   },
   btnContainer: {
-    marginTop: "13%",
+    marginTop: "22%",
     borderRadius: 5,
+    width: "50%",
+    alignSelf: "center",
   },
   btnText: {
-    padding: 20,
+    padding: 13,
     color: "#fff",
     fontSize: 18,
   },

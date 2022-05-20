@@ -45,19 +45,18 @@ const MaternalRecordSecond = ({ navigation, route }) => {
             >
               <AntDesign name="left" color="blue" size={28} />
             </TouchableOpacity>
-            <TextBold
-              text="Maternal Records"
-              textStyle={[styles.textStyle, globalStyles.Heading1]}
-            />
+            <TextBold text="Maternal Records" textStyle={[styles.textStyle]} />
           </View>
-          <View style={{ width: "90%", marginTop: "12%" }}>
-            <Text text="Maternal Hypertension" />
+          <View style={{ width: "90%", marginTop: "10%" }}>
+            <Text textStyle={{ fontSize: 12 }} text="Maternal Hypertension" />
             <View
               style={{
                 borderWidth: 1,
                 borderRadius: 5,
                 borderColor: "lightgrey",
-                marginTop: 2,
+                marginTop: 4,
+                height: 39,
+                justifyContent: "center",
               }}
             >
               <Picker
@@ -86,14 +85,16 @@ const MaternalRecordSecond = ({ navigation, route }) => {
               </Picker>
             </View>
           </View>
-          <View style={{ width: "90%", marginTop: "12%" }}>
-            <Text text="Fetal Position" />
+          <View style={{ width: "90%", marginTop: "10%" }}>
+            <Text textStyle={{ fontSize: 12 }} text="Fetal Position" />
             <View
               style={{
                 borderWidth: 1,
                 borderRadius: 5,
                 borderColor: "lightgrey",
-                marginTop: 2,
+                marginTop: 4,
+                height: 39,
+                justifyContent: "center",
               }}
             >
               <Picker
@@ -122,14 +123,19 @@ const MaternalRecordSecond = ({ navigation, route }) => {
               </Picker>
             </View>
           </View>
-          <View style={{ width: "90%", marginTop: "12%" }}>
-            <Text text="Meconium Stained Liquor (MSL)" />
+          <View style={{ width: "90%", marginTop: "10%" }}>
+            <Text
+              textStyle={{ fontSize: 12 }}
+              text="Meconium Stained Liquor (MSL)"
+            />
             <View
               style={{
                 borderWidth: 1,
                 borderRadius: 5,
                 borderColor: "lightgrey",
-                marginTop: 2,
+                marginTop: 4,
+                height: 39,
+                justifyContent: "center",
               }}
             >
               <Picker
@@ -216,6 +222,9 @@ const styles = StyleSheet.create({
   textStyle: {
     color: Themes.secondary,
     marginTop: "4%",
+    fontSize: 16,
+    color: Themes.primary,
+    textAlign: "center",
   },
   leftIcon: {
     position: "absolute",
