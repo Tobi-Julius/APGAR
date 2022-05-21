@@ -222,7 +222,7 @@ const styles = StyleSheet.create({
   bodyContentContainer: {
     backgroundColor: "#fff",
     width: Dimensions.get("window").width * 0.95,
-    height: Dimensions.get("screen").height * 0.7,
+    height: Dimensions.get("screen").height * 0.81,
     borderRadius: 10,
     alignItems: "center",
   },
