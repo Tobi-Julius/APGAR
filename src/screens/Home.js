@@ -111,7 +111,7 @@ const Home = ({ navigation }) => {
         <View style={styles.one}>
           <View style={{ marginTop: 12 }}>
             <TextBold
-              textStyle={{ fontSize: 11, marginBottom: 3 }}
+              textStyle={{ fontSize: 13, marginBottom: 3 }}
               text="Take APGAR Score"
             />
             <View style={{ borderRadius: 20, height: "93%" }}>
@@ -146,11 +146,11 @@ const Home = ({ navigation }) => {
                   }}
                 >
                   <TextMedium
-                    textStyle={{ fontSize: 9, letterSpacing: -0.8 }}
+                    textStyle={{ fontSize: 10, letterSpacing: -0.8 }}
                     text="Instantly input APGAR parameters and generate"
                   />
                   <TextMedium
-                    textStyle={{ fontSize: 9, letterSpacing: -0.7 }}
+                    textStyle={{ fontSize: 10, letterSpacing: -0.7 }}
                     text="APGAR score of a new born baby"
                   />
                 </View>
@@ -177,7 +177,7 @@ const Home = ({ navigation }) => {
         <View style={styles.two}>
           <View style={{ marginTop: 17 }}>
             <TextBold
-              textStyle={{ fontSize: 11, marginBottom: 3 }}
+              textStyle={{ fontSize: 13, marginBottom: 3 }}
               text="Check APGAR database"
             />
             <View style={{ borderRadius: 20, height: "93%" }}>
@@ -213,7 +213,7 @@ const Home = ({ navigation }) => {
                   }}
                 >
                   <TextMedium
-                    textStyle={{ fontSize: 9, letterSpacing: -0.5 }}
+                    textStyle={{ fontSize: 10, letterSpacing: -0.5 }}
                     text="Easy access to APGAR database"
                   />
                 </View>
@@ -240,7 +240,7 @@ const Home = ({ navigation }) => {
         </View>
         <View style={styles.three}>
           <TextBold
-            textStyle={{ fontSize: 13, marginBottom: "3%" }}
+            textStyle={{ fontSize: 13, marginBottom: "1%" }}
             text="Past Records"
           />
           <FlatList
@@ -268,7 +268,7 @@ const Home = ({ navigation }) => {
                   </View>
                   <View style={styles.scoreContainer}>
                     <View>
-                      <Text textStyle={{ fontSize: 6 }} text="Score" />
+                      <Text textStyle={{ fontSize: 7 }} text="Score" />
                       <TextBold
                         textStyle={{ color: Themes.primary, fontSize: 10 }}
                         text={`${
@@ -352,11 +352,10 @@ const styles = StyleSheet.create({
   two: {
     height: "31%",
     width: "95%",
-    // overflow: "hidden",
     borderRadius: 10,
   },
   three: {
-    height: "22%",
+    height: "21%",
     width: "92%",
     overflow: "hidden",
     marginTop: "4.5%",
@@ -382,7 +381,7 @@ const styles = StyleSheet.create({
     top: "5%",
     backgroundColor: Themes.fadeBackground,
     padding: 1,
-    borderRadius: 5,
+    borderRadius: 3,
     alignItems: "center",
   },
   scoreContainer: {
@@ -391,7 +390,7 @@ const styles = StyleSheet.create({
     backgroundColor: Themes.fadeBackground,
     flexDirection: "row",
     width: "100%",
-    height: "30%",
+    height: "22%",
     justifyContent: "space-between",
     paddingLeft: 2,
     paddingRight: 2,

@@ -65,7 +65,7 @@ const DataBase = ({ navigation, route }) => {
             }}
           >
             <View>
-              <Text
+              <TextBold
                 text={`${item.id >= 10 ? item.id : `0${item.id}`}`}
                 textStyle={styles.idNumber}
               />
@@ -158,48 +158,14 @@ const DataBase = ({ navigation, route }) => {
               ) : (
                 <View>
                   <View>
-                    {modal ? (
-                      <FadeAnim style={styles.modal}>
-                        <TouchableOpacity
-                          activeOpacity={0.6}
-                          onPress={() =>
-                            navigation.navigate("Delete", { id: item.id })
-                          }
-                          style={styles.deleteBtnContainerModal}
-                        >
-                          <Text
-                            textStyle={{
-                              color: Themes.secondary,
-                              fontSize: 11,
-                            }}
-                            text="Delete"
-                          />
-                        </TouchableOpacity>
-
-                        <TouchableOpacity
-                          activeOpacity={0.6}
-                          onPress={() =>
-                            navigation.navigate("Detail", { id: item.id })
-                          }
-                          containerStyle={styles.detailBtnContainerModal}
-                        >
-                          <Text
-                            textStyle={{ color: Themes.primary, fontSize: 11 }}
-                            text="Detail"
-                          />
-                        </TouchableOpacity>
-                      </FadeAnim>
-                    ) : null}
                     <TouchableOpacity
-                      activeOpacity={0.7}
-                      style={{ alignItems: "flex-end", marginBottom: 15 }}
-                      onPress={() => setModal(!modal)}
+                      activeOpacity={0.6}
+                      onPress={() =>
+                        navigation.navigate("Delete", { id: item.id })
+                      }
+                      style={styles.deleteBtnContainer}
                     >
-                      <SimpleLineIcons
-                        name="options-vertical"
-                        size={20}
-                        color="black"
-                      />
+                      <Text textStyle={styles.deleteBtnText} text="Delete" />
                     </TouchableOpacity>
                   </View>
                   <TouchableOpacity
@@ -256,7 +222,7 @@ const styles = StyleSheet.create({
   bodyContentContainer: {
     backgroundColor: "#fff",
     width: Dimensions.get("window").width * 0.95,
-    height: Dimensions.get("screen").height * 0.93,
+    height: Dimensions.get("screen").height * 0.7,
     borderRadius: 10,
     alignItems: "center",
   },
@@ -288,6 +254,7 @@ const styles = StyleSheet.create({
     padding: 5,
     textAlign: "center",
     fontSize: 10,
+    color: Themes.secondary,
   },
   detailBtnContainer: {
     borderRadius: 7,

@@ -80,7 +80,7 @@ const Notification = ({ navigation }) => {
             {item.score === undefined ? (
               <Text
                 textStyle={styles.messageText}
-                text={`APGAR score of ID no ${item.id} has not been recorded`}
+                text={`An APGAR score of ID no ${item.id} has not been recorded`}
               />
             ) : (
               <View>
@@ -159,10 +159,10 @@ const styles = StyleSheet.create({
     padding: "5%",
     color: "#fff",
     fontSize: 20,
+    maxWidth: "2%",
   },
-
   notificationText: {
-    fontSize: 13,
+    fontSize: 14,
     color: Themes.primary,
     marginLeft: "1%",
   },
@@ -171,12 +171,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginTop: 15,
     alignItems: "center",
-    width: "84%",
+    width: "95%",
   },
   messageText: {
-    fontSize: 12,
+    fontSize: 13,
     margin: 8,
-    // maxWidth: "84%",
+    minWidth: "80%",
+    maxWidth: "80%",
   },
   messageNumber: {
     backgroundColor: Themes.secondary,
@@ -192,13 +193,16 @@ const styles = StyleSheet.create({
   separator: {
     borderTopWidth: 1,
     width: "100%",
-    color: "#fcfcfc",
+    borderColor: "lightgray",
     marginTop: 4,
+  },
+  separatorText: {
+    marginTop: 30,
   },
   messageSeparator: {
     borderTopWidth: 1,
-    width: "70%",
-    color: "#fcfcfc",
+    width: "75%",
+    borderColor: "lightgray",
     marginTop: 4,
   },
 });
