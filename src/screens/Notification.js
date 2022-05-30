@@ -14,9 +14,9 @@ import { Text, TextBold } from "../components/common";
 import { globalStyles } from "../styles";
 
 const Notification = ({ navigation }) => {
-  const { users } = useContext(GlobalContext);
+  const { patients } = useContext(GlobalContext);
 
-  const [first, setfirst] = useState(users);
+  const [first, setfirst] = useState(patients);
 
   const deleteItem = (id) => {
     setfirst(

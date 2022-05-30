@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import React, { useState, useContext } from "react";
 import { Picker } from "@react-native-picker/picker";
-import { GlobalContext } from "../context/GlobalState";
+// import { GlobalContext } from "../context/GlobalState";
 
 import { Button, TextInput } from "../components/common";
 import { Themes } from "../constants";
@@ -17,8 +17,6 @@ import { Text, TextBold } from "../components/common";
 import KeyBoardAvoidingWrapper from "../components/Keyboard/KeyBoardAvoidingWrapper";
 
 const Register = ({ navigation }) => {
-  const { addUser } = useContext(GlobalContext);
-
   const [state, setState] = useState("");
   const [city, setCity] = useState("");
   const [address, setAddress] = useState("");
@@ -31,15 +29,15 @@ const Register = ({ navigation }) => {
     } else {
       const newUser = {
         id: 10,
-        hospitalName: hospitalName,
-        state: state,
-        city: city,
-        address: address,
+        hospitalName,
+        state,
+        city,
+        address,
         image: require("../images/Home/baby4.png"),
       };
 
       navigation.navigate("RegisterSucess", { id: newUser.id });
-      addUser(newUser);
+      // addUser(newUser);
       setAddress("");
       setCity("");
       setHospitalName("");
@@ -79,7 +77,9 @@ const Register = ({ navigation }) => {
           >
             <Picker
               selectedValue={state}
-              itemStyle={{ fontFamily: "Montserrat" }}
+              dropdownIconColor={Themes.primary}
+              dropdownIconRippleColor={Themes.primary}
+              fontFamily="Montserrat"
               onValueChange={(item, index) => setState(item)}
               style={{
                 borderColor: "red",

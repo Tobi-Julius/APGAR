@@ -18,6 +18,7 @@ export const TextInput = ({
   textInputStyle,
   inputType,
   containerStyle,
+  edit,
   ...others
 }) => {
   const [isLoaded] = useFonts(customFonts);
@@ -28,6 +29,7 @@ export const TextInput = ({
     <View style={[containerStyle]}>
       <Text style={[labelStyle, styles.styleLable]}>{label}</Text>
       <Input
+        editable={edit}
         placeholder={placeholder}
         value={value}
         autoCorrect={false}

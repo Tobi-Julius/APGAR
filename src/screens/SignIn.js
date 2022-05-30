@@ -12,18 +12,13 @@ import { GlobalContext } from "../context/GlobalState";
 import { Themes } from "../constants";
 import { globalStyles } from "../styles";
 import { Button, Text, TextInput, TextBold } from "../components/common";
-import {  } from "../components/common";
+import {} from "../components/common";
 
 const SignIn = ({ navigation }) => {
   const [id, setId] = useState("");
 
   const [inputFields, setInputFields] = useState("");
 
-  const { users, addUser } = useContext(GlobalContext);
-
-  const data = users.find((item) => {
-    return item.id === id;
-  });
 
   const Header = () => {
     return <View style={styles.headerContainer} />;
@@ -69,14 +64,14 @@ const SignIn = ({ navigation }) => {
           <Button
             containerStyle={styles.containerStyle}
             onPress={() => {
-              if (id === "") {
+              if (id === "" || id < 1) {
                 setInputFields(!inputFields);
               } else {
                 const newUser = {
                   id: id >= 10 ? id : `0${id}`,
                   image: require("../images/Home/baby3.png"),
                 };
-                addUser(newUser);
+                // addUser(newUser);
                 navigation.replace("SideMenu", { id: newUser.id });
               }
             }}

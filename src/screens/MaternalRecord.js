@@ -1,10 +1,4 @@
-import {
-  StyleSheet,
-  View,
-  Dimensions,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-} from "react-native";
+import { StyleSheet, View, Dimensions, TouchableOpacity } from "react-native";
 import React, { useState, useContext } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
@@ -16,17 +10,16 @@ import { Button, TextInput, Text, TextBold } from "../components/common";
 import KeyBoardAvoidingWrapper from "../components/Keyboard/KeyBoardAvoidingWrapper";
 
 const MaternalRecord = ({ navigation, route }) => {
-  const { users } = useContext(GlobalContext);
+  const { patients } = useContext(GlobalContext);
 
   const { id } = route.params;
 
-  const data = users.find((item) => {
+  const data = patients.find((item) => {
     return item.id === id;
   });
 
   const [deliveryMode, setdeliveryMode] = useState("");
   const [birthWeight, setBirthWeight] = useState("");
-  const [motherId, setMotherId] = useState("");
   const [gestationPeriod, setGestationPeriod] = useState("");
   const [input, setInput] = useState(false);
 
@@ -51,10 +44,9 @@ const MaternalRecord = ({ navigation, route }) => {
             </View>
             <View style={styles.inputContainer}>
               <TextInput
-                inputType="Numeric"
+                edit={false}
+                value={`${data.id >= 10 ? data.id : `0${data.id}`}`}
                 textInputStyle={styles.textInputStyle}
-                onChangeText={(item) => setMotherId(item)}
-                placeholder="Type Mother's ID"
                 label="Mother's ID"
               />
             </View>
@@ -67,7 +59,7 @@ const MaternalRecord = ({ navigation, route }) => {
                 label="Gestation Period"
               />
             </View>
-            <View style={{ width: "90%", marginTop: "10%" }}>
+            <View style={{ width: "90%", marginTop: "8%" }}>
               <Text text="Delivery Mode" />
               <View
                 style={{
@@ -75,14 +67,16 @@ const MaternalRecord = ({ navigation, route }) => {
                   borderRadius: 5,
                   borderColor: "lightgrey",
                   marginTop: 2,
-                  height: 39,
+                  height: 45,
                   justifyContent: "center",
                 }}
               >
                 <Picker
                   selectedValue={deliveryMode}
                   mode={"dropdown"}
-                  itemStyle={{ fontFamily: "Montserrat" }}
+                  dropdownIconColor={Themes.primary}
+                  dropdownIconRippleColor={Themes.primary}
+                  fontFamily="Montserrat"
                   onValueChange={(item, index) => {
                     setdeliveryMode(item);
                   }}
@@ -121,18 +115,16 @@ const MaternalRecord = ({ navigation, route }) => {
               onPress={() => {
                 if (
                   birthWeight === "" ||
-                  motherId === "" ||
                   deliveryMode === "" ||
                   gestationPeriod === ""
                 ) {
                   setInput(!input);
                 } else {
-                  data.motherID = motherId;
                   data.deliveryMode = deliveryMode;
                   data.gestationPeriod = gestationPeriod;
+                  data.birthWeight = birthWeight;
                   navigation.navigate("MaternalRecordSecond", { id: data.id });
                 }
-                data.birthWeight = birthWeight;
               }}
               textStyle={styles.btnText}
               containerStyle={styles.btnContainer}
@@ -180,11 +172,11 @@ const styles = StyleSheet.create({
   textInputStyle: {
     borderRadius: 8,
     fontSize: 12,
-    height: 39,
+    height: 44,
   },
   inputContainer: {
     width: "90%",
-    marginTop: "10%",
+    marginTop: "8%",
   },
   btnContainer: {
     marginTop: "10%",

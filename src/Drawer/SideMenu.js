@@ -20,18 +20,14 @@ const Drawer = createDrawerNavigator()
 
 const SideMenu = ({route}) => {
 
-  const {users} = useContext(GlobalContext)
-
   const {id} = route.params
 
-   const data = users.find((item) => {
-   return item.id === id
- })
+
 
      return (
     <Drawer.Navigator
     initialRouteName='Home'
-    drawerContent={props => <CustomDrawer {...props} id = {id} data = {data}/>}
+    drawerContent={props => <CustomDrawer {...props} id = {id} />}
     screenOptions={{headerShown: false, drawerLabelStyle: {marginLeft: -20, fontFamily: 'Montserrat', padding: 5}}}
     >
         <Drawer.Screen name='Home' component={Home}  options={{

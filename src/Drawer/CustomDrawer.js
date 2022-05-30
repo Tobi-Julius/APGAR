@@ -16,8 +16,10 @@ import Hospital from "../images/hospital.png";
 import CloseIcon from "../images/Icon/menuClose.png";
 import { Themes } from "../constants";
 import { Text, TextBold } from "../components/common";
+import { GlobalContext } from "../context/GlobalState";
 
 const CustomDrawer = (props) => {
+  const { patients } = React.useContext(GlobalContext);
   const Header = () => {
     return (
       <View style={{ height: Dimensions.get("window").height * 0.35 }}>
@@ -49,30 +51,6 @@ const CustomDrawer = (props) => {
         <TouchableOpacity
           activeOpacity={0.6}
           onPress={() => {
-            (props.data.hospitalName = ""),
-              (props.data.id = ""),
-              (props.data.state = ""),
-              (props.data.address = ""),
-              (props.data.city = ""),
-              (props.data.activity = ""),
-              (props.data.pulse = ""),
-              (props.data.grimace = ""),
-              (props.data.appearance = ""),
-              (props.data.respiration = ""),
-              (props.data.score = ""),
-              (props.data.motherID = ""),
-              (props.data.deliveryMode = ""),
-              (props.data.gestationPeriod = ""),
-              (props.data.birthWeight = ""),
-              (props.data.maternalHtpertension = ""),
-              (props.data.fetalPosition = ""),
-              (props.data.MSL = ""),
-              (props.data.activityScore = ""),
-              (props.data.pulseScore = ""),
-              (props.data.grimaceScore = ""),
-              (props.data.appearanceScore = ""),
-              (props.data.respirationScore = "");
-
             props.navigation.replace("SignIn");
           }}
           style={{

@@ -1,17 +1,17 @@
 export default (state, action) => {
-    switch(action.type) {
-        case 'DELETE_TODO':
-        return {
-            users: state.users.filter(user => {
-              return  user.id !== action.payload
-            })
-        }
+  switch (action.type) {
+    case "DELETE_PATIENT":
+      return {
+        patients: state.patients.filter((patient) => {
+          return patient.id !== action.payload;
+        }),
+      };
 
-        case "ADD_USER" :
-        return {
-            users: [action.payload, ...state.users]
-        }
-        default :
-        return state
-    }
-}
+    case "ADD_PATIENT":
+      return {
+        patients: [...state.patients, action.payload],
+      };
+    default:
+      return state;
+  }
+};

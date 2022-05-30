@@ -11,11 +11,11 @@ const Detail = ({ navigation, route }) => {
   const Header = () => {
     return <View style={styles.headerContainer} />;
   };
-  const { users } = useContext(GlobalContext);
+  const { patients } = useContext(GlobalContext);
 
   const { id } = route.params;
 
-  const data = users.find((item) => {
+  const data = patients.find((item) => {
     return item.id === id;
   });
 

@@ -8,10 +8,10 @@ import { globalStyles } from "../styles";
 import { Text, Button, TextBold } from "../components/common";
 
 const MaternalHistory = ({ navigation, route }) => {
-  const { users } = useContext(GlobalContext);
+  const { patients } = useContext(GlobalContext);
   const { id } = route.params;
 
-  const data = users.find((item) => {
+  const data = patients.find((item) => {
     return item.id === id;
   });
 

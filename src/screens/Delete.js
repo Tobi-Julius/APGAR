@@ -7,13 +7,9 @@ import { Themes } from "../constants";
 import { Text, TextBold } from "../components/common";
 
 const Delete = ({ navigation, route }) => {
-  const { users, deleteTodo } = useContext(GlobalContext);
+  const { deletePatient } = useContext(GlobalContext);
 
   const { id } = route.params;
-
-  const data = users.find((item) => {
-    return item.id === id;
-  });
 
   const Header = () => {
     return <View style={styles.headerContainer} />;
@@ -42,31 +38,8 @@ const Delete = ({ navigation, route }) => {
 
             <TouchableOpacity
               onPress={() => {
-                deleteTodo(data.id);
-                navigation.navigate("Register");
-                (data.hospitalName = ""),
-                  (data.id = ""),
-                  (data.state = ""),
-                  (data.address = ""),
-                  (data.city = ""),
-                  (data.activity = ""),
-                  (data.pulse = ""),
-                  (data.grimace = ""),
-                  (data.appearance = ""),
-                  (data.respiration = ""),
-                  (data.score = ""),
-                  (data.motherID = ""),
-                  (data.deliveryMode = ""),
-                  (data.gestationPeriod = ""),
-                  (data.birthWeight = ""),
-                  (data.maternalHtpertension = ""),
-                  (data.fetalPosition = ""),
-                  (data.MSL = ""),
-                  (data.activityScore = ""),
-                  (data.pulseScore = ""),
-                  (data.grimaceScore = ""),
-                  (data.appearanceScore = ""),
-                  (data.respirationScore = "");
+                deletePatient(id);
+                navigation.navigate("DataBase");
               }}
               activeOpacity={0.6}
               style={styles.yesBtn}

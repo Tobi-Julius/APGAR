@@ -57,7 +57,9 @@ const RetrieveId = ({ navigation }) => {
                 >
                   <Picker
                     selectedValue={state}
-                    itemStyle={{ fontFamily: "Montserrat" }}
+                    dropdownIconColor={Themes.primary}
+                    dropdownIconRippleColor={Themes.primary}
+                    fontFamily="Montserrat"
                     onValueChange={(item, index) => setState(item)}
                     style={{
                       borderWidth: 1,

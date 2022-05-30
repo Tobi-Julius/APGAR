@@ -13,17 +13,16 @@ import { Picker } from "@react-native-picker/picker";
 import { GlobalContext } from "../context/GlobalState";
 
 import { Themes } from "../constants";
-import { Text, Button, TextBold } from "../components/common";
+import { Text, Button, TextBold, TextInput } from "../components/common";
 import { globalStyles } from "../styles";
 
-const TakeAPGARScore = ({ navigation, route }) => {
-  const { id } = route.params;
+import baby1 from "../images/Home/baby1.png";
+import baby2 from "../images/Home/baby2.png";
+import baby3 from "../images/Home/baby3.png";
+import baby4 from "../images/Home/baby4.png";
 
-  const { users } = useContext(GlobalContext);
-
-  const data = users.find((item) => {
-    return item.id === id;
-  });
+const TakeAPGARScore = ({ navigation }) => {
+  const { addPatient, patients } = useContext(GlobalContext);
 
   const [activity, setActivity] = useState("");
   const [activityScore, setActivityScore] = useState("");
@@ -35,10 +34,13 @@ const TakeAPGARScore = ({ navigation, route }) => {
   const [appearanceScore, setAppearanceScore] = useState("");
   const [respiration, setRespiration] = useState("");
   const [respirationScore, setRespirationScore] = useState("");
-  const [value, setValue] = useState([]);
+  const [value, setValue] = useState([0]);
   const [score, setScore] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [motherId, setMotherId] = useState("");
 
+  const images = [baby1, baby2, baby3, baby4];
+  const randomImage = Math.floor(Math.random() * images.length);
   const Header = () => {
     return <View style={styles.headerContainer} />;
   };
@@ -68,21 +70,34 @@ const TakeAPGARScore = ({ navigation, route }) => {
     return (
       <View style={{ width: "90%", marginTop: "2%" }}>
         <View style={styles.calContainer}>
+          <View>
+            <TextInput
+              inputType="Numeric"
+              textInputStyle={styles.textInputStyle}
+              onChangeText={(item) => {
+                setMotherId(item);
+              }}
+              placeholder="Type Mother's ID"
+              label="Mother's ID"
+            />
+          </View>
           <Text textStyle={{ fontSize: 13 }} text="Activity" />
           <View
             style={{
               borderWidth: 1,
               borderRadius: 5,
               borderColor: "lightgrey",
-              marginTop: 4,
-              height: 39,
+              marginTop: 2,
+              height: 42,
               justifyContent: "center",
             }}
           >
             <Picker
               selectedValue={activity}
               mode={"dropdown"}
-              itemStyle={{ fontFamily: "Montserrat" }}
+              dropdownIconColor={Themes.primary}
+              dropdownIconRippleColor={Themes.primary}
+              fontFamily="Montserrat"
               onValueChange={(item, index) => {
                 setValue((prevState) => [...prevState, index - 1]);
                 setActivity(item);
@@ -123,14 +138,16 @@ const TakeAPGARScore = ({ navigation, route }) => {
               borderWidth: 1,
               borderRadius: 5,
               borderColor: "lightgrey",
-              marginTop: 4,
-              height: 39,
+              marginTop: 2,
+              height: 42,
               justifyContent: "center",
             }}
           >
             <Picker
               selectedValue={pulse}
-              itemStyle={{ fontFamily: "Montserrat" }}
+              dropdownIconColor={Themes.primary}
+              dropdownIconRippleColor={Themes.primary}
+              fontFamily="Montserrat"
               mode={"dropdown"}
               onValueChange={(item, index) => {
                 setValue((prevState) => [...prevState, index - 1]);
@@ -165,15 +182,17 @@ const TakeAPGARScore = ({ navigation, route }) => {
               borderWidth: 1,
               borderRadius: 5,
               borderColor: "lightgrey",
-              marginTop: 4,
-              height: 39,
+              marginTop: 2,
+              height: 42,
               justifyContent: "center",
             }}
           >
             <Picker
               selectedValue={grimace}
               mode={"dropdown"}
-              itemStyle={{ fontFamily: "Montserrat" }}
+              dropdownIconColor={Themes.primary}
+              dropdownIconRippleColor={Themes.primary}
+              fontFamily="Montserrat"
               onValueChange={(item, index) => {
                 setValue((prevState) => [...prevState, index - 1]);
                 setGrimace(item);
@@ -217,14 +236,16 @@ const TakeAPGARScore = ({ navigation, route }) => {
               borderWidth: 1,
               borderRadius: 5,
               borderColor: "lightgrey",
-              marginTop: 4,
-              height: 39,
+              marginTop: 2,
+              height: 42,
               justifyContent: "center",
             }}
           >
             <Picker
               selectedValue={appearance}
-              itemStyle={{ fontFamily: "Montserrat" }}
+              dropdownIconColor={Themes.primary}
+              dropdownIconRippleColor={Themes.primary}
+              fontFamily="Montserrat"
               mode={"dropdown"}
               onValueChange={(item, index) => {
                 setValue((prevState) => [...prevState, index - 1]);
@@ -263,16 +284,18 @@ const TakeAPGARScore = ({ navigation, route }) => {
               borderWidth: 1,
               borderRadius: 5,
               borderColor: "lightgrey",
-              marginTop: 4,
+              marginTop: 2,
               height: 37,
               justifyContent: "center",
-              height: 39,
+              height: 42,
               justifyContent: "center",
             }}
           >
             <Picker
               selectedValue={respiration}
-              itemStyle={{ fontFamily: "Montserrat" }}
+              dropdownIconColor={Themes.primary}
+              dropdownIconRippleColor={Themes.primary}
+              fontFamily="Montserrat"
               mode={"dropdown"}
               onValueChange={(item, index) => {
                 setValue((prevState) => [...prevState, index - 1]);
@@ -306,11 +329,13 @@ const TakeAPGARScore = ({ navigation, route }) => {
           title="Take Score"
           onPress={() => {
             if (
-              (activity === "" &&
-                respiration === "" &&
-                pulse === "" &&
-                grimace === "",
-              appearance === "")
+              motherId === "" ||
+              patients.find((each) => each.id === motherId) ||
+              activity === "" ||
+              respiration === "" ||
+              pulse === "" ||
+              grimace === "" ||
+              appearance === ""
             ) {
               setShowModal(true);
             } else {
@@ -319,26 +344,31 @@ const TakeAPGARScore = ({ navigation, route }) => {
               );
               let score = Result;
               setScore(score);
-              navigation.navigate("Result", { id: data.id });
-              data.activity = activity;
-              data.pulse = pulse;
-              data.grimace = grimace;
-              data.appearance = appearance;
-              data.respiration = respiration;
-              data.activityScore = activityScore;
-              data.pulseScore = pulseScore;
-              data.grimaceScore = grimaceScore;
-              data.appearanceScore = appearanceScore;
-              data.respirationScore = respirationScore;
-              data.notificationMessage = `An APGAR score of ID no ${data.id} has been recorded`;
-              data.score = score;
-              data.comment =
-                data.score <= 3
-                  ? "Severly Depressed"
-                  : score >= 4 && score <= 6
-                  ? "Moderately Depresssed"
-                  : "Excellent Condition";
-
+              const newPatient = {
+                id: motherId,
+                motherId: motherId,
+                activity: activity,
+                image: images[randomImage],
+                pulse: pulse,
+                grimace: grimace,
+                appearance: appearance,
+                respiration: respiration,
+                activityScore: activityScore,
+                pulseScore: pulseScore,
+                grimaceScore: grimaceScore,
+                appearanceScore: appearanceScore,
+                respirationScore: respirationScore,
+                notificationMessage: `An APGAR score of ID no ${motherId} has been recorded`,
+                score: score,
+                comment:
+                  score <= 3
+                    ? "Severly Depressed"
+                    : score >= 4 && score <= 6
+                    ? "Moderately Depresssed"
+                    : "Excellent Condition",
+              };
+              addPatient(newPatient);
+              navigation.navigate("Result", { id: motherId });
               setValue([]);
               setActivity("");
               setAppearance("");
@@ -371,7 +401,7 @@ const TakeAPGARScore = ({ navigation, route }) => {
               </View>
               <Text
                 textStyle={styles.warningText}
-                text="Please, Fill all the Fields to Calculate Your Score"
+                text="Please, Fill all the Fields to Calculate Your Score/Mother ID already exist"
               />
               <Pressable
                 onPress={() => setShowModal(false)}
@@ -490,6 +520,10 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: "center",
     color: "#fff",
+  },
+  textInputStyle: {
+    height: 40,
+    borderRadius: 5,
   },
 });
 export default TakeAPGARScore;

@@ -1,11 +1,4 @@
-import {
-  StyleSheet,
-  View,
-  Dimensions,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-  Platform,
-} from "react-native";
+import { StyleSheet, View, Dimensions, TouchableOpacity } from "react-native";
 import React, { useState, useContext } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
@@ -18,14 +11,14 @@ import { globalStyles } from "../styles";
 const MaternalRecordSecond = ({ navigation, route }) => {
   const { id } = route.params;
 
-  const { users } = useContext(GlobalContext);
+  const { patients } = useContext(GlobalContext);
 
   const [maternalHypertension, setMaternalHypertension] = useState("");
   const [fetalPosition, setFetalPosition] = useState("");
   const [MSL, setMSL] = useState("");
   const [input, setInput] = useState(false);
 
-  const data = users.find((item) => {
+  const data = patients.find((item) => {
     return item.id === id;
   });
 
@@ -47,7 +40,7 @@ const MaternalRecordSecond = ({ navigation, route }) => {
             </TouchableOpacity>
             <TextBold text="Maternal Records" textStyle={[styles.textStyle]} />
           </View>
-          <View style={{ width: "90%", marginTop: "10%" }}>
+          <View style={{ width: "90%", marginTop: "7%" }}>
             <Text textStyle={{ fontSize: 12 }} text="Maternal Hypertension" />
             <View
               style={{
@@ -55,14 +48,16 @@ const MaternalRecordSecond = ({ navigation, route }) => {
                 borderRadius: 5,
                 borderColor: "lightgrey",
                 marginTop: 4,
-                height: 39,
+                height: 45,
                 justifyContent: "center",
               }}
             >
               <Picker
                 selectedValue={maternalHypertension}
                 mode={"dropdown"}
-                itemStyle={{ fontFamily: "Montserrat" }}
+                dropdownIconColor={Themes.primary}
+                dropdownIconRippleColor={Themes.primary}
+                fontFamily="Montserrat"
                 onValueChange={(item, index) => {
                   setMaternalHypertension(item);
                 }}
@@ -100,7 +95,9 @@ const MaternalRecordSecond = ({ navigation, route }) => {
               <Picker
                 selectedValue={fetalPosition}
                 mode={"dropdown"}
-                itemStyle={{ fontFamily: "Montserrat" }}
+                dropdownIconColor={Themes.primary}
+                dropdownIconRippleColor={Themes.primary}
+                fontFamily="Montserrat"
                 onValueChange={(item, index) => {
                   setFetalPosition(item);
                 }}
@@ -141,7 +138,9 @@ const MaternalRecordSecond = ({ navigation, route }) => {
               <Picker
                 selectedValue={MSL}
                 mode={"dropdown"}
-                itemStyle={{ fontFamily: "Montserrat" }}
+                dropdownIconColor={Themes.primary}
+                dropdownIconRippleColor={Themes.primary}
+                fontFamily="Montserrat"
                 onValueChange={(item, index) => {
                   setMSL(item);
                 }}

@@ -8,13 +8,13 @@ import { Button, Text, TextBold } from "../components/common";
 import { globalStyles } from "../styles";
 
 const RegisterSucess = ({ navigation, route }) => {
-  const { users } = useContext(GlobalContext);
+  // const { users } = useContext(GlobalContext);
 
   const { id } = route.params;
 
-  const data = users.find((item) => {
-    return item.id === id;
-  });
+  // const data = users.find((item) => {
+  //   return item.id === id;
+  // });
   const Header = () => {
     return <View style={styles.headerContainer} />;
   };
@@ -94,7 +94,7 @@ const RegisterSucess = ({ navigation, route }) => {
         </View>
         <Button
           containerStyle={styles.containerStyle}
-          onPress={() => navigation.replace("SideMenu", { id: data.id })}
+          onPress={() => navigation.replace("SideMenu", { id })}
           textStyle={styles.textStyle}
           title="Continue"
         />

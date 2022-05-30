@@ -7,24 +7,16 @@ import {
   FlatList,
 } from "react-native";
 
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { AntDesign } from "@expo/vector-icons";
-import { SimpleLineIcons } from "@expo/vector-icons";
 
 import { GlobalContext } from "../context/GlobalState";
 import { Themes } from "../constants";
-import { Text, TextBold } from "../components/common";
+import { Text, TextBold, TextMedium } from "../components/common";
 import { globalStyles } from "../styles";
-import FadeAnim from "../components/Animated/FadeAnim";
 
-const DataBase = ({ navigation, route }) => {
-  const [modal, setModal] = useState(false);
-  const { users } = useContext(GlobalContext);
-  const { id } = route.params;
-
-  const data = users.find((item) => {
-    return item.id === id;
-  });
+const DataBase = ({ navigation }) => {
+  const { patients } = useContext(GlobalContext);
 
   const Header = () => {
     return <View style={styles.headerContainer} />;
@@ -43,11 +35,16 @@ const DataBase = ({ navigation, route }) => {
           <View style={styles.paramsContainer}>
             <TextBold text="Database" textStyle={[styles.parameters1]} />
           </View>
-          <FlatList
-            data={users}
-            renderItem={Data}
-            showsVerticalScrollIndicator={false}
-          />
+          {patients.length < 1 ? (
+            <TextMedium text="Database is empty" textStyle={styles.emptyData} />
+          ) : (
+            <FlatList
+              data={patients}
+              renderItem={Data}
+              showsVerticalScrollIndicator={false}
+              keyExtractor={(item) => item.id}
+            />
+          )}
         </View>
       </View>
     );
@@ -55,7 +52,7 @@ const DataBase = ({ navigation, route }) => {
 
   const Data = ({ item, index }) => {
     return (
-      <View key={item.id} style={styles.cardContainer}>
+      <View style={styles.cardContainer}>
         <View>
           <View
             style={{
@@ -96,7 +93,7 @@ const DataBase = ({ navigation, route }) => {
               >
                 <View>
                   <Image
-                    source={require("../images//Home/baby1.png")}
+                    source={item.image}
                     style={{
                       width: 60,
                       height: 60,
@@ -263,7 +260,7 @@ const styles = StyleSheet.create({
     padding: 5,
     fontWeight: "900",
     color: Themes.primary,
-    backgroundColor: "lightblue",
+    backgroundColor: "#f5f6ff",
     textAlign: "center",
     fontSize: 10,
   },
@@ -290,6 +287,7 @@ const styles = StyleSheet.create({
     textDecorationLine: "underline",
     color: Themes.secondary,
     fontSize: 10,
+    marginTop: 5,
   },
   modal: {
     height: 47,
@@ -307,5 +305,9 @@ const styles = StyleSheet.create({
     color: Themes.secondary,
     width: "100%",
     padding: 2,
+  },
+  emptyData: {
+    marginTop: 25,
+    color: Themes.secondary,
   },
 });

@@ -9,13 +9,14 @@ import { globalStyles } from "../styles";
 import { Button } from "../components/common";
 
 const Result = ({ navigation, route }) => {
-  const { users } = useContext(GlobalContext);
+  const { patients } = useContext(GlobalContext);
+
   const { id } = route.params;
 
-  const data = users.find((item) => {
+  const data = patients.find((item) => {
     return item.id === id;
   });
-
+  
   const Header = () => {
     return <View style={styles.headerContainer} />;
   };

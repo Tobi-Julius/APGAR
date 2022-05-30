@@ -5,7 +5,6 @@ import {
   Dimensions,
   Image,
   FlatList,
-  ImageBackground,
 } from "react-native";
 import React, { useState, useContext } from "react";
 import { Ionicons } from "@expo/vector-icons";
@@ -27,23 +26,21 @@ import {
 } from "../components/common";
 
 const Home = ({ navigation }) => {
-  const { users } = useContext(GlobalContext);
-  const [data, setdata] = useState(users);
+  const { patients } = useContext(GlobalContext);
 
   function handleChange(textValue) {
-    console.warn(textValue);
-    setdata(
-      data.filter((each) => {
-        if (textValue === "") {
-          return data;
-        } else {
-          return Object.values(each.id)
-            .join("")
-            .toLowerCase()
-            .includes(textValue.toLowerCase());
-        }
-      })
-    );
+    // setData(
+    //   data.filter((each) => {
+    //     if (textValue === "") {
+    //       return data;
+    //     } else {
+    //       return Object.values(each.id)
+    //         .join("")
+    //         .toLowerCase()
+    //         .includes(textValue.toLowerCase());
+    //     }
+    //   })
+    // );
   }
 
   const Header = () => {
@@ -146,7 +143,7 @@ const Home = ({ navigation }) => {
                   }}
                 >
                   <TextMedium
-                    textStyle={{ fontSize: 10, letterSpacing: -0.8 }}
+                    textStyle={{ fontSize: 11, letterSpacing: -0.3 }}
                     text="Instantly input APGAR parameters and generate"
                   />
                   <TextMedium
@@ -163,7 +160,7 @@ const Home = ({ navigation }) => {
                     width: "23%",
                   }}
                   textStyle={{
-                    fontSize: 9,
+                    fontSize: 10,
                     padding: 6,
                     color: Themes.white,
                     letterSpacing: -0.8,
@@ -213,13 +210,12 @@ const Home = ({ navigation }) => {
                   }}
                 >
                   <TextMedium
-                    textStyle={{ fontSize: 10, letterSpacing: -0.5 }}
+                    textStyle={{ fontSize: 11, letterSpacing: -0.3 }}
                     text="Easy access to APGAR database"
                   />
                 </View>
                 <Button
                   onPress={() => {
-                    console.warn("first");
                     navigation.navigate("DataBase");
                   }}
                   containerStyle={{
@@ -227,7 +223,7 @@ const Home = ({ navigation }) => {
                     width: "30%",
                   }}
                   textStyle={{
-                    fontSize: 9,
+                    fontSize: 10,
                     padding: 6,
                     color: Themes.white,
                     letterSpacing: -0.8,
@@ -243,51 +239,66 @@ const Home = ({ navigation }) => {
             textStyle={{ fontSize: 13, marginBottom: "1%" }}
             text="Past Records"
           />
-          <FlatList
-            horizontal
-            data={data}
-            renderItem={({ item, index }) => {
-              return item.score === undefined ? null : (
-                <View
-                  style={{
-                    marginLeft: 17,
-                    right: 15,
-                    borderRadius: 8,
-                  }}
-                >
-                  <Image source={item.image} style={styles.babyImage} />
-                  <View style={styles.idContainer}>
-                    <TextBold
-                      textStyle={{ fontSize: 6, color: "#000" }}
-                      text="ID"
-                    />
-                    <TextBold
-                      textStyle={{ fontSize: 12, color: Themes.primary }}
-                      text={`${item.id === 10 ? item.id : `0${item.id}`}`}
-                    />
-                  </View>
-                  <View style={styles.scoreContainer}>
-                    <View>
-                      <Text textStyle={{ fontSize: 7 }} text="Score" />
+          {patients.length < 1 ? (
+            <View
+              style={{
+                alignItems: "center",
+                justifyContent: "center",
+                height: "100%",
+              }}
+            >
+              <TextMedium
+                textStyle={styles.emptyData}
+                text="You have not taken any record"
+              />
+            </View>
+          ) : (
+            <FlatList
+              horizontal
+              data={patients}
+              renderItem={({ item, index }) => {
+                return item.score === undefined ? null : (
+                  <View
+                    style={{
+                      marginLeft: 17,
+                      right: 15,
+                      borderRadius: 8,
+                    }}
+                  >
+                    <Image source={item.image} style={styles.babyImage} />
+                    <View style={styles.idContainer}>
                       <TextBold
-                        textStyle={{ color: Themes.primary, fontSize: 10 }}
-                        text={`${
-                          item.score === 10 ? item.score : `0${item.score}`
-                        }`}
+                        textStyle={{ fontSize: 6, color: "#000" }}
+                        text="ID"
+                      />
+                      <TextBold
+                        textStyle={{ fontSize: 12, color: Themes.primary }}
+                        text={`${item.id === 10 ? item.id : `0${item.id}`}`}
                       />
                     </View>
-                    <View>
-                      <SimpleLineIcons
-                        name="options-vertical"
-                        size={11}
-                        color="black"
-                      />
+                    <View style={styles.scoreContainer}>
+                      <View>
+                        <Text textStyle={{ fontSize: 7 }} text="Score" />
+                        <TextBold
+                          textStyle={{ color: Themes.primary, fontSize: 10 }}
+                          text={`${
+                            item.score === 10 ? item.score : `0${item.score}`
+                          }`}
+                        />
+                      </View>
+                      <View>
+                        <SimpleLineIcons
+                          name="options-vertical"
+                          size={11}
+                          color="black"
+                        />
+                      </View>
                     </View>
                   </View>
-                </View>
-              );
-            }}
-          />
+                );
+              }}
+            />
+          )}
         </View>
         <View style={styles.four}>
           <View style={styles.top} />
@@ -417,6 +428,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 25,
+  },
+  emptyData: {
+    alignItems: "center",
+    color: Themes.secondary,
   },
 });
 
