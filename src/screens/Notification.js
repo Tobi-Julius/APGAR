@@ -55,11 +55,15 @@ const Notification = ({ navigation }) => {
               <View style={styles.separator} />
             </View>
           </View>
-          <FlatList
-            data={first}
-            renderItem={NotificationMessages}
-            showsVerticalScrollIndicator={false}
-          />
+          {patients.length < 1 ? (
+            <Text text="No New Notifications" />
+          ) : (
+            <FlatList
+              data={first}
+              renderItem={NotificationMessages}
+              showsVerticalScrollIndicator={false}
+            />
+          )}
         </View>
       </View>
     );

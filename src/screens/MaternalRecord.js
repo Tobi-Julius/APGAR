@@ -35,7 +35,7 @@ const MaternalRecord = ({ navigation, route }) => {
                 onPress={() => navigation.goBack()}
                 style={styles.leftIcon}
               >
-                <AntDesign name="left" color="blue" size={28} />
+                <AntDesign name="left" color="blue" size={26} />
               </TouchableOpacity>
               <TextBold
                 text="Maternal Records"
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     color: Themes.secondary,
-    marginTop: "4%",
+    marginTop: "5.5%",
     fontSize: 16,
     color: Themes.primary,
     textAlign: "center",
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     width: "90%",
-    marginTop: "8%",
+    marginTop: "9%",
   },
   btnContainer: {
     marginTop: "10%",

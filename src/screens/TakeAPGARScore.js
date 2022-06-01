@@ -52,7 +52,7 @@ const TakeAPGARScore = ({ navigation }) => {
             onPress={() => navigation.goBack()}
             style={styles.left}
           >
-            <AntDesign color="blue" size={28} name="left" />
+            <AntDesign color="blue" size={26} name="left" />
           </TouchableOpacity>
 
           <View style={styles.paramsContainer}>
@@ -68,19 +68,19 @@ const TakeAPGARScore = ({ navigation }) => {
 
   const InputFields = () => {
     return (
-      <View style={{ width: "90%", marginTop: "2%" }}>
+      <View style={{ width: "90%", marginTop: "4%" }}>
         <View style={styles.calContainer}>
-          <View>
-            <TextInput
-              inputType="Numeric"
-              textInputStyle={styles.textInputStyle}
-              onChangeText={(item) => {
-                setMotherId(item);
-              }}
-              placeholder="Type Mother's ID"
-              label="Mother's ID"
-            />
-          </View>
+          <TextInput
+            inputType="Numeric"
+            textInputStyle={styles.textInputStyle}
+            onChangeText={(item) => {
+              setMotherId(item);
+            }}
+            placeholder="Type Mother's ID"
+            label="Mother's ID"
+          />
+        </View>
+        <View style={styles.calContainer}>
           <Text textStyle={{ fontSize: 13 }} text="Activity" />
           <View
             style={{
@@ -453,9 +453,8 @@ const styles = StyleSheet.create({
   },
   paramsContainer: {
     flexDirection: "row",
-    marginTop: "6%",
+    marginTop: "7.5%",
   },
-  headContainer: {},
   left: {
     position: "absolute",
     left: "2%",

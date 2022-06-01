@@ -179,7 +179,7 @@ const Home = ({ navigation }) => {
             />
             <View style={{ borderRadius: 20, height: "93%" }}>
               <Image
-                source={require("../images/Home/APGARScore.png")}
+                source={require("../images/Home/database.png")}
                 style={{
                   width: "100%",
                   height: "100%",
