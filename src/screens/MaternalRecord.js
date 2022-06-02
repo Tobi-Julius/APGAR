@@ -53,6 +53,7 @@ const MaternalRecord = ({ navigation, route }) => {
 
             <View style={styles.inputContainer}>
               <TextInput
+                inputType="Numeric"
                 textInputStyle={styles.textInputStyle}
                 onChangeText={(item) => setGestationPeriod(item)}
                 placeholder="Type Gestation Period (Weeks)"
@@ -100,6 +101,7 @@ const MaternalRecord = ({ navigation, route }) => {
             </View>
             <View style={styles.inputContainer}>
               <TextInput
+                inputType="Numeric"
                 textInputStyle={styles.textInputStyle}
                 onChangeText={(item) => setBirthWeight(item)}
                 placeholder="Type Birth Weight (Kg)"
@@ -121,8 +123,8 @@ const MaternalRecord = ({ navigation, route }) => {
                   setInput(!input);
                 } else {
                   data.deliveryMode = deliveryMode;
-                  data.gestationPeriod = gestationPeriod;
-                  data.birthWeight = birthWeight;
+                  data.gestationPeriod = `${gestationPeriod}weeks`;
+                  data.birthWeight = `${birthWeight}kg`;
                   navigation.navigate("MaternalRecordSecond", { id: data.id });
                 }
               }}

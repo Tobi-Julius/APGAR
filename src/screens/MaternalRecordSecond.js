@@ -179,7 +179,7 @@ const MaternalRecordSecond = ({ navigation, route }) => {
                 data.MSL = MSL;
                 data.maternalHtpertension = maternalHypertension;
                 data.fetalPosition = fetalPosition;
-                navigation.navigate("DataBase");
+                navigation.navigate("Database");
               }
             }}
             textStyle={styles.btnText}

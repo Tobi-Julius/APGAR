@@ -19,51 +19,6 @@ const Detail = ({ navigation, route }) => {
     return item.id === id;
   });
 
-  // let pulse;
-  // if (data.pulse === "Absent: 0") {
-  //   pulse = "Absent";
-  // } else if (data.pulse === "< 100 bpm: 1") {
-  //   pulse === "< 100 bpm";
-  // } else if (data.pulse === "> 100 bpm: 2") {
-  //   pulse = "> 100 bpm";
-  // }
-
-  // let activity;
-  // if (data.activity === "Loose and Floppy muscle tones: 0") {
-  //   activity = "Loose and Floppy muscle tones";
-  // } else if (data.activity === "Flexed Arms and Legs: 1") {
-  //   activity === "Flexed Arms and Legs";
-  // } else if (data.activity === "Active Motion: 2") {
-  //   activity = "Active Motion";
-  // }
-
-  // let grimace;
-  // if (data.grimace === "Floppy/No reaction: 0") {
-  //   grimace = "Floppy/No reaction";
-  // } else if (data.grimace === "Minimal Response: 1") {
-  //   grimace === "Minimal Response";
-  // } else if (data.grimace === "Prompt Response: 2") {
-  //   grimace = "Prompt Response";
-  // }
-
-  // let appearance;
-  // if (data.appearance === "Blue Pale: 0") {
-  //   appearance = "Blue Pale";
-  // } else if (data.appearance === "Blue Extremeties: 1") {
-  //   appearance === "Blue Extremeties";
-  // } else if (data.appearance === "Pink: 2") {
-  //   appearance = "Pink";
-  // }
-
-  // let respiration;
-  // if (data.respiration === "Absent: 0") {
-  //   respiration = "Absent";
-  // } else if (data.respiration === "Slow and Irregular: 1") {
-  //   respiration === "Slow and Irregular";
-  // } else if (data.respiration === "Vigorous Cry: 2") {
-  //   respiration = "Vigorous Cry";
-  // }
-
   const Body = () => {
     return (
       <View style={[styles.bodyContainer, globalStyles.rowCenter]}>
@@ -77,7 +32,10 @@ const Detail = ({ navigation, route }) => {
 
           <View style={styles.paramsContainer}>
             <TextBold text="ID : " textStyle={[styles.parameters1]} />
-            <TextBold text={`0${data.id}`} textStyle={[styles.parameters1]} />
+            <TextBold
+              text={`${data.id >= 10 ? data.id : `0${data.id}`}`}
+              textStyle={[styles.parameters1]}
+            />
           </View>
           <View style={styles.container}>
             <View style={styles.textHeadContainer}>

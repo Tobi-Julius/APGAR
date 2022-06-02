@@ -3,9 +3,9 @@ import {
   View,
   Dimensions,
   TouchableOpacity,
-  Image,
   Modal,
-  Pressable,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import React, { useState, useContext } from "react";
 import { AntDesign } from "@expo/vector-icons";
@@ -15,6 +15,7 @@ import { GlobalContext } from "../context/GlobalState";
 import { Themes } from "../constants";
 import { Text, Button, TextBold, TextInput } from "../components/common";
 import { globalStyles } from "../styles";
+import KeyBoardAvoidingWrapper from "../components/Keyboard/KeyBoardAvoidingWrapper";
 
 import baby1 from "../images/Home/baby1.png";
 import baby2 from "../images/Home/baby2.png";
@@ -41,6 +42,7 @@ const TakeAPGARScore = ({ navigation }) => {
 
   const images = [baby1, baby2, baby3, baby4];
   const randomImage = Math.floor(Math.random() * images.length);
+
   const Header = () => {
     return <View style={styles.headerContainer} />;
   };
@@ -59,7 +61,6 @@ const TakeAPGARScore = ({ navigation }) => {
             <TextBold text="APGAR " textStyle={[styles.parameters1]} />
             <TextBold text=" Parameters" textStyle={[styles.parameters1]} />
           </View>
-
           {InputFields()}
         </View>
       </View>
@@ -93,6 +94,7 @@ const TakeAPGARScore = ({ navigation }) => {
             }}
           >
             <Picker
+              onFocus={Keyboard.dismiss}
               selectedValue={activity}
               mode={"dropdown"}
               dropdownIconColor={Themes.primary}
@@ -144,6 +146,7 @@ const TakeAPGARScore = ({ navigation }) => {
             }}
           >
             <Picker
+              onFocus={Keyboard.dismiss}
               selectedValue={pulse}
               dropdownIconColor={Themes.primary}
               dropdownIconRippleColor={Themes.primary}
@@ -188,6 +191,7 @@ const TakeAPGARScore = ({ navigation }) => {
             }}
           >
             <Picker
+              onFocus={Keyboard.dismiss}
               selectedValue={grimace}
               mode={"dropdown"}
               dropdownIconColor={Themes.primary}
@@ -242,6 +246,7 @@ const TakeAPGARScore = ({ navigation }) => {
             }}
           >
             <Picker
+              onFocus={Keyboard.dismiss}
               selectedValue={appearance}
               dropdownIconColor={Themes.primary}
               dropdownIconRippleColor={Themes.primary}
@@ -292,6 +297,7 @@ const TakeAPGARScore = ({ navigation }) => {
             }}
           >
             <Picker
+              onFocus={Keyboard.dismiss}
               selectedValue={respiration}
               dropdownIconColor={Themes.primary}
               dropdownIconRippleColor={Themes.primary}
@@ -329,8 +335,8 @@ const TakeAPGARScore = ({ navigation }) => {
           title="Take Score"
           onPress={() => {
             if (
-              motherId === "" ||
               patients.find((each) => each.id === motherId) ||
+              motherId === "" ||
               activity === "" ||
               respiration === "" ||
               pulse === "" ||
@@ -399,16 +405,24 @@ const TakeAPGARScore = ({ navigation }) => {
               <View style={styles.warningHeaderContainer}>
                 <Text textStyle={styles.warningHeaderText} text="Warning" />
               </View>
-              <Text
-                textStyle={styles.warningText}
-                text="Please, Fill all the Fields to Calculate Your Score/Mother ID already exist"
-              />
-              <Pressable
+              {patients.find((each) => each.id === motherId) ? (
+                <Text
+                  textStyle={styles.warningText}
+                  text="Mother ID already exists"
+                />
+              ) : (
+                <Text
+                  textStyle={styles.warningText}
+                  text="Please, Fill all the Fields to Calculate Your Score"
+                />
+              )}
+              <TouchableOpacity
+                activeOpacity={0.6}
                 onPress={() => setShowModal(false)}
                 style={styles.modalBtnContainer}
               >
                 <Text textStyle={styles.modalBtnText} text="Close" />
-              </Pressable>
+              </TouchableOpacity>
             </View>
           </View>
         </Modal>
@@ -416,11 +430,13 @@ const TakeAPGARScore = ({ navigation }) => {
     );
   };
   return (
+    // <KeyBoardAvoidingWrapper>
     <View>
       {popUpModal()}
       {Header()}
       {Body()}
     </View>
+    // {/* </KeyBoardAvoidingWrapper> */}
   );
 };
 

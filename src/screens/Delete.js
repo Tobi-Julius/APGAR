@@ -39,7 +39,7 @@ const Delete = ({ navigation, route }) => {
             <TouchableOpacity
               onPress={() => {
                 deletePatient(id);
-                navigation.navigate("DataBase");
+                navigation.navigate("Database");
               }}
               activeOpacity={0.6}
               style={styles.yesBtn}

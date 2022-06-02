@@ -153,7 +153,7 @@ const Home = ({ navigation }) => {
                 </View>
                 <Button
                   onPress={() => {
-                    navigation.navigate("TakeAPGARScore");
+                    navigation.navigate("Take APGAR Score");
                   }}
                   containerStyle={{
                     borderRadius: 5,
@@ -216,7 +216,7 @@ const Home = ({ navigation }) => {
                 </View>
                 <Button
                   onPress={() => {
-                    navigation.navigate("DataBase");
+                    navigation.navigate("Database");
                   }}
                   containerStyle={{
                     borderRadius: 5,

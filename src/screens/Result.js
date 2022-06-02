@@ -61,7 +61,7 @@ const Result = ({ navigation, route }) => {
           >
             <View style={{ width: "30%" }}>
               <TouchableOpacity
-                onPress={() => navigation.navigate("DataBase")}
+                onPress={() => navigation.navigate("Database")}
                 activeOpacity={0.6}
                 style={{
                   backgroundColor: "#fff",

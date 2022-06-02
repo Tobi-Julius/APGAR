@@ -31,7 +31,10 @@ const MaternalHistory = ({ navigation, route }) => {
           </TouchableOpacity>
           <View style={styles.paramsContainer}>
             <TextBold text="ID : " textStyle={[styles.parameters1]} />
-            <TextBold text={`0${data.id}`} textStyle={[styles.parameters1]} />
+            <TextBold
+              text={`${data.id >= 10 ? data.id : `0${data.id}`}`}
+              textStyle={[styles.parameters1]}
+            />
           </View>
           <View style={styles.container}>
             <TouchableOpacity
