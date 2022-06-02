@@ -19,50 +19,50 @@ const Detail = ({ navigation, route }) => {
     return item.id === id;
   });
 
-  let pulse;
-  if (data.pulse === "Absent: 0") {
-    pulse = "Absent";
-  } else if (data.pulse === "< 100 bpm: 1") {
-    pulse === "< 100 bpm";
-  } else if (data.pulse === "> 100 bpm: 2") {
-    pulse = "> 100 bpm";
-  }
+  // let pulse;
+  // if (data.pulse === "Absent: 0") {
+  //   pulse = "Absent";
+  // } else if (data.pulse === "< 100 bpm: 1") {
+  //   pulse === "< 100 bpm";
+  // } else if (data.pulse === "> 100 bpm: 2") {
+  //   pulse = "> 100 bpm";
+  // }
 
-  let activity;
-  if (data.activity === "Loose and Floppy muscle tones: 0") {
-    activity = "Loose and Floppy muscle tones";
-  } else if (data.activity === "Flexed Arms and Legs: 1") {
-    activity === "Flexed Arms and Legs";
-  } else if (data.activity === "Active Motion: 2") {
-    activity = "Active Motion";
-  }
+  // let activity;
+  // if (data.activity === "Loose and Floppy muscle tones: 0") {
+  //   activity = "Loose and Floppy muscle tones";
+  // } else if (data.activity === "Flexed Arms and Legs: 1") {
+  //   activity === "Flexed Arms and Legs";
+  // } else if (data.activity === "Active Motion: 2") {
+  //   activity = "Active Motion";
+  // }
 
-  let grimace;
-  if (data.grimace === "Floppy/No reaction: 0") {
-    grimace = "Floppy/No reaction";
-  } else if (data.grimace === "Minimal Response: 1") {
-    grimace === "Minimal Response";
-  } else if (data.grimace === "Prompt Response: 2") {
-    grimace = "Prompt Response";
-  }
+  // let grimace;
+  // if (data.grimace === "Floppy/No reaction: 0") {
+  //   grimace = "Floppy/No reaction";
+  // } else if (data.grimace === "Minimal Response: 1") {
+  //   grimace === "Minimal Response";
+  // } else if (data.grimace === "Prompt Response: 2") {
+  //   grimace = "Prompt Response";
+  // }
 
-  let appearance;
-  if (data.appearance === "Blue Pale: 0") {
-    appearance = "Blue Pale";
-  } else if (data.appearance === "Blue Extremeties: 1") {
-    appearance === "Blue Extremeties";
-  } else if (data.appearance === "Pink: 2") {
-    appearance = "Pink";
-  }
+  // let appearance;
+  // if (data.appearance === "Blue Pale: 0") {
+  //   appearance = "Blue Pale";
+  // } else if (data.appearance === "Blue Extremeties: 1") {
+  //   appearance === "Blue Extremeties";
+  // } else if (data.appearance === "Pink: 2") {
+  //   appearance = "Pink";
+  // }
 
-  let respiration;
-  if (data.respiration === "Absent: 0") {
-    respiration = "Absent";
-  } else if (data.respiration === "Slow and Irregular: 1") {
-    respiration === "Slow and Irregular";
-  } else if (data.respiration === "Vigorous Cry: 2") {
-    respiration = "Vigorous Cry";
-  }
+  // let respiration;
+  // if (data.respiration === "Absent: 0") {
+  //   respiration = "Absent";
+  // } else if (data.respiration === "Slow and Irregular: 1") {
+  //   respiration === "Slow and Irregular";
+  // } else if (data.respiration === "Vigorous Cry: 2") {
+  //   respiration = "Vigorous Cry";
+  // }
 
   const Body = () => {
     return (
@@ -95,32 +95,32 @@ const Detail = ({ navigation, route }) => {
                   width: "70%",
                   alignSelf: "center",
                 }}
-                text={activity}
+                text={data.activity}
               />
               <Text text={data.activityScore} textStyle={styles.text} />
             </View>
 
             <View style={styles.row}>
               <Text textStyle={styles.text} text="Pulse" />
-              <Text textStyle={{ fontSize: 10 }} text={pulse} />
+              <Text textStyle={{ fontSize: 10 }} text={data.pulse} />
               <Text textStyle={styles.text} text={data.pulseScore} />
             </View>
 
             <View style={styles.row}>
               <Text textStyle={styles.text} text="Grimace" />
-              <Text textStyle={{ fontSize: 10 }} text={grimace} />
+              <Text textStyle={{ fontSize: 10 }} text={data.grimace} />
               <Text textStyle={styles.text} text={data.grimaceScore} />
             </View>
 
             <View style={styles.row}>
               <Text textStyle={styles.text} text="Appearance" />
-              <Text textStyle={{ fontSize: 10 }} text={appearance} />
+              <Text textStyle={{ fontSize: 10 }} text={data.appearance} />
               <Text textStyle={styles.text} text={data.appearanceScore} />
             </View>
 
             <View style={styles.row}>
               <Text textStyle={styles.text} text="Respiration" />
-              <Text textStyle={{ fontSize: 10 }} text={respiration} />
+              <Text textStyle={{ fontSize: 10 }} text={data.respiration} />
               <Text textStyle={styles.text} text={data.respirationScore} />
             </View>
 
