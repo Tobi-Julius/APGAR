@@ -5,7 +5,7 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import {
   DrawerContentScrollView,
   DrawerItemList,
@@ -16,10 +16,25 @@ import Hospital from "../images/hospital.png";
 import CloseIcon from "../images/Icon/menuClose.png";
 import { Themes } from "../constants";
 import { Text, TextBold } from "../components/common";
-import { GlobalContext } from "../context/GlobalState";
+import { useUserAuth } from "../context/firebaseContext/AuthContext";
+import { auth } from "../firebase/firebase-config";
 
 const CustomDrawer = (props) => {
-  const { patients } = React.useContext(GlobalContext);
+  const { logOut } = useUserAuth();
+  const [error, setError] = useState("");
+
+  const handleSubmit = async () => {
+    try {
+      await logOut(auth);
+      props.navigation.navigate("SignIn");
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+  const firstLetter = auth.currentUser !== null ? auth.currentUser.email : "";
+
+  const letter = firstLetter.split(" ").map((word) => word[0]);
+
   const Header = () => {
     return (
       <View style={{ height: Dimensions.get("window").height * 0.35 }}>
@@ -33,8 +48,10 @@ const CustomDrawer = (props) => {
           </TouchableOpacity>
           <View style={styles.circleContainer}>
             <Image source={Hospital} style={styles.styleImage} />
-            <Text text="ID" textStyle={[styles.id]} />
-            <TextBold text={props.id} textStyle={[styles.number]} />
+            {/* <Text text="ID" textStyle={[styles.id]} /> */}
+            <View style={styles.firstLetterStyle}>
+              <TextBold text={letter} textStyle={[styles.number]} />
+            </View>
           </View>
         </View>
       </View>
@@ -50,15 +67,14 @@ const CustomDrawer = (props) => {
         <SimpleLineIcons name="logout" size={20} color={Themes.secondary} />
         <TouchableOpacity
           activeOpacity={0.6}
-          onPress={() => {
-            props.navigation.replace("SignIn");
-          }}
+          onPress={() => handleSubmit()}
           style={{
             marginLeft: 7,
           }}
         >
           <Text text="Log Out" />
         </TouchableOpacity>
+        <Text textStyle={styles.errText} text={`${error && error}`}></Text>
       </View>
     </View>
   );
@@ -92,11 +108,21 @@ const styles = StyleSheet.create({
   },
   number: {
     color: Themes.primary,
-    fontSize: 23,
+    fontSize: 26,
+    textTransform: "uppercase",
+    color: Themes.primary,
   },
   id: {
     color: "#000",
     fontSize: 18,
+  },
+  firstLetterStyle: {
+    backgroundColor: Themes.text,
+    width: 40,
+    height: 40,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 20,
   },
   footer: {
     flexDirection: "row",
@@ -125,6 +151,13 @@ const styles = StyleSheet.create({
   },
   styleImage: {
     marginBottom: 25,
+  },
+  errText: {
+    color: Themes.secondary,
+    fontSize: 9,
+    alignSelf: "flex-start",
+    marginLeft: "6%",
+    paddingTop: "1%",
   },
 });
 

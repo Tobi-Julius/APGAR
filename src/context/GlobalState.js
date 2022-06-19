@@ -2,14 +2,11 @@ import { createContext, useReducer } from "react";
 import AppReducer from "./AppReducer";
 
 const initialState = {
-  hospial: {
-    hospitalName: "Crimson Hospital",
-    state: "ilorin",
-    address: "Tanke",
-    city: "ilorin",
-  },
   patients: [],
 };
+
+const userAuthContext = createContext();
+
 export const GlobalContext = createContext(initialState);
 
 export const GlobalProvider = ({ children }) => {
@@ -34,7 +31,6 @@ export const GlobalProvider = ({ children }) => {
   return (
     <GlobalContext.Provider
       value={{
-        hospial: state.hospial,
         patients: state.patients,
         deletePatient,
         addPatient,

@@ -2,15 +2,17 @@ import { StyleSheet, View, Dimensions } from "react-native";
 import React, { useContext } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { GlobalContext } from "../context/GlobalState";
+import { useUserAuth } from "../context/firebaseContext/AuthContext";
 
 import { Themes } from "../constants";
 import { Button, Text, TextBold } from "../components/common";
 import { globalStyles } from "../styles";
 
 const RegisterSucess = ({ navigation, route }) => {
+  const { user } = useUserAuth();
   // const { users } = useContext(GlobalContext);
 
-  const { id } = route.params;
+  // const { id } = route.params;
 
   // const data = users.find((item) => {
   //   return item.id === id;
@@ -72,8 +74,9 @@ const RegisterSucess = ({ navigation, route }) => {
               borderBottomLeftRadius: 10,
             }}
           >
-            <Text textStyle={styles.id} text="ID No " />
-            <TextBold textStyle={styles.number} text={id} />
+            {/* <Text textStyle={styles.id} text="ID No " /> */}
+            {/* <TextBold textStyle={styles.number} text={id} /> */}
+            <TextBold textStyle={styles.number} text={`@${user.email}`} />
           </View>
         </View>
         {Footer()}
@@ -89,14 +92,15 @@ const RegisterSucess = ({ navigation, route }) => {
           <Text
             textStyle={{ marginLeft: 5 }}
             color={Themes.secondary}
-            text="Keep ID safe"
+            text="Keep Password safe"
           />
         </View>
         <Button
           containerStyle={styles.containerStyle}
-          onPress={() => navigation.replace("SideMenu", { id })}
+          onPress={() => navigation.replace("SignIn")}
           textStyle={styles.textStyle}
-          title="Continue"
+          title="Sign In"
+          // title="Continue"
         />
       </View>
     );
@@ -131,7 +135,7 @@ const styles = StyleSheet.create({
     color: "#fff",
   },
   number: {
-    color: Themes.secondary,
+    color: Themes.text,
     fontSize: 15,
   },
   footerContainer: {

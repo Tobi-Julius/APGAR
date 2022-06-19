@@ -1,47 +1,59 @@
 import {
   StyleSheet,
-  Text as MainText,
   View,
   Dimensions,
   Image,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { Picker } from "@react-native-picker/picker";
-// import { GlobalContext } from "../context/GlobalState";
+import { sendEmailVerification } from "firebase/auth";
 
 import { Button, TextInput } from "../components/common";
 import { Themes } from "../constants";
 import { globalStyles } from "../styles";
 import { Text, TextBold } from "../components/common";
 import KeyBoardAvoidingWrapper from "../components/Keyboard/KeyBoardAvoidingWrapper";
+import { useUserAuth } from "../context/firebaseContext/AuthContext";
+import { auth } from "../firebase/firebase-config";
 
 const Register = ({ navigation }) => {
   const [state, setState] = useState("");
   const [city, setCity] = useState("");
-  const [address, setAddress] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [hospitalName, setHospitalName] = useState("");
-  const [inputFields, setInputFields] = useState("");
+  const [inputFields, setInputFields] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const onSubmit = () => {
-    if (state === "" || city === "" || address === "" || hospitalName === "") {
-      setInputFields(!inputFields);
+  const { register, user } = useUserAuth();
+
+  const onSubmit = async () => {
+    if (city === "" || state === "" || hospitalName === "") {
+      setInputFields(true);
+      return;
     } else {
-      const newUser = {
-        id: 10,
-        hospitalName,
-        state,
-        city,
-        address,
-        image: require("../images/Home/baby4.png"),
-      };
-
-      navigation.navigate("RegisterSucess", { id: newUser.id });
-      // addUser(newUser);
-      setAddress("");
-      setCity("");
-      setHospitalName("");
-      setState("");
+      setLoading(true);
+      try {
+        await register(email, password);
+        navigation.navigate("RegisterSucess");
+        setState("");
+        setCity("");
+        setEmail("");
+        setPassword("");
+        setHospitalName("");
+        setError("");
+        setLoading(false);
+        sendEmailVerification(auth.currentUser).then(() => {
+          // Email verification sent!
+          // ...
+        });
+      } catch (error) {
+        setError(error.message);
+        setLoading(false);
+      }
     }
   };
 
@@ -52,6 +64,8 @@ const Register = ({ navigation }) => {
     return (
       <View style={{ width: "90%", borderRadius: 10, marginTop: "5%" }}>
         <TextInput
+          edit={loading ? false : true}
+          value={hospitalName}
           placeholder="Hospital Name"
           onChangeText={(item) => setHospitalName(item)}
           textInputStyle={styles.TextInput}
@@ -70,7 +84,7 @@ const Register = ({ navigation }) => {
               borderWidth: 1,
               borderRadius: 5,
               borderColor: "lightgrey",
-              marginTop: "7%",
+              marginTop: 15,
               height: 40,
               justifyContent: "center",
             }}
@@ -131,6 +145,8 @@ const Register = ({ navigation }) => {
 
           <View style={{ width: "28%" }}>
             <TextInput
+              edit={loading ? false : true}
+              value={city}
               placeholder="City"
               onChangeText={(item) => setCity(item)}
               textInputStyle={styles.TextInput}
@@ -139,17 +155,37 @@ const Register = ({ navigation }) => {
         </View>
         <View>
           <TextInput
-            placeholder="Address"
-            onChangeText={(item) => setAddress(item)}
+            edit={loading ? false : true}
+            value={email}
+            placeholder="Email"
+            onChangeText={(item) => setEmail(item)}
             textInputStyle={styles.TextInput}
+          />
+        </View>
+        <View>
+          <TextInput
+            edit={loading ? false : true}
+            value={password}
+            placeholder="Password"
+            onChangeText={(item) => setPassword(item)}
+            textInputStyle={styles.TextInput}
+            textEntry={true}
           />
         </View>
         {inputFields ? (
           <Text textStyle={styles.errText} text="Pls, Input all fields" />
         ) : null}
+        <Text textStyle={styles.errText} text={`${error && error}`}></Text>
 
         <Button
-          title="Register"
+          disabled={loading ? true : false}
+          title={
+            loading ? (
+              <ActivityIndicator size="small" color="white" />
+            ) : (
+              "Register"
+            )
+          }
           onPress={() => onSubmit()}
           containerStyle={styles.btnContainer}
           textStyle={styles.btnText}

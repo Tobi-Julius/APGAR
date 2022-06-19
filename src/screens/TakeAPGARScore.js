@@ -4,18 +4,20 @@ import {
   Dimensions,
   TouchableOpacity,
   Modal,
-  TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
 import React, { useState, useContext } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
-import { GlobalContext } from "../context/GlobalState";
+import { doc, setDoc } from "firebase/firestore";
 
+import { GlobalContext } from "../context/GlobalState";
 import { Themes } from "../constants";
 import { Text, Button, TextBold, TextInput } from "../components/common";
 import { globalStyles } from "../styles";
-import KeyBoardAvoidingWrapper from "../components/Keyboard/KeyBoardAvoidingWrapper";
+import { auth } from "../firebase/firebase-config";
+import { db } from "../firebase/firebase-config";
+import { useUserAuth } from "../context/firebaseContext/AuthContext";
 
 import baby1 from "../images/Home/baby1.png";
 import baby2 from "../images/Home/baby2.png";
@@ -24,6 +26,7 @@ import baby4 from "../images/Home/baby4.png";
 
 const TakeAPGARScore = ({ navigation }) => {
   const { addPatient, patients } = useContext(GlobalContext);
+  const user = useUserAuth();
 
   const [activity, setActivity] = useState("");
   const [activityScore, setActivityScore] = useState("");
@@ -77,7 +80,7 @@ const TakeAPGARScore = ({ navigation }) => {
             onChangeText={(item) => {
               setMotherId(item);
             }}
-            placeholder="Type Mother's ID"
+            placeholder="Pick Mother's ID (e.g 1,2...)"
             label="Mother's ID"
           />
         </View>
@@ -333,7 +336,7 @@ const TakeAPGARScore = ({ navigation }) => {
         </View>
         <Button
           title="Take Score"
-          onPress={() => {
+          onPress={async () => {
             if (
               patients.find((each) => each.id === motherId) ||
               motherId === "" ||
@@ -350,7 +353,7 @@ const TakeAPGARScore = ({ navigation }) => {
               );
               let score = Result;
               setScore(score);
-              const newPatient = {
+              await setDoc(doc(db, `users/${auth.currentUser.uid}`), {
                 id: motherId,
                 motherId: motherId,
                 activity: activity,
@@ -372,15 +375,17 @@ const TakeAPGARScore = ({ navigation }) => {
                     : score >= 4 && score <= 6
                     ? "Moderately Depresssed"
                     : "Excellent Condition",
-              };
-              addPatient(newPatient);
-              navigation.navigate("Result", { id: motherId });
-              setValue([]);
-              setActivity("");
-              setAppearance("");
-              setPulse("");
-              setGrimace("");
-              setRespiration("");
+              })
+                .then(() => {
+                  navigation.navigate("Result", { id: motherId });
+                  setValue([]);
+                  setActivity("");
+                  setAppearance("");
+                  setPulse("");
+                  setGrimace("");
+                  setRespiration("");
+                })
+                .catch((e) => console.warn(e));
             }
           }}
           textStyle={styles.btnText}

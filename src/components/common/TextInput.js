@@ -19,6 +19,7 @@ export const TextInput = ({
   inputType,
   containerStyle,
   edit,
+  textEntry,
   ...others
 }) => {
   const [isLoaded] = useFonts(customFonts);
@@ -35,6 +36,7 @@ export const TextInput = ({
         autoCorrect={false}
         onChangeText={onChangeText}
         keyboardType={inputType}
+        secureTextEntry={textEntry}
         style={[styles.inputStyle, textInputStyle]}
         {...others}
       />

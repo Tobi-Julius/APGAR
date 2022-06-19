@@ -15,12 +15,12 @@ import CustomDrawer from "./CustomDrawer";
 const Drawer = createDrawerNavigator();
 
 const SideMenu = ({ route }) => {
-  const { id } = route.params;
+  // const { id } = route.params;
 
   return (
     <Drawer.Navigator
       initialRouteName="Home"
-      drawerContent={(props) => <CustomDrawer {...props} id={id} />}
+      drawerContent={(props) => <CustomDrawer {...props} />}
       screenOptions={{
         headerShown: false,
         drawerLabelStyle: {
@@ -42,7 +42,7 @@ const SideMenu = ({ route }) => {
       <Drawer.Screen
         name="Take APGAR Score"
         component={TakeAPGARScore}
-        initialParams={{ id: id }}
+        // initialParams={{ id: id }}
         options={{
           drawerIcon: ({ color }) => (
             <FontAwesome5 color={color} size={20} name="edit" />
@@ -52,7 +52,7 @@ const SideMenu = ({ route }) => {
       <Drawer.Screen
         name="Database"
         component={DataBase}
-        initialParams={{ id: id }}
+        // initialParams={{ id: id }}
         options={{
           drawerIcon: ({ color }) => (
             <Feather color={color} size={20} name="database" />

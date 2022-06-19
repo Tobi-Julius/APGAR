@@ -1,14 +1,25 @@
-import { StyleSheet, View, Dimensions, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Dimensions,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
 import React, { useState } from "react";
 import { Picker } from "@react-native-picker/picker";
 import { AntDesign } from "@expo/vector-icons";
+import { sendPasswordResetEmail } from "firebase/auth";
+import { auth } from "../firebase/firebase-config";
 
 import { Themes } from "../constants";
 import { globalStyles } from "../styles";
 import { Button, TextInput, Text, TextBold } from "../components/common";
 
 const RetrieveId = ({ navigation }) => {
-  const [state, setState] = useState("");
+  // const [state, setState] = useState("");
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const Header = () => {
     return <View style={styles.headerContainer} />;
@@ -25,18 +36,21 @@ const RetrieveId = ({ navigation }) => {
             <AntDesign color={Themes.primary} size={24} name="left" />
           </TouchableOpacity>
           <TextBold
-            text="Retrieve ID"
+            text="Retrieve Password"
             textStyle={[globalStyles.Heading1, styles.textStyle]}
           />
 
           <View style={styles.container}>
             <TextInput
+              edit={loading ? false : true}
               textInputStyle={{ fontSize: 12, borderRadius: 5 }}
-              placeholder="Hospital Name"
-              onChangeText={() => {}}
+              placeholder="Email"
+              onChangeText={(item) => {
+                setEmail(item);
+              }}
             />
             <View>
-              <View
+              {/* <View
                 style={{
                   flexDirection: "row",
                   width: "100%",
@@ -114,21 +128,45 @@ const RetrieveId = ({ navigation }) => {
                     onChangeText={() => {}}
                   />
                 </View>
-              </View>
+              </View> */}
+
+              <Text textStyle={styles.errText} text={`${error && error}`} />
+
               <TouchableOpacity
+                disabled={loading ? true : false}
                 activeOpacity={0.6}
                 style={{
                   marginTop: "3%",
                 }}
-                onPress={() => navigation.navigate("SignIn")}
+                onPress={() => {
+                  navigation.navigate("SignIn");
+                }}
               >
-                <Text textStyle={styles.signInText} text="Sign in" />
+                <Text textStyle={styles.signInText} text={"Sign in"} />
               </TouchableOpacity>
               <Button
-                onPress={() => navigation.replace("Recovery")}
+                onPress={async () => {
+                  setLoading(true);
+                  try {
+                    await sendPasswordResetEmail(auth, email);
+                    setEmail("");
+                    setError("");
+                    setLoading(false);
+                    navigation.navigate("Recovery");
+                  } catch (error) {
+                    setError(error.message);
+                    setLoading(false);
+                  }
+                }}
                 textStyle={styles.btnText}
                 containerStyle={styles.containerStyle}
-                title="Retrieve ID"
+                title={
+                  loading ? (
+                    <ActivityIndicator color="white" size="small" />
+                  ) : (
+                    "Retrieve Passsword"
+                  )
+                }
               />
             </View>
           </View>
@@ -170,6 +208,7 @@ const styles = StyleSheet.create({
   signInText: {
     color: Themes.primary,
     fontSize: 12,
+    textDecorationLine: "underline",
   },
   containerStyle: {
     marginTop: "5%",
@@ -183,6 +222,13 @@ const styles = StyleSheet.create({
     position: "absolute",
     left: "3%",
     top: "6%",
+  },
+  errText: {
+    color: Themes.secondary,
+    fontSize: 9,
+    alignSelf: "flex-start",
+    marginLeft: "1%",
+    paddingTop: "1%",
   },
 });
 

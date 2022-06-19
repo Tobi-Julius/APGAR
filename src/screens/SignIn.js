@@ -4,24 +4,48 @@ import {
   Dimensions,
   Image,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
-import { GlobalContext } from "../context/GlobalState";
+import { useUserAuth } from "../context/firebaseContext/AuthContext";
+import { browserLocalPersistence, setPersistence } from "firebase/auth";
 
 import { Themes } from "../constants";
 import { globalStyles } from "../styles";
 import { Button, Text, TextInput, TextBold } from "../components/common";
-import {} from "../components/common";
+import { auth } from "../firebase/firebase-config";
 
-const SignIn = ({ navigation }) => {
-  const [id, setId] = useState("");
+function SignIn({ navigation }) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const [inputFields, setInputFields] = useState("");
-
+  const { logIn } = useUserAuth();
 
   const Header = () => {
     return <View style={styles.headerContainer} />;
+  };
+
+  const handleSubmit = async () => {
+    setLoading(true);
+    // setPersistence(auth, browserLocalPersistence)
+    try {
+      await logIn(email, password);
+      navigation.navigate("SideMenu");
+      setEmail("");
+      setPassword("");
+      setError("");
+      setLoading(false);
+    } catch (error) {
+      setError(error.message);
+      setLoading(false);
+    }
+    //   .then(() => {
+    //   })
+    //   .catch((error) => {
+    //     });
   };
 
   const Body = () => {
@@ -43,40 +67,47 @@ const SignIn = ({ navigation }) => {
           <TextBold textStyle={[styles.text]} text="Welcome Back !" />
           <View style={styles.inputContainer}>
             <TextInput
-              inputType="Numeric"
+              edit={loading ? false : true}
+              value={email}
               textInputStyle={styles.textInputStyle}
-              onChangeText={(item) => setId(item)}
-              placeholder="Hospital ID"
+              onChangeText={(item) => setEmail(item)}
+              placeholder="Email"
+              // placeholder="Hospital ID"
             />
           </View>
+          <View style={styles.inputContainer}>
+            <TextInput
+              edit={loading ? false : true}
+              value={password}
+              textEntry={true}
+              textInputStyle={styles.textInputStyle}
+              onChangeText={(item) => setPassword(item)}
+              placeholder="Password"
+              // placeholder="Hospital ID"
+            />
+          </View>
+          <Text textStyle={styles.errText} text={`${error && error}`}></Text>
 
-          {inputFields ? (
-            <Text textStyle={styles.errText} text="Pls, Enter your ID No" />
-          ) : null}
           <TouchableOpacity
+            disabled={loading ? true : false}
             activeOpacity={0.6}
             style={{ alignSelf: "flex-start" }}
             onPress={() => navigation.navigate("RetrieveId")}
           >
-            <Text textStyle={styles.textStyle} text="Forget ID ?" />
+            <Text textStyle={styles.textStyle} text="Forget Password ?" />
           </TouchableOpacity>
 
           <Button
             containerStyle={styles.containerStyle}
-            onPress={() => {
-              if (id === "" || id < 1) {
-                setInputFields(!inputFields);
-              } else {
-                const newUser = {
-                  id: id >= 10 ? id : `0${id}`,
-                  image: require("../images/Home/baby3.png"),
-                };
-                // addUser(newUser);
-                navigation.replace("SideMenu", { id: newUser.id });
-              }
-            }}
+            onPress={() => handleSubmit()}
             textStyle={styles.btnText}
-            title="Sign In"
+            title={
+              loading ? (
+                <ActivityIndicator size="small" color="white" />
+              ) : (
+                "Sign In"
+              )
+            }
           />
         </View>
       </View>
@@ -89,7 +120,7 @@ const SignIn = ({ navigation }) => {
       {Body()}
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   headerContainer: {

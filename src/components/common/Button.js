@@ -16,7 +16,8 @@ export const Button = ({
     title,
     onPress,
     textStyle,
-    containerStyle,
+  containerStyle,
+    disabled,
     ...others
 }) => {
   const [isLoaded] =useFonts(customFonts)
@@ -24,7 +25,8 @@ export const Button = ({
         return <AppLoading />
       } return (
     <TouchableOpacity
-    activeOpacity={0.6}
+          activeOpacity={0.6}
+          disabled={disabled}
     style={[globalStyles.rowCenter ,{backgroundColor: Themes.primary}, containerStyle]}
     onPress={onPress}
     {...others}>
