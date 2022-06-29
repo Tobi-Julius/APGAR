@@ -283,11 +283,11 @@ const Home = ({ navigation }) => {
                       style={styles.babyImage}
                     />
                     <View style={styles.idContainer}>
-                      <TextBold
+                      <TextMedium
                         textStyle={{ fontSize: 6, color: "#000" }}
                         text="ID"
                       />
-                      <TextBold
+                      <TextMedium
                         textStyle={{ fontSize: 13, color: Themes.primary }}
                         text={item.motherId}
                       />
