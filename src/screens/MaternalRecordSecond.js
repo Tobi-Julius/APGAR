@@ -1,26 +1,29 @@
-import { StyleSheet, View, Dimensions, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Dimensions,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
 import React, { useState, useContext } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
-import { GlobalContext } from "../context/GlobalState";
+import { doc, updateDoc } from "firebase/firestore";
 
 import { Themes } from "../constants";
 import { Text, Button, TextBold } from "../components/common";
 import { globalStyles } from "../styles";
+import { db } from "../firebase/firebase-config";
+import { auth } from "../firebase/firebase-config";
 
 const MaternalRecordSecond = ({ navigation, route }) => {
   const { id } = route.params;
-
-  const { patients } = useContext(GlobalContext);
 
   const [maternalHypertension, setMaternalHypertension] = useState("");
   const [fetalPosition, setFetalPosition] = useState("");
   const [MSL, setMSL] = useState("");
   const [input, setInput] = useState(false);
-
-  const data = patients.find((item) => {
-    return item.id === id;
-  });
+  const [loading, setLoading] = useState(false);
 
   const Header = () => {
     return <View style={styles.headerContainer} />;
@@ -167,8 +170,15 @@ const MaternalRecordSecond = ({ navigation, route }) => {
             ) : null}
           </View>
           <Button
-            title="SAVE"
-            onPress={() => {
+            disabled={loading ? true : false}
+            title={
+              loading ? (
+                <ActivityIndicator size="small" color="white" />
+              ) : (
+                "SAVE"
+              )
+            }
+            onPress={async () => {
               if (
                 MSL === "" ||
                 maternalHypertension === "" ||
@@ -176,10 +186,28 @@ const MaternalRecordSecond = ({ navigation, route }) => {
               ) {
                 setInput(!input);
               } else {
-                data.MSL = MSL;
-                data.maternalHtpertension = maternalHypertension;
-                data.fetalPosition = fetalPosition;
-                navigation.navigate("Database");
+                setLoading(true);
+                const docRef = doc(
+                  db,
+                  `users/${auth.currentUser.uid}/user`,
+                  id
+                );
+                // const colRef = collection(docRef, "user", id);
+                await updateDoc(
+                  docRef,
+                  {
+                    MSL: MSL,
+                    maternalHtpertension: maternalHypertension,
+                    fetalPosition: fetalPosition,
+                  }
+                  // { merge: true }
+                )
+                  .then(() => {
+                    navigation.navigate("Database");
+                    setLoading(false);
+                  })
+                  .catch((e) => console.warn(e));
+                setLoading(false);
               }
             }}
             textStyle={styles.btnText}

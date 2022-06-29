@@ -6,13 +6,12 @@ import {
   Image,
   FlatList,
 } from "react-native";
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { EvilIcons } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
 import { SimpleLineIcons } from "@expo/vector-icons";
-
-import { GlobalContext } from "../context/GlobalState";
+import { collection, getDocs, query, where } from "firebase/firestore";
 
 import { Themes } from "../constants";
 import openMenu from "../images/Icon/menuOpen.png";
@@ -24,24 +23,24 @@ import {
   Text,
   TextMedium,
 } from "../components/common";
+import { auth, db } from "../firebase/firebase-config";
 
 const Home = ({ navigation }) => {
-  const { patients } = useContext(GlobalContext);
+  const [patientValue, setPatientValue] = useState([]);
 
-  function handleChange(textValue) {
-    // setData(
-    //   data.filter((each) => {
-    //     if (textValue === "") {
-    //       return data;
-    //     } else {
-    //       return Object.values(each.id)
-    //         .join("")
-    //         .toLowerCase()
-    //         .includes(textValue.toLowerCase());
-    //     }
-    //   })
-    // );
-  }
+  const getData = useCallback(async () => {
+    const q = query(collection(db, `users/${auth.currentUser.uid}/user`));
+    const querySnapshot = await getDocs(q);
+    const data = querySnapshot.docs.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    }));
+    setPatientValue(data);
+  }, [patientValue]);
+
+  useEffect(() => {
+    getData();
+  }, [getData]);
 
   const Header = () => {
     return (
@@ -82,7 +81,19 @@ const Home = ({ navigation }) => {
           </TouchableOpacity>
         </View>
         <TextInput
-          onChangeText={handleChange}
+          inputType="Numeric"
+          onChangeText={async (text) => {
+            const q = query(
+              collection(db, `users/${auth.currentUser.uid}/user`),
+              where("motherId", "==", text)
+            );
+            const querySnapshot = await getDocs(q);
+            const data = querySnapshot.docs.map((doc) => ({
+              ...doc.data(),
+              id: doc.id,
+            }));
+            setPatientValue(data);
+          }}
           containerStyle={{
             width: " 90%",
             height: 40,
@@ -239,7 +250,7 @@ const Home = ({ navigation }) => {
             textStyle={{ fontSize: 13, marginBottom: "1%" }}
             text="Past Records"
           />
-          {patients.length < 1 ? (
+          {patientValue < 1 ? (
             <View
               style={{
                 alignItems: "center",
@@ -247,15 +258,17 @@ const Home = ({ navigation }) => {
                 height: "100%",
               }}
             >
-              <TextMedium
-                textStyle={styles.emptyData}
-                text="You have not taken any record"
+              <TextBold
+                style={{
+                  color: Themes.secondary,
+                }}
+                text="EXPLORE OUR APP"
               />
             </View>
           ) : (
             <FlatList
               horizontal
-              data={patients}
+              data={patientValue}
               renderItem={({ item, index }) => {
                 return item.score === undefined ? null : (
                   <View
@@ -265,15 +278,18 @@ const Home = ({ navigation }) => {
                       borderRadius: 8,
                     }}
                   >
-                    <Image source={item.image} style={styles.babyImage} />
+                    <Image
+                      source={{ uri: item.image }}
+                      style={styles.babyImage}
+                    />
                     <View style={styles.idContainer}>
                       <TextBold
                         textStyle={{ fontSize: 6, color: "#000" }}
                         text="ID"
                       />
                       <TextBold
-                        textStyle={{ fontSize: 12, color: Themes.primary }}
-                        text={`${item.id === 10 ? item.id : `0${item.id}`}`}
+                        textStyle={{ fontSize: 13, color: Themes.primary }}
+                        text={item.motherId}
                       />
                     </View>
                     <View style={styles.scoreContainer}>
@@ -394,6 +410,10 @@ const styles = StyleSheet.create({
     padding: 1,
     borderRadius: 3,
     alignItems: "center",
+    maxWidth: 25,
+    maxHeight: 25,
+    width: 25,
+    height: 25,
   },
   scoreContainer: {
     position: "absolute",

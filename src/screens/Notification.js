@@ -4,27 +4,35 @@ import {
   Dimensions,
   TouchableOpacity,
   FlatList,
+  ActivityIndicator,
 } from "react-native";
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { AntDesign } from "@expo/vector-icons";
-import { GlobalContext } from "../context/GlobalState";
+import { collection, getDocs, query } from "firebase/firestore";
 
 import { Themes } from "../constants";
 import { Text, TextBold } from "../components/common";
 import { globalStyles } from "../styles";
+import { db, auth } from "../firebase/firebase-config";
 
 const Notification = ({ navigation }) => {
-  const { patients } = useContext(GlobalContext);
+  const [patientValue, setPatientValue] = useState([]);
+  const [loading, setLoading] = useState([]);
 
-  const [first, setfirst] = useState(patients);
-
-  const deleteItem = (id) => {
-    setfirst(
-      first.filter((each) => {
-        return each.id !== id;
-      })
-    );
-  };
+  useEffect(async () => {
+    setLoading(true);
+    const getData = async () => {
+      const q = query(collection(db, `users/${auth.currentUser.uid}/user`));
+      const querySnapshot = await getDocs(q);
+      const data = querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      setPatientValue(data);
+    };
+    setLoading(false);
+    getData();
+  }, []);
 
   const Header = () => {
     return <View style={styles.headerContainer} />;
@@ -55,15 +63,23 @@ const Notification = ({ navigation }) => {
               <View style={styles.separator} />
             </View>
           </View>
-          {patients.length < 1 ? (
-            <Text text="No New Notifications" />
-          ) : (
-            <FlatList
-              data={first}
-              renderItem={NotificationMessages}
-              showsVerticalScrollIndicator={false}
-            />
-          )}
+          <View>
+            {patientValue === true ? (
+              <ActivityIndicator size="large" color={Themes.secondary} />
+            ) : (
+              <View>
+                {patientValue.length < 1 ? (
+                  <Text text="No New Notifications" />
+                ) : (
+                  <FlatList
+                    data={patientValue}
+                    renderItem={NotificationMessages}
+                    showsVerticalScrollIndicator={false}
+                  />
+                )}
+              </View>
+            )}
+          </View>
         </View>
       </View>
     );
@@ -80,28 +96,37 @@ const Notification = ({ navigation }) => {
       >
         <View>
           <View style={styles.messageContainer}>
-            <Text textStyle={styles.messageNumber} text={`0${index + 1}`} />
-            {item.score === undefined ? (
+            <View style={{ maxHeight: 70, maxWidth: 70 }}>
+              <Text textStyle={styles.messageNumber} text={`0${index + 1}`} />
+            </View>
+            <View>
               <Text
                 textStyle={styles.messageText}
-                text={`An APGAR score of ID no ${item.id} has not been recorded`}
+                text={item.notificationMessage}
               />
-            ) : (
-              <View>
-                <Text
-                  textStyle={styles.messageText}
-                  text={item.notificationMessage}
-                />
-                <Text textStyle={styles.timeAgo} text="time ago" />
-              </View>
-            )}
-
+              <Text
+                textStyle={styles.timeAgo}
+                text={
+                  item.createdAt ? item.createdAt.toDate().toTimeString() : ""
+                }
+              />
+            </View>
+            {/* 
             <TouchableOpacity
-              onPress={() => deleteItem(item.id)}
+              onPress={async () => {
+                const docRef = doc(
+                  db,
+                  `users/${auth.currentUser.uid}/user`,
+                  `${item.id}`
+                )
+                await updateDoc(docRef, {
+                  notificationMessage: deleteField()
+                })
+              }}
               activeOpacity={0.6}
             >
               <AntDesign name="delete" size={15} color={Themes.secondary} />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         </View>
         <View style={styles.messageSeparator} />
@@ -154,17 +179,6 @@ const styles = StyleSheet.create({
     width: "90%",
     marginTop: "12%",
   },
-  btnContainer: {
-    marginTop: "40%",
-    width: "90%",
-    borderRadius: 7,
-  },
-  btnText: {
-    padding: "5%",
-    color: "#fff",
-    fontSize: 20,
-    maxWidth: "2%",
-  },
   notificationText: {
     fontSize: 14,
     color: Themes.primary,
@@ -180,8 +194,8 @@ const styles = StyleSheet.create({
   messageText: {
     fontSize: 13,
     margin: 8,
-    minWidth: "80%",
-    maxWidth: "80%",
+    minWidth: "90%",
+    maxWidth: "90%",
   },
   messageNumber: {
     backgroundColor: Themes.secondary,
@@ -193,6 +207,7 @@ const styles = StyleSheet.create({
   },
   timeAgo: {
     marginLeft: 10,
+    color: Themes.text,
   },
   separator: {
     borderTopWidth: 1,

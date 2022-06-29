@@ -7,16 +7,36 @@ import {
   FlatList,
 } from "react-native";
 
-import React, { useContext } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { AntDesign } from "@expo/vector-icons";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
+import { Picker } from "@react-native-picker/picker";
 
-import { GlobalContext } from "../context/GlobalState";
 import { Themes } from "../constants";
-import { Text, TextBold, TextMedium } from "../components/common";
+import { Text, TextBold } from "../components/common";
 import { globalStyles } from "../styles";
+import { db, auth } from "../firebase/firebase-config";
 
 const DataBase = ({ navigation }) => {
-  const { patients } = useContext(GlobalContext);
+  const [patientValue, setPatientValue] = useState([]);
+  const [picker, setPicker] = useState("");
+
+  const getData = useCallback(async () => {
+    const q = query(
+      collection(db, `users/${auth.currentUser.uid}/user`),
+      orderBy(picker ? picker : "createdAt", "desc")
+    );
+    const querySnapshot = await getDocs(q);
+    const data = querySnapshot.docs.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    }));
+    setPatientValue(data);
+  }, [patientValue]);
+
+  useEffect(() => {
+    getData();
+  }, [getData]);
 
   const Header = () => {
     return <View style={styles.headerContainer} />;
@@ -26,20 +46,73 @@ const DataBase = ({ navigation }) => {
     return (
       <View style={[styles.bodyContainer, globalStyles.rowCenter]}>
         <View style={styles.bodyContentContainer}>
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}
-            style={styles.left}
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              width: "100%",
+              marginTop: 13,
+              marginBottom: 13,
+            }}
           >
-            <AntDesign color="blue" size={28} name="left" />
-          </TouchableOpacity>
-          <View style={styles.paramsContainer}>
-            <TextBold text="Database" textStyle={[styles.parameters1]} />
+            <TouchableOpacity
+              onPress={() => navigation.goBack()}
+              style={styles.left}
+            >
+              <AntDesign color="blue" size={28} name="left" />
+            </TouchableOpacity>
+            <View style={styles.paramsContainer}>
+              <TextBold text="Database" textStyle={[styles.parameters1]} />
+            </View>
+            <View
+              style={{
+                // borderWidth: 1,
+                borderRadius: 5,
+                borderColor: "lightgrey",
+                marginTop: 5,
+                marginLeft: 8,
+                height: 15,
+                justifyContent: "center",
+                width: "10%",
+              }}
+            >
+              <Picker
+                selectedValue={picker}
+                mode={"dropdown"}
+                dropdownIconColor={Themes.primary}
+                dropdownIconRippleColor={Themes.primary}
+                fontFamily="Montserrat"
+                onValueChange={(item, index) => {
+                  setPicker(item);
+                }}
+                // style={{
+                //   borderColor: "red",
+                //   borderWidth: 1,
+                //   color: Themes.text,
+                //   borderRadius: 5,
+                // }}
+              >
+                <Picker.Item
+                  label="Sort By"
+                  color={Themes.text}
+                  enabled={true}
+                  value="Sort By"
+                />
+                <Picker.Item label="Time" value="createdAt" />
+                <Picker.Item label="Score" value="score" />
+              </Picker>
+            </View>
           </View>
-          {patients.length < 1 ? (
-            <TextMedium text="Database is empty" textStyle={styles.emptyData} />
+          {patientValue < 1 ? (
+            <TextBold
+              style={{
+                color: Themes.secondary,
+              }}
+              text="EXPLORE OUR APP"
+            />
           ) : (
             <FlatList
-              data={patients}
+              data={patientValue}
               renderItem={Data}
               showsVerticalScrollIndicator={false}
               keyExtractor={(item) => item.id}
@@ -58,20 +131,56 @@ const DataBase = ({ navigation }) => {
             style={{
               flexDirection: "row",
               marginBottom: 10,
+              marginTop: 5,
               justifyContent: "space-between",
             }}
           >
             <View>
-              <TextBold
-                text={`${item.id >= 10 ? item.id : `0${item.id}`}`}
-                textStyle={styles.idNumber}
-              />
+              <TextBold text={item.motherId} textStyle={styles.idNumber} />
               <Text textStyle={{ fontSize: 10 }} text="ID" />
             </View>
 
             <View>
-              <Text textStyle={{ fontSize: 10 }} text="Year" />
-              <Text textStyle={{ fontSize: 10 }} text="Time" />
+              <View
+                style={{
+                  flexDirection: "row",
+                  marginLeft: 5,
+                  alignSelf: "flex-end",
+                }}
+              >
+                <Text
+                  textStyle={{ fontSize: 10 }}
+                  text={` ${
+                    item.createdAt === null
+                      ? ""
+                      : item.createdAt.toDate().getDay()
+                  }/`}
+                />
+                <Text
+                  textStyle={{ fontSize: 10 }}
+                  text={`${
+                    item.createdAt === null
+                      ? ""
+                      : item.createdAt.toDate().getMonth()
+                  }/`}
+                />
+                <Text
+                  textStyle={{ fontSize: 10 }}
+                  text={
+                    item.createdAt === null
+                      ? ""
+                      : item.createdAt.toDate().getFullYear()
+                  }
+                />
+              </View>
+              <Text
+                textStyle={{ fontSize: 10 }}
+                text={
+                  item.createdAt === null
+                    ? ""
+                    : item.createdAt.toDate().toTimeString()
+                }
+              />
             </View>
           </View>
           <View style={styles.separator} />
@@ -93,7 +202,7 @@ const DataBase = ({ navigation }) => {
               >
                 <View>
                   <Image
-                    source={item.image}
+                    source={{ uri: item.image }}
                     style={{
                       width: 60,
                       height: 60,
@@ -145,7 +254,9 @@ const DataBase = ({ navigation }) => {
                   <TouchableOpacity
                     activeOpacity={0.6}
                     onPress={() =>
-                      navigation.navigate("Detail", { id: item.id })
+                      navigation.navigate("Detail", {
+                        id: item.id,
+                      })
                     }
                     containerStyle={styles.detailBtnContainer}
                   >
@@ -168,7 +279,10 @@ const DataBase = ({ navigation }) => {
                   <TouchableOpacity
                     activeOpacity={0.6}
                     onPress={() =>
-                      navigation.navigate("MaternalRecord", { id: item.id })
+                      navigation.navigate("MaternalRecord", {
+                        id: item.id,
+                        motherId: item.motherId,
+                      })
                     }
                   >
                     <Text
@@ -205,8 +319,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     flexDirection: "row",
-    paddingLeft: 20,
-    paddingRight: 20,
   },
   menuStyle: {
     width: 18,
@@ -219,23 +331,19 @@ const styles = StyleSheet.create({
   bodyContentContainer: {
     backgroundColor: "#fff",
     width: Dimensions.get("window").width * 0.95,
-    height: Dimensions.get("screen").height * 0.81,
+    height: Dimensions.get("screen").height * 0.815,
     borderRadius: 10,
     alignItems: "center",
   },
   paramsContainer: {
     flexDirection: "row",
-    marginTop: "6%",
+    margiTop: "2%",
   },
-  left: {
-    position: "absolute",
-    left: "4%",
-    marginTop: "6%",
-  },
+  left: {},
   parameters1: {
-    fontSize: 24,
+    fontSize: 18,
     color: Themes.primary,
-    fontWeight: "900",
+    marginTop: "1%",
   },
   idNumber: {
     color: Themes.primary,
@@ -273,7 +381,7 @@ const styles = StyleSheet.create({
   cardContainer: {
     padding: 9,
     borderRadius: 5,
-    marginBottom: "3%",
+    marginBottom: "2%",
     shadowColor: "lightgray",
     shadowOffset: {
       width: 0,

@@ -20,7 +20,7 @@ const Recovery = ({ navigation }) => {
             <View
               style={{
                 backgroundColor: "#fcfcfc",
-                height: "50%",
+                height: "65%",
                 width: "75%",
                 borderRadius: 10,
                 alignItems: "center",
@@ -28,8 +28,12 @@ const Recovery = ({ navigation }) => {
               }}
             >
               {/* <Text text='Your Hospital'/> */}
-              <Text text="Your Password has been sent" />
-              <Text text="to the email you provided" />
+              <Text text="Your Password Reset Link has been" />
+              <Text text="sent to the email you provided" />
+              <Text
+                textStyle={styles.spam}
+                text="Check spam, If not found in Primary inbox"
+              />
               {/* <Text text='ID No is'/> */}
               {/* <Text textStyle={styles.textStyle} text='10'/> */}
               <View style={styles.footer} />
@@ -94,7 +98,7 @@ const styles = StyleSheet.create({
   },
   containerStyle: {
     position: "absolute",
-    bottom: "10%",
+    bottom: "3%",
     paddingLeft: 20,
     paddingRight: 20,
     padding: 15,
@@ -102,6 +106,11 @@ const styles = StyleSheet.create({
   },
   btnText: {
     color: "#fff",
+  },
+  spam: {
+    fontSize: 7,
+    color: Themes.secondary,
+    marginTop: 10,
   },
 });
 

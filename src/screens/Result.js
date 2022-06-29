@@ -1,22 +1,43 @@
-import { StyleSheet, View, Dimensions, TouchableOpacity } from "react-native";
-import React, { useContext } from "react";
+import {
+  StyleSheet,
+  View,
+  Dimensions,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
+import React, { useEffect, useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
+import { collection, getDocs, query } from "firebase/firestore";
 
-import { GlobalContext } from "../context/GlobalState";
 import { Text, TextBold } from "../components/common";
 import { Themes } from "../constants";
 import { globalStyles } from "../styles";
 import { Button } from "../components/common";
+import { auth, db } from "../firebase/firebase-config";
 
 const Result = ({ navigation, route }) => {
-  const { patients } = useContext(GlobalContext);
+  const [patientValue, setPatientValue] = useState([]);
+
+  const getData = async () => {
+    const q = query(collection(db, `users/${auth.currentUser.uid}/user`));
+    const querySnapshot = await getDocs(q);
+    const data = querySnapshot.docs.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    }));
+    setPatientValue(data);
+  };
+
+  useEffect(async () => {
+    getData();
+  }, []);
 
   const { id } = route.params;
 
-  const data = patients.find((item) => {
-    return item.id === id;
+  const patientData = patientValue.find((each) => {
+    return each.id === id;
   });
-  
+
   const Header = () => {
     return <View style={styles.headerContainer} />;
   };
@@ -43,13 +64,24 @@ const Result = ({ navigation, route }) => {
             <View style={styles.resultContainer}>
               <Text textStyle={{ fontSize: 13 }} text="APGAR Score" />
               <Text textStyle={{ fontSize: 12 }} text="is" />
-              <Text
-                textStyle={styles.textStyle}
-                text={`${data.score === 10 ? data.score : `0${data.score}`}`}
-              />
-
+              {patientData === undefined ? (
+                <ActivityIndicator color={Themes.secondary} size="small" />
+              ) : (
+                <Text
+                  textStyle={styles.textStyle}
+                  text={`${
+                    patientData.score === 10
+                      ? patientData.score
+                      : `0${patientData.score}`
+                  }`}
+                />
+              )}
               <View style={styles.footer} />
-              <Text textStyle={styles.comment} text={data.comment} />
+              {patientData === undefined ? (
+                <ActivityIndicator color={Themes.primary} size="small" />
+              ) : (
+                <Text textStyle={styles.comment} text={patientData.comment} />
+              )}
             </View>
           </View>
           <View
@@ -74,14 +106,21 @@ const Result = ({ navigation, route }) => {
                 <Text textStyle={styles.textBtn} text="Skip" />
               </TouchableOpacity>
             </View>
-            <Button
-              title="Add Maternal Record"
-              onPress={() =>
-                navigation.navigate("MaternalRecord", { id: data.id })
-              }
-              containerStyle={styles.btnContainer}
-              textStyle={styles.btnText}
-            />
+            {patientData === undefined ? (
+              <ActivityIndicator color={Themes.secondary} size="small" />
+            ) : (
+              <Button
+                title="Add Maternal Record"
+                onPress={() =>
+                  navigation.navigate("MaternalRecord", {
+                    id: patientData.id,
+                    motherId: patientData.motherId,
+                  })
+                }
+                containerStyle={styles.btnContainer}
+                textStyle={styles.btnText}
+              />
+            )}
           </View>
 
           <View style={styles.warning}>

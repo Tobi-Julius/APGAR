@@ -14,7 +14,6 @@ import { browserLocalPersistence, setPersistence } from "firebase/auth";
 import { Themes } from "../constants";
 import { globalStyles } from "../styles";
 import { Button, Text, TextInput, TextBold } from "../components/common";
-import { auth } from "../firebase/firebase-config";
 
 function SignIn({ navigation }) {
   const [email, setEmail] = useState("");
@@ -33,7 +32,7 @@ function SignIn({ navigation }) {
     // setPersistence(auth, browserLocalPersistence)
     try {
       await logIn(email, password);
-      navigation.navigate("SideMenu");
+      navigation.replace("SideMenu");
       setEmail("");
       setPassword("");
       setError("");
@@ -42,10 +41,6 @@ function SignIn({ navigation }) {
       setError(error.message);
       setLoading(false);
     }
-    //   .then(() => {
-    //   })
-    //   .catch((error) => {
-    //     });
   };
 
   const Body = () => {
@@ -87,15 +82,29 @@ function SignIn({ navigation }) {
             />
           </View>
           <Text textStyle={styles.errText} text={`${error && error}`}></Text>
-
-          <TouchableOpacity
-            disabled={loading ? true : false}
-            activeOpacity={0.6}
-            style={{ alignSelf: "flex-start" }}
-            onPress={() => navigation.navigate("RetrieveId")}
+          <View
+            style={{
+              alignSelf: "flex-start",
+              flexDirection: "row",
+            }}
           >
-            <Text textStyle={styles.textStyle} text="Forget Password ?" />
-          </TouchableOpacity>
+            <TouchableOpacity
+              disabled={loading ? true : false}
+              activeOpacity={0.6}
+              style={{ alignSelf: "flex-start" }}
+              onPress={() => navigation.navigate("RetrieveId")}
+            >
+              <Text textStyle={styles.textStyle} text="Forget Password?" />
+            </TouchableOpacity>
+            <TouchableOpacity
+              disabled={loading ? true : false}
+              activeOpacity={0.6}
+              style={{ alignSelf: "flex-start", marginLeft: -14 }}
+              onPress={() => navigation.navigate("Register")}
+            >
+              <Text textStyle={styles.textStyleRegister} text="Register" />
+            </TouchableOpacity>
+          </View>
 
           <Button
             containerStyle={styles.containerStyle}
@@ -158,9 +167,16 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   textStyle: {
-    color: Themes.primary,
+    color: Themes.secondary,
     alignSelf: "flex-start",
     paddingLeft: "7%",
+    paddingTop: "3%",
+    fontSize: 11,
+  },
+  textStyleRegister: {
+    color: Themes.primary,
+    alignSelf: "flex-start",
+    paddingLeft: "6%",
     paddingTop: "3%",
     fontSize: 11,
   },

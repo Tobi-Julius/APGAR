@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "APGAR",
-    "slug": "APGAR",
+    "name": "APGAR2",
+    "slug": "apgar2",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/icon.png",
@@ -28,6 +28,6 @@
     "web": {
       "favicon": "./src/assets/favicon.png"
     },
-    "description": "APGAR application"
+    "description": "APGAR application2"
   }
 }

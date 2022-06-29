@@ -26,7 +26,7 @@ const CustomDrawer = (props) => {
   const handleSubmit = async () => {
     try {
       await logOut(auth);
-      props.navigation.navigate("SignIn");
+      props.navigation.replace("SignIn");
     } catch (error) {
       setError(error.message);
     }
@@ -50,7 +50,7 @@ const CustomDrawer = (props) => {
             <Image source={Hospital} style={styles.styleImage} />
             {/* <Text text="ID" textStyle={[styles.id]} /> */}
             <View style={styles.firstLetterStyle}>
-              <TextBold text={letter} textStyle={[styles.number]} />
+              {letter && <TextBold text={letter} textStyle={[styles.number]} />}
             </View>
           </View>
         </View>

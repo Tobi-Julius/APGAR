@@ -9,6 +9,7 @@ import {
 import React, { useState } from "react";
 import { Picker } from "@react-native-picker/picker";
 import { sendEmailVerification } from "firebase/auth";
+import { setDoc, doc } from "firebase/firestore";
 
 import { Button, TextInput } from "../components/common";
 import { Themes } from "../constants";
@@ -17,6 +18,7 @@ import { Text, TextBold } from "../components/common";
 import KeyBoardAvoidingWrapper from "../components/Keyboard/KeyBoardAvoidingWrapper";
 import { useUserAuth } from "../context/firebaseContext/AuthContext";
 import { auth } from "../firebase/firebase-config";
+import { db } from "../firebase/firebase-config";
 
 const Register = ({ navigation }) => {
   const [state, setState] = useState("");
@@ -28,7 +30,7 @@ const Register = ({ navigation }) => {
   const [inputFields, setInputFields] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const { register, user } = useUserAuth();
+  const { register } = useUserAuth();
 
   const onSubmit = async () => {
     if (city === "" || state === "" || hospitalName === "") {
@@ -38,6 +40,12 @@ const Register = ({ navigation }) => {
       setLoading(true);
       try {
         await register(email, password);
+        await setDoc(doc(db, `users/${auth.currentUser.uid}`), {
+          state,
+          email,
+          city,
+          hospitalName,
+        });
         navigation.navigate("RegisterSucess");
         setState("");
         setCity("");
@@ -90,6 +98,7 @@ const Register = ({ navigation }) => {
             }}
           >
             <Picker
+              enabled={loading ? false : true}
               selectedValue={state}
               dropdownIconColor={Themes.primary}
               dropdownIconRippleColor={Themes.primary}
@@ -199,7 +208,7 @@ const Register = ({ navigation }) => {
           <TouchableOpacity
             activeOpacity={0.6}
             style={{ marginLeft: "3%" }}
-            onPress={() => navigation.navigate("SignIn")}
+            onPress={() => navigation.replace("SignIn")}
           >
             <Text
               textStyle={{ color: Themes.primary, fontSize: 13 }}

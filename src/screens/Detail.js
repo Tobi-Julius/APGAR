@@ -1,128 +1,153 @@
-import { StyleSheet, View, Dimensions, TouchableOpacity } from "react-native";
-import React, { useContext } from "react";
+import {
+  StyleSheet,
+  View,
+  Dimensions,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
+import React, { useState, useEffect } from "react";
 import { AntDesign } from "@expo/vector-icons";
-import { GlobalContext } from "../context/GlobalState";
+import { collection, getDocs, query } from "firebase/firestore";
 
 import { Themes } from "../constants";
 import { globalStyles } from "../styles";
 import { Text, Button, TextBold } from "../components/common";
+import { db, auth } from "../firebase/firebase-config";
 
 const Detail = ({ navigation, route }) => {
-  const Header = () => {
-    return <View style={styles.headerContainer} />;
+  const [patientValue, setPatientValue] = useState([]);
+
+  const getData = async () => {
+    const q = query(collection(db, `users/${auth.currentUser.uid}/user`));
+    const querySnapshot = await getDocs(q);
+    const data = querySnapshot.docs.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    }));
+    setPatientValue(data);
   };
-  const { patients } = useContext(GlobalContext);
+  useEffect(async () => {
+    getData();
+  }, []);
 
   const { id } = route.params;
 
-  const data = patients.find((item) => {
+  const data = patientValue.find((item) => {
     return item.id === id;
   });
+
+  const Header = () => {
+    return <View style={styles.headerContainer} />;
+  };
 
   const Body = () => {
     return (
       <View style={[styles.bodyContainer, globalStyles.rowCenter]}>
-        <View style={styles.bodyContentContainer}>
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}
-            style={styles.left}
-          >
-            <AntDesign color="blue" size={28} name="left" />
-          </TouchableOpacity>
+        {data === undefined ? (
+          <ActivityIndicator color={Themes.secondary} size="large" />
+        ) : (
+          <View style={styles.bodyContentContainer}>
+            <TouchableOpacity
+              onPress={() => navigation.goBack()}
+              style={styles.left}
+            >
+              <AntDesign color="blue" size={28} name="left" />
+            </TouchableOpacity>
 
-          <View style={styles.paramsContainer}>
-            <TextBold text="ID : " textStyle={[styles.parameters1]} />
-            <TextBold
-              text={`${data.id >= 10 ? data.id : `0${data.id}`}`}
-              textStyle={[styles.parameters1]}
-            />
-          </View>
-          <View style={styles.container}>
-            <View style={styles.textHeadContainer}>
-              <Text textStyle={styles.indicatorText} text="Indicator" />
-              <Text textStyle={styles.indicatorText} text="State" />
-              <Text textStyle={styles.indicatorText} text="Point" />
+            <View style={styles.paramsContainer}>
+              <TextBold text="ID : " textStyle={[styles.parameters1]} />
+              <TextBold text={data.motherId} textStyle={[styles.parameters1]} />
             </View>
+            <View style={styles.container}>
+              <View style={styles.textHeadContainer}>
+                <Text textStyle={styles.indicatorText} text="Indicator" />
+                <Text textStyle={styles.indicatorText} text="State" />
+                <Text textStyle={styles.indicatorText} text="Point" />
+              </View>
 
-            <View style={styles.row}>
-              <Text text="Activity" textStyle={styles.text} />
-              <Text
-                textAlign="center"
-                textStyle={{
-                  fontSize: 10,
-                  width: "70%",
-                  alignSelf: "center",
-                }}
-                text={data.activity}
-              />
-              <Text text={data.activityScore} textStyle={styles.text} />
-            </View>
-
-            <View style={styles.row}>
-              <Text textStyle={styles.text} text="Pulse" />
-              <Text textStyle={{ fontSize: 10 }} text={data.pulse} />
-              <Text textStyle={styles.text} text={data.pulseScore} />
-            </View>
-
-            <View style={styles.row}>
-              <Text textStyle={styles.text} text="Grimace" />
-              <Text textStyle={{ fontSize: 10 }} text={data.grimace} />
-              <Text textStyle={styles.text} text={data.grimaceScore} />
-            </View>
-
-            <View style={styles.row}>
-              <Text textStyle={styles.text} text="Appearance" />
-              <Text textStyle={{ fontSize: 10 }} text={data.appearance} />
-              <Text textStyle={styles.text} text={data.appearanceScore} />
-            </View>
-
-            <View style={styles.row}>
-              <Text textStyle={styles.text} text="Respiration" />
-              <Text textStyle={{ fontSize: 10 }} text={data.respiration} />
-              <Text textStyle={styles.text} text={data.respirationScore} />
-            </View>
-
-            <View style={styles.footerContainer}>
-              {data.maternalHtpertension ? (
-                <TouchableOpacity
-                  activeOpacity={0.6}
-                  style={{ marginTop: "15%" }}
-                  onPress={() =>
-                    navigation.navigate("MaternalHistory", { id: data.id })
-                  }
-                >
-                  <Text textStyle={styles.linkText} text="Maternity History" />
-                </TouchableOpacity>
-              ) : null}
-              {data.score !== undefined ? (
-                <View style={styles.scoreContainer}>
-                  <Text
-                    textStyle={styles.scoreText}
-                    text={`SCORE: ${
-                      data.score === 10 ? data.score : `0${data.score}`
-                    }`}
-                  />
-                </View>
-              ) : (
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  onPress={() => {
-                    navigation.navigate("TakeAPGARScore");
+              <View style={styles.row}>
+                <Text text="Activity" textStyle={styles.text} />
+                <Text
+                  textAlign="center"
+                  textStyle={{
+                    fontSize: 10,
+                    width: "70%",
+                    alignSelf: "center",
                   }}
-                  style={styles.takeScore}
-                >
-                  <Text textStyle={styles.linkTextAdd} text="Take Score" />
-                </TouchableOpacity>
-              )}
+                  text={data.activity}
+                />
+                <Text text={data.activityScore} textStyle={styles.text} />
+              </View>
+
+              <View style={styles.row}>
+                <Text textStyle={styles.text} text="Pulse" />
+                <Text textStyle={{ fontSize: 10 }} text={data.pulse} />
+                <Text textStyle={styles.text} text={data.pulseScore} />
+              </View>
+
+              <View style={styles.row}>
+                <Text textStyle={styles.text} text="Grimace" />
+                <Text textStyle={{ fontSize: 10 }} text={data.grimace} />
+                <Text textStyle={styles.text} text={data.grimaceScore} />
+              </View>
+
+              <View style={styles.row}>
+                <Text textStyle={styles.text} text="Appearance" />
+                <Text textStyle={{ fontSize: 10 }} text={data.appearance} />
+                <Text textStyle={styles.text} text={data.appearanceScore} />
+              </View>
+
+              <View style={styles.row}>
+                <Text textStyle={styles.text} text="Respiration" />
+                <Text textStyle={{ fontSize: 10 }} text={data.respiration} />
+                <Text textStyle={styles.text} text={data.respirationScore} />
+              </View>
+
+              <View style={styles.footerContainer}>
+                {data.maternalHtpertension ? (
+                  <TouchableOpacity
+                    activeOpacity={0.6}
+                    style={{ marginTop: "15%" }}
+                    onPress={() =>
+                      navigation.navigate("MaternalHistory", { id: data.id })
+                    }
+                  >
+                    <Text
+                      textStyle={styles.linkText}
+                      text="Maternity History"
+                    />
+                  </TouchableOpacity>
+                ) : null}
+                {data.score !== undefined ? (
+                  <View style={styles.scoreContainer}>
+                    <Text
+                      textStyle={styles.scoreText}
+                      text={`SCORE: ${
+                        data.score === 10 ? data.score : `0${data.score}`
+                      }`}
+                    />
+                  </View>
+                ) : (
+                  <TouchableOpacity
+                    activeOpacity={0.8}
+                    onPress={() => {
+                      navigation.navigate("TakeAPGARScore");
+                    }}
+                    style={styles.takeScore}
+                  >
+                    <Text textStyle={styles.linkTextAdd} text="Take Score" />
+                  </TouchableOpacity>
+                )}
+              </View>
+              <Button
+                onPress={() => navigation.goBack()}
+                textStyle={styles.btnText}
+                containerStyle={styles.btnContainer}
+                title="Close"
+              />
             </View>
-            <Button
-              onPress={() => navigation.navigate("DataBase")}
-              textStyle={styles.btnText}
-              containerStyle={styles.btnContainer}
-              title="Close"
-            />
           </View>
-        </View>
+        )}
       </View>
     );
   };
@@ -220,6 +245,7 @@ const styles = StyleSheet.create({
     color: Themes.primary,
     textDecorationLine: "underline",
     fontSize: 11,
+    marginBottom: 6,
   },
   linkTextAdd: {
     color: Themes.secondary,
@@ -239,6 +265,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     width: "50%",
     alignSelf: "center",
+    zIndex: 1,
   },
   btnText: {
     padding: 13,

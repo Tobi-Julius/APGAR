@@ -1,27 +1,34 @@
-import { StyleSheet, View, Dimensions, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Dimensions,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
 import React, { useState, useContext } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
-import { GlobalContext } from "../context/GlobalState";
+import { auth } from "../firebase/firebase-config";
 
 import { Themes } from "../constants";
 import { globalStyles } from "../styles";
 import { Button, TextInput, Text, TextBold } from "../components/common";
 import KeyBoardAvoidingWrapper from "../components/Keyboard/KeyBoardAvoidingWrapper";
+import { db } from "../firebase/firebase-config";
+import { doc, updateDoc } from "firebase/firestore";
 
 const MaternalRecord = ({ navigation, route }) => {
-  const { patients } = useContext(GlobalContext);
+  const { id, motherId } = route.params;
 
-  const { id } = route.params;
-
-  const data = patients.find((item) => {
-    return item.id === id;
-  });
+  // const data = patients.find((item) => {
+  //   return item.id === id;
+  // });
 
   const [deliveryMode, setdeliveryMode] = useState("");
   const [birthWeight, setBirthWeight] = useState("");
   const [gestationPeriod, setGestationPeriod] = useState("");
   const [input, setInput] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   return (
     <KeyBoardAvoidingWrapper>
@@ -45,7 +52,7 @@ const MaternalRecord = ({ navigation, route }) => {
             <View style={styles.inputContainer}>
               <TextInput
                 edit={false}
-                value={`${data.id >= 10 ? data.id : `0${data.id}`}`}
+                value={motherId}
                 textInputStyle={styles.textInputStyle}
                 label="Mother's ID"
               />
@@ -113,8 +120,15 @@ const MaternalRecord = ({ navigation, route }) => {
             </View>
 
             <Button
-              title="NEXT"
-              onPress={() => {
+              disabled={loading ? true : false}
+              title={
+                loading ? (
+                  <ActivityIndicator color="white" size="small" />
+                ) : (
+                  "NEXT"
+                )
+              }
+              onPress={async () => {
                 if (
                   birthWeight === "" ||
                   deliveryMode === "" ||
@@ -122,10 +136,29 @@ const MaternalRecord = ({ navigation, route }) => {
                 ) {
                   setInput(!input);
                 } else {
-                  data.deliveryMode = deliveryMode;
-                  data.gestationPeriod = `${gestationPeriod}weeks`;
-                  data.birthWeight = `${birthWeight}kg`;
-                  navigation.navigate("MaternalRecordSecond", { id: data.id });
+                  setLoading(true);
+                  const docRef = doc(
+                    db,
+                    `users/${auth.currentUser.uid}/user`,
+                    id
+                  );
+                  await updateDoc(
+                    docRef,
+                    {
+                      deliveryMode: deliveryMode,
+                      gestationPeriod: `${gestationPeriod}weeks`,
+                      birthWeight: `${birthWeight}kg`,
+                    }
+                    // { merge: true }
+                  )
+                    .then(() => {
+                      navigation.navigate("MaternalRecordSecond", {
+                        id: id,
+                      });
+                      setLoading(false);
+                    })
+                    .catch((e) => console.warn(e));
+                  setLoading(false);
                 }
               }}
               textStyle={styles.btnText}

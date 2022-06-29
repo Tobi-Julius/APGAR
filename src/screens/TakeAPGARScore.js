@@ -5,29 +5,26 @@ import {
   TouchableOpacity,
   Modal,
   Keyboard,
+  ActivityIndicator,
 } from "react-native";
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
-import { doc, setDoc } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  serverTimestamp,
+  query,
+  getDocs,
+} from "firebase/firestore";
 
-import { GlobalContext } from "../context/GlobalState";
 import { Themes } from "../constants";
 import { Text, Button, TextBold, TextInput } from "../components/common";
 import { globalStyles } from "../styles";
-import { auth } from "../firebase/firebase-config";
-import { db } from "../firebase/firebase-config";
-import { useUserAuth } from "../context/firebaseContext/AuthContext";
-
-import baby1 from "../images/Home/baby1.png";
-import baby2 from "../images/Home/baby2.png";
-import baby3 from "../images/Home/baby3.png";
-import baby4 from "../images/Home/baby4.png";
+import { auth, db } from "../firebase/firebase-config";
 
 const TakeAPGARScore = ({ navigation }) => {
-  const { addPatient, patients } = useContext(GlobalContext);
-  const user = useUserAuth();
-
   const [activity, setActivity] = useState("");
   const [activityScore, setActivityScore] = useState("");
   const [pulse, setPulse] = useState("");
@@ -42,9 +39,83 @@ const TakeAPGARScore = ({ navigation }) => {
   const [score, setScore] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [motherId, setMotherId] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [dataId, setDataId] = useState("");
 
-  const images = [baby1, baby2, baby3, baby4];
+  const images = [
+    `https://firebasestorage.googleapis.com/v0/b/apgar-f18f9.appspot.com/o/images%2Fbaby1.png?alt=media&token=ad7f5a9a-b62c-4b20-bd09-afb85b09f762`,
+    `https://firebasestorage.googleapis.com/v0/b/apgar-f18f9.appspot.com/o/images%2Fbaby2.png?alt=media&token=042d428a-29d2-438a-93cc-a53a7bc56769`,
+    `https://firebasestorage.googleapis.com/v0/b/apgar-f18f9.appspot.com/o/images%2Fbaby3.png?alt=media&token=065b06f5-27b7-460b-92bd-e3d00f74d83e`,
+    `https://firebasestorage.googleapis.com/v0/b/apgar-f18f9.appspot.com/o/images%2Fbaby4.png?alt=media&token=aeaf5d7d-2370-40d6-9f67-fd6f0aff4558`,
+  ];
   const randomImage = Math.floor(Math.random() * images.length);
+
+  const scoreTakenHandler = async () => {
+    const q = query(collection(db, `users/${auth.currentUser.uid}/user`));
+    const querySnapshot = await getDocs(q);
+    const data = querySnapshot.docs.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    }));
+    setDataId(data);
+    if (
+      motherId === "" ||
+      activity === "" ||
+      respiration === "" ||
+      pulse === "" ||
+      grimace === "" ||
+      appearance === "" ||
+      dataId.find((each) => each.motherId === motherId)
+    ) {
+      setShowModal(true);
+      return;
+    } else {
+      setLoading(true);
+      const Result = value.reduce(
+        (acc, curr) => parseInt(curr) + parseInt(acc)
+      );
+      let score = Result;
+      setScore(score);
+      const docRef = doc(db, "users", auth.currentUser.uid);
+      const colRef = collection(docRef, "user");
+      await addDoc(colRef, {
+        id: motherId,
+        motherId,
+        activity,
+        image: images[randomImage],
+        pulse,
+        grimace,
+        appearance,
+        respiration,
+        activityScore,
+        pulseScore,
+        grimaceScore,
+        appearanceScore,
+        respirationScore,
+        createdAt: serverTimestamp(),
+        notificationMessage: `An APGAR score of ${motherId} has been recorded`,
+        score: score,
+        comment:
+          score <= 3
+            ? "Severly Depressed"
+            : score >= 4 && score <= 6
+            ? "Moderately Depresssed"
+            : "Excellent Condition",
+      })
+        .then((res) => {
+          navigation.navigate("Result", { id: res.id });
+          setValue([]);
+          setActivity("");
+          setAppearance("");
+          setPulse("");
+          setGrimace("");
+          setRespiration("");
+          setLoading(false);
+        })
+        .catch((e) => console.warn(e));
+      setLoading(false);
+    }
+  };
 
   const Header = () => {
     return <View style={styles.headerContainer} />;
@@ -75,12 +146,13 @@ const TakeAPGARScore = ({ navigation }) => {
       <View style={{ width: "90%", marginTop: "4%" }}>
         <View style={styles.calContainer}>
           <TextInput
-            inputType="Numeric"
+            inputType="numeric"
+            edit={loading ? false : true}
             textInputStyle={styles.textInputStyle}
             onChangeText={(item) => {
               setMotherId(item);
             }}
-            placeholder="Pick Mother's ID (e.g 1,2...)"
+            placeholder="Mother's ID(e.g 1, 2 ...)"
             label="Mother's ID"
           />
         </View>
@@ -97,6 +169,7 @@ const TakeAPGARScore = ({ navigation }) => {
             }}
           >
             <Picker
+              enabled={loading ? false : true}
               onFocus={Keyboard.dismiss}
               selectedValue={activity}
               mode={"dropdown"}
@@ -149,6 +222,7 @@ const TakeAPGARScore = ({ navigation }) => {
             }}
           >
             <Picker
+              enabled={loading ? false : true}
               onFocus={Keyboard.dismiss}
               selectedValue={pulse}
               dropdownIconColor={Themes.primary}
@@ -194,6 +268,7 @@ const TakeAPGARScore = ({ navigation }) => {
             }}
           >
             <Picker
+              enabled={loading ? false : true}
               onFocus={Keyboard.dismiss}
               selectedValue={grimace}
               mode={"dropdown"}
@@ -249,6 +324,7 @@ const TakeAPGARScore = ({ navigation }) => {
             }}
           >
             <Picker
+              enabled={loading ? false : true}
               onFocus={Keyboard.dismiss}
               selectedValue={appearance}
               dropdownIconColor={Themes.primary}
@@ -300,6 +376,7 @@ const TakeAPGARScore = ({ navigation }) => {
             }}
           >
             <Picker
+              enabled={loading ? false : true}
               onFocus={Keyboard.dismiss}
               selectedValue={respiration}
               dropdownIconColor={Themes.primary}
@@ -335,59 +412,15 @@ const TakeAPGARScore = ({ navigation }) => {
           </View>
         </View>
         <Button
-          title="Take Score"
-          onPress={async () => {
-            if (
-              patients.find((each) => each.id === motherId) ||
-              motherId === "" ||
-              activity === "" ||
-              respiration === "" ||
-              pulse === "" ||
-              grimace === "" ||
-              appearance === ""
-            ) {
-              setShowModal(true);
-            } else {
-              const Result = value.reduce(
-                (acc, curr) => parseInt(curr) + parseInt(acc)
-              );
-              let score = Result;
-              setScore(score);
-              await setDoc(doc(db, `users/${auth.currentUser.uid}`), {
-                id: motherId,
-                motherId: motherId,
-                activity: activity,
-                image: images[randomImage],
-                pulse: pulse,
-                grimace: grimace,
-                appearance: appearance,
-                respiration: respiration,
-                activityScore: activityScore,
-                pulseScore: pulseScore,
-                grimaceScore: grimaceScore,
-                appearanceScore: appearanceScore,
-                respirationScore: respirationScore,
-                notificationMessage: `An APGAR score of ID no ${motherId} has been recorded`,
-                score: score,
-                comment:
-                  score <= 3
-                    ? "Severly Depressed"
-                    : score >= 4 && score <= 6
-                    ? "Moderately Depresssed"
-                    : "Excellent Condition",
-              })
-                .then(() => {
-                  navigation.navigate("Result", { id: motherId });
-                  setValue([]);
-                  setActivity("");
-                  setAppearance("");
-                  setPulse("");
-                  setGrimace("");
-                  setRespiration("");
-                })
-                .catch((e) => console.warn(e));
-            }
-          }}
+          disabled={loading ? true : false}
+          title={
+            loading ? (
+              <ActivityIndicator size="small" color="white" />
+            ) : (
+              "Take Score"
+            )
+          }
+          onPress={() => scoreTakenHandler()}
           textStyle={styles.btnText}
           containerStyle={styles.btnContainer}
         />
@@ -410,17 +443,20 @@ const TakeAPGARScore = ({ navigation }) => {
               <View style={styles.warningHeaderContainer}>
                 <Text textStyle={styles.warningHeaderText} text="Warning" />
               </View>
-              {patients.find((each) => each.id === motherId) ? (
-                <Text
-                  textStyle={styles.warningText}
-                  text="Mother ID already exists"
-                />
-              ) : (
-                <Text
-                  textStyle={styles.warningText}
-                  text="Please, Fill all the Fields to Calculate Your Score"
-                />
-              )}
+              <View>
+                {dataId &&
+                  (dataId.find((each) => each.motherId === motherId) ? (
+                    <Text
+                      textStyle={styles.warningText}
+                      text="Mother's ID already exists, Assign a new number"
+                    />
+                  ) : (
+                    <Text
+                      textStyle={styles.warningText}
+                      text="Please, Fill all the Fields to Calculate Your Score"
+                    />
+                  ))}
+              </View>
               <TouchableOpacity
                 activeOpacity={0.6}
                 onPress={() => setShowModal(false)}
@@ -435,13 +471,11 @@ const TakeAPGARScore = ({ navigation }) => {
     );
   };
   return (
-    // <KeyBoardAvoidingWrapper>
     <View>
       {popUpModal()}
       {Header()}
       {Body()}
     </View>
-    // {/* </KeyBoardAvoidingWrapper> */}
   );
 };
 

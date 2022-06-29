@@ -1,14 +1,12 @@
 import { StyleSheet, View, Dimensions, TouchableOpacity } from "react-native";
-import React, { useContext } from "react";
-
-import { GlobalContext } from "../context/GlobalState";
+import React from "react";
+import { doc, deleteDoc } from "firebase/firestore";
 
 import { Themes } from "../constants";
 import { Text, TextBold } from "../components/common";
+import { db, auth } from "../firebase/firebase-config";
 
 const Delete = ({ navigation, route }) => {
-  const { deletePatient } = useContext(GlobalContext);
-
   const { id } = route.params;
 
   const Header = () => {
@@ -37,8 +35,10 @@ const Delete = ({ navigation, route }) => {
             </TouchableOpacity>
 
             <TouchableOpacity
-              onPress={() => {
-                deletePatient(id);
+              onPress={async () => {
+                await deleteDoc(
+                  doc(db, `users/${auth.currentUser.uid}/user`, id)
+                );
                 navigation.navigate("Database");
               }}
               activeOpacity={0.6}
