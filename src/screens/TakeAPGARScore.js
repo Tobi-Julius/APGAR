@@ -6,21 +6,16 @@ import {
   Modal,
   Keyboard,
   ActivityIndicator,
+  StatusBar,
+  ScrollView,
 } from "react-native";
 import React, { useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
-import {
-  addDoc,
-  collection,
-  doc,
-  serverTimestamp,
-  query,
-  getDocs,
-} from "firebase/firestore";
+import { addDoc, collection, doc, serverTimestamp } from "firebase/firestore";
 
 import { Themes } from "../constants";
-import { Text, Button, TextBold, TextInput } from "../components/common";
+import { Text, Button, TextBold } from "../components/common";
 import { globalStyles } from "../styles";
 import { auth, db } from "../firebase/firebase-config";
 
@@ -35,12 +30,8 @@ const TakeAPGARScore = ({ navigation }) => {
   const [appearanceScore, setAppearanceScore] = useState("");
   const [respiration, setRespiration] = useState("");
   const [respirationScore, setRespirationScore] = useState("");
-  const [value, setValue] = useState([0]);
-  const [score, setScore] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const [motherId, setMotherId] = useState("");
   const [loading, setLoading] = useState(false);
-  const [dataId, setDataId] = useState("");
 
   const images = [
     `https://firebasestorage.googleapis.com/v0/b/apgar-f18f9.appspot.com/o/images%2Fbaby1.png?alt=media&token=ad7f5a9a-b62c-4b20-bd09-afb85b09f762`,
@@ -49,38 +40,35 @@ const TakeAPGARScore = ({ navigation }) => {
     `https://firebasestorage.googleapis.com/v0/b/apgar-f18f9.appspot.com/o/images%2Fbaby4.png?alt=media&token=aeaf5d7d-2370-40d6-9f67-fd6f0aff4558`,
   ];
   const randomImage = Math.floor(Math.random() * images.length);
+  const number = Math.random().toString(36).slice(2, 6);
 
   const scoreTakenHandler = async () => {
-    const q = query(collection(db, `users/${auth.currentUser.uid}/user`));
-    const querySnapshot = await getDocs(q);
-    const data = querySnapshot.docs.map((doc) => ({
-      ...doc.data(),
-      id: doc.id,
-    }));
-    setDataId(data);
     if (
-      motherId === "" ||
       activity === "" ||
       respiration === "" ||
       pulse === "" ||
       grimace === "" ||
-      appearance === "" ||
-      dataId.find((each) => each.motherId === motherId)
+      appearance === ""
     ) {
       setShowModal(true);
-      return;
     } else {
       setLoading(true);
-      const Result = value.reduce(
+      const arrayValue = [
+        parseInt(activityScore),
+        parseInt(pulseScore),
+        parseInt(grimaceScore),
+        parseInt(appearanceScore),
+        parseInt(respirationScore),
+      ];
+      const Result = arrayValue.reduce(
         (acc, curr) => parseInt(curr) + parseInt(acc)
       );
       let score = Result;
-      setScore(score);
       const docRef = doc(db, "users", auth.currentUser.uid);
       const colRef = collection(docRef, "user");
       await addDoc(colRef, {
-        id: motherId,
-        motherId,
+        id: number,
+        motherId: number,
         activity,
         image: images[randomImage],
         pulse,
@@ -93,8 +81,8 @@ const TakeAPGARScore = ({ navigation }) => {
         appearanceScore,
         respirationScore,
         createdAt: serverTimestamp(),
-        notificationMessage: `An APGAR score of ${motherId} has been recorded`,
-        score: score,
+        notificationMessage: `An APGAR score of ID No ${number} has been recorded`,
+        score: score.toFixed(),
         comment:
           score <= 3
             ? "Severly Depressed"
@@ -104,7 +92,6 @@ const TakeAPGARScore = ({ navigation }) => {
       })
         .then((res) => {
           navigation.navigate("Result", { id: res.id });
-          setValue([]);
           setActivity("");
           setAppearance("");
           setPulse("");
@@ -145,18 +132,6 @@ const TakeAPGARScore = ({ navigation }) => {
     return (
       <View style={{ width: "90%", marginTop: "4%" }}>
         <View style={styles.calContainer}>
-          <TextInput
-            inputType="numeric"
-            edit={loading ? false : true}
-            textInputStyle={styles.textInputStyle}
-            onChangeText={(item) => {
-              setMotherId(item);
-            }}
-            placeholder="Mother's ID(e.g 1, 2 ...)"
-            label="Mother's ID"
-          />
-        </View>
-        <View style={styles.calContainer}>
           <Text textStyle={{ fontSize: 13 }} text="Activity" />
           <View
             style={{
@@ -164,7 +139,7 @@ const TakeAPGARScore = ({ navigation }) => {
               borderRadius: 5,
               borderColor: "lightgrey",
               marginTop: 2,
-              height: 42,
+              height: "100%",
               justifyContent: "center",
             }}
           >
@@ -177,7 +152,6 @@ const TakeAPGARScore = ({ navigation }) => {
               dropdownIconRippleColor={Themes.primary}
               fontFamily="Montserrat"
               onValueChange={(item, index) => {
-                setValue((prevState) => [...prevState, index - 1]);
                 setActivity(item);
                 setActivityScore(index - 1);
               }}
@@ -217,7 +191,7 @@ const TakeAPGARScore = ({ navigation }) => {
               borderRadius: 5,
               borderColor: "lightgrey",
               marginTop: 2,
-              height: 42,
+              height: "100%",
               justifyContent: "center",
             }}
           >
@@ -230,7 +204,6 @@ const TakeAPGARScore = ({ navigation }) => {
               fontFamily="Montserrat"
               mode={"dropdown"}
               onValueChange={(item, index) => {
-                setValue((prevState) => [...prevState, index - 1]);
                 setPulse(item);
                 setPulseScore(index - 1);
               }}
@@ -263,7 +236,7 @@ const TakeAPGARScore = ({ navigation }) => {
               borderRadius: 5,
               borderColor: "lightgrey",
               marginTop: 2,
-              height: 42,
+              height: "100%",
               justifyContent: "center",
             }}
           >
@@ -276,7 +249,6 @@ const TakeAPGARScore = ({ navigation }) => {
               dropdownIconRippleColor={Themes.primary}
               fontFamily="Montserrat"
               onValueChange={(item, index) => {
-                setValue((prevState) => [...prevState, index - 1]);
                 setGrimace(item);
                 setGrimaceScore(index - 1);
               }}
@@ -319,7 +291,7 @@ const TakeAPGARScore = ({ navigation }) => {
               borderRadius: 5,
               borderColor: "lightgrey",
               marginTop: 2,
-              height: 42,
+              height: "100%",
               justifyContent: "center",
             }}
           >
@@ -332,9 +304,8 @@ const TakeAPGARScore = ({ navigation }) => {
               fontFamily="Montserrat"
               mode={"dropdown"}
               onValueChange={(item, index) => {
-                setValue((prevState) => [...prevState, index - 1]);
-                setAppearanceScore(index - 1);
                 setAppearance(item);
+                setAppearanceScore(index - 1);
               }}
               style={{
                 borderColor: "red",
@@ -369,9 +340,8 @@ const TakeAPGARScore = ({ navigation }) => {
               borderRadius: 5,
               borderColor: "lightgrey",
               marginTop: 2,
-              height: 37,
               justifyContent: "center",
-              height: 42,
+              height: "100%",
               justifyContent: "center",
             }}
           >
@@ -384,7 +354,6 @@ const TakeAPGARScore = ({ navigation }) => {
               fontFamily="Montserrat"
               mode={"dropdown"}
               onValueChange={(item, index) => {
-                setValue((prevState) => [...prevState, index - 1]);
                 setRespiration(item);
                 setRespirationScore(index - 1);
               }}
@@ -444,18 +413,10 @@ const TakeAPGARScore = ({ navigation }) => {
                 <Text textStyle={styles.warningHeaderText} text="Warning" />
               </View>
               <View>
-                {dataId &&
-                  (dataId.find((each) => each.motherId === motherId) ? (
-                    <Text
-                      textStyle={styles.warningText}
-                      text="Mother's ID already exists, Assign a new number"
-                    />
-                  ) : (
-                    <Text
-                      textStyle={styles.warningText}
-                      text="Please, Fill all the Fields to Calculate Your Score"
-                    />
-                  ))}
+                <Text
+                  textStyle={styles.warningText}
+                  text="Please, Fill all the Fields to Calculate Your Score"
+                />
               </View>
               <TouchableOpacity
                 activeOpacity={0.6}
@@ -471,11 +432,13 @@ const TakeAPGARScore = ({ navigation }) => {
     );
   };
   return (
-    <View>
+    <ScrollView style={{ marginTop: StatusBar.currentHeight }}>
+      <StatusBar backgroundColor={Themes.primary} />
+
       {popUpModal()}
       {Header()}
       {Body()}
-    </View>
+    </ScrollView>
   );
 };
 
@@ -497,18 +460,18 @@ const styles = StyleSheet.create({
     height: 18,
   },
   bodyContainer: {
-    top: "-12%",
+    top: "-15%",
   },
   bodyContentContainer: {
     backgroundColor: "#fff",
     width: Dimensions.get("window").width * 0.9,
-    height: Dimensions.get("window").height * 0.8,
+    height: Dimensions.get("window").height * 0.82,
     borderRadius: 10,
     alignItems: "center",
   },
   paramsContainer: {
     flexDirection: "row",
-    marginTop: "7.5%",
+    marginTop: "4%",
   },
   left: {
     position: "absolute",
@@ -522,10 +485,11 @@ const styles = StyleSheet.create({
   },
   calContainer: {
     width: "100%",
-    marginTop: "4%",
+    marginTop: "10%",
+    height: "9%",
   },
   btnContainer: {
-    marginTop: "10%",
+    marginTop: "12%",
     borderRadius: 8,
   },
   btnText: {
@@ -576,7 +540,7 @@ const styles = StyleSheet.create({
     color: "#fff",
   },
   textInputStyle: {
-    height: 40,
+    height: "80%",
     borderRadius: 5,
   },
 });

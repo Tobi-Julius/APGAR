@@ -20,22 +20,24 @@ import { useUserAuth } from "../context/firebaseContext/AuthContext";
 import { auth } from "../firebase/firebase-config";
 
 const CustomDrawer = (props) => {
+  
   const { logOut } = useUserAuth();
   const [error, setError] = useState("");
 
   const handleSubmit = async () => {
     try {
-      await logOut(auth);
+      await logOut
       props.navigation.replace("SignIn");
     } catch (error) {
       setError(error.message);
     }
   };
-  const firstLetter = auth.currentUser !== null ? auth.currentUser.email : "";
+  const firstLetter = auth.currentUser !== null ? auth.currentUser.email : "?";
 
   const letter = firstLetter.split(" ").map((word) => word[0]);
 
   const Header = () => {
+
     return (
       <View style={{ height: Dimensions.get("window").height * 0.35 }}>
         <View style={styles.headerContainer}>
@@ -57,6 +59,7 @@ const CustomDrawer = (props) => {
       </View>
     );
   };
+
   return (
     <View style={styles.container}>
       {Header()}

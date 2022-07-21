@@ -5,10 +5,11 @@ import {
   Dimensions,
   Image,
   FlatList,
+  ScrollView,
+  StatusBar,
 } from "react-native";
 import React, { useState, useEffect, useCallback } from "react";
 import { Ionicons } from "@expo/vector-icons";
-import { EvilIcons } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { collection, getDocs, query, where } from "firebase/firestore";
@@ -28,7 +29,7 @@ import { auth, db } from "../firebase/firebase-config";
 const Home = ({ navigation }) => {
   const [patientValue, setPatientValue] = useState([]);
 
-  const getData = useCallback(async () => {
+  const getData = async () => {
     const q = query(collection(db, `users/${auth.currentUser.uid}/user`));
     const querySnapshot = await getDocs(q);
     const data = querySnapshot.docs.map((doc) => ({
@@ -36,11 +37,11 @@ const Home = ({ navigation }) => {
       id: doc.id,
     }));
     setPatientValue(data);
-  }, [patientValue]);
+  };
 
   useEffect(() => {
     getData();
-  }, [getData]);
+  }, []);
 
   const Header = () => {
     return (
@@ -81,11 +82,11 @@ const Home = ({ navigation }) => {
           </TouchableOpacity>
         </View>
         <TextInput
-          inputType="Numeric"
+          // inputType="Numeric"
           onChangeText={async (text) => {
             const q = query(
               collection(db, `users/${auth.currentUser.uid}/user`),
-              where("motherId", "==", text)
+              where("motherId", "==", text.toLowerCase())
             );
             const querySnapshot = await getDocs(q);
             const data = querySnapshot.docs.map((doc) => ({
@@ -96,7 +97,7 @@ const Home = ({ navigation }) => {
           }}
           containerStyle={{
             width: " 90%",
-            height: 40,
+            height: "45%",
             borderRadius: 6,
             marginTop: 8,
           }}
@@ -105,11 +106,9 @@ const Home = ({ navigation }) => {
             color: Themes.text,
             backgroundColor: Themes.white,
             borderRadius: 5,
+            padding: 8,
           }}
         />
-        <View style={{ alignSelf: "flex-end", right: "10%", bottom: "8%" }}>
-          <EvilIcons name="search" color="black" size={30} />
-        </View>
       </View>
     );
   };
@@ -270,7 +269,7 @@ const Home = ({ navigation }) => {
               horizontal
               data={patientValue}
               renderItem={({ item, index }) => {
-                return item.score === undefined ? null : (
+                return (
                   <View
                     style={{
                       marginLeft: 17,
@@ -288,7 +287,7 @@ const Home = ({ navigation }) => {
                         text="ID"
                       />
                       <TextMedium
-                        textStyle={{ fontSize: 13, color: Themes.primary }}
+                        textStyle={{ fontSize: 10, color: Themes.primary }}
                         text={item.motherId}
                       />
                     </View>
@@ -297,9 +296,7 @@ const Home = ({ navigation }) => {
                         <Text textStyle={{ fontSize: 7 }} text="Score" />
                         <TextBold
                           textStyle={{ color: Themes.primary, fontSize: 10 }}
-                          text={`${
-                            item.score === 10 ? item.score : `0${item.score}`
-                          }`}
+                          text={`${item.score}`}
                         />
                       </View>
                       <View>
@@ -328,10 +325,11 @@ const Home = ({ navigation }) => {
   };
 
   return (
-    <View>
+    <ScrollView style={{ marginTop: StatusBar.currentHeight }}>
+      <StatusBar backgroundColor={Themes.primary} />
       {Header()}
       {Body()}
-    </View>
+    </ScrollView>
   );
 };
 const styles = StyleSheet.create({
@@ -410,10 +408,10 @@ const styles = StyleSheet.create({
     padding: 1,
     borderRadius: 3,
     alignItems: "center",
-    maxWidth: 25,
-    maxHeight: 25,
-    width: 25,
-    height: 25,
+    maxWidth: 33,
+    maxHeight: 31,
+    width: 33,
+    height: 31,
   },
   scoreContainer: {
     position: "absolute",

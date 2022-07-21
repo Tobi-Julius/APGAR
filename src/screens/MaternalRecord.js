@@ -4,6 +4,7 @@ import {
   Dimensions,
   TouchableOpacity,
   ActivityIndicator,
+  StatusBar,
 } from "react-native";
 import React, { useState, useContext } from "react";
 import { AntDesign } from "@expo/vector-icons";
@@ -32,7 +33,8 @@ const MaternalRecord = ({ navigation, route }) => {
 
   return (
     <KeyBoardAvoidingWrapper>
-      <View>
+      <View style={{ marginTop: StatusBar.currentHeight }}>
+        <StatusBar backgroundColor={Themes.primary} />
         <View style={styles.headerContainer} />
         <View style={[styles.bodyContainer, globalStyles.rowCenter]}>
           <View style={styles.bodyContentContainer}>
@@ -207,7 +209,7 @@ const styles = StyleSheet.create({
   textInputStyle: {
     borderRadius: 8,
     fontSize: 12,
-    height: 44,
+    height: 48,
   },
   inputContainer: {
     width: "90%",

@@ -11,6 +11,7 @@ const firebaseConfig = {
   // storageBucket: "apgar-f18f9.appspot.com",
   // messagingSenderId: "390973047184",
   // appId: "1:390973047184:web:661fcc260abb5f55843315",
+
   apiKey: "AIzaSyARddggsczeSJzF9aP1PHoUjMVTBDke3X0",
   authDomain: "apgar2-4a5e1.firebaseapp.com",
   projectId: "apgar2-4a5e1",

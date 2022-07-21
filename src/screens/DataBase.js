@@ -4,6 +4,7 @@ import {
   Dimensions,
   TouchableOpacity,
   Image,
+  StatusBar,
   FlatList,
 } from "react-native";
 
@@ -13,18 +14,18 @@ import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { Picker } from "@react-native-picker/picker";
 
 import { Themes } from "../constants";
-import { Text, TextBold } from "../components/common";
+import { Text, TextBold, TextMedium } from "../components/common";
 import { globalStyles } from "../styles";
 import { db, auth } from "../firebase/firebase-config";
 
 const DataBase = ({ navigation }) => {
   const [patientValue, setPatientValue] = useState([]);
-  const [picker, setPicker] = useState("");
+  const [picker, setPicker] = useState("createdAt");
 
   const getData = useCallback(async () => {
     const q = query(
       collection(db, `users/${auth.currentUser.uid}/user`),
-      orderBy(picker ? picker : "createdAt", "desc")
+      orderBy(picker, "desc")
     );
     const querySnapshot = await getDocs(q);
     const data = querySnapshot.docs.map((doc) => ({
@@ -53,6 +54,7 @@ const DataBase = ({ navigation }) => {
               width: "100%",
               marginTop: 13,
               marginBottom: 13,
+              marginLeft: 6,
             }}
           >
             <TouchableOpacity
@@ -70,7 +72,6 @@ const DataBase = ({ navigation }) => {
                 borderRadius: 5,
                 borderColor: "lightgrey",
                 marginTop: 5,
-                marginLeft: 8,
                 height: 15,
                 justifyContent: "center",
                 width: "10%",
@@ -95,7 +96,7 @@ const DataBase = ({ navigation }) => {
                 <Picker.Item
                   label="Sort By"
                   color={Themes.text}
-                  enabled={true}
+                  enabled={false}
                   value="Sort By"
                 />
                 <Picker.Item label="Time" value="createdAt" />
@@ -104,12 +105,14 @@ const DataBase = ({ navigation }) => {
             </View>
           </View>
           {patientValue < 1 ? (
-            <TextBold
-              style={{
-                color: Themes.secondary,
-              }}
-              text="EXPLORE OUR APP"
-            />
+            <View>
+              <TextBold
+                style={{
+                  color: Themes.secondary,
+                }}
+                text="EXPLORE OUR APP"
+              />
+            </View>
           ) : (
             <FlatList
               data={patientValue}
@@ -131,6 +134,7 @@ const DataBase = ({ navigation }) => {
             style={{
               flexDirection: "row",
               marginBottom: 10,
+              marginLeft: 10,
               marginTop: 5,
               justifyContent: "space-between",
             }}
@@ -214,12 +218,12 @@ const DataBase = ({ navigation }) => {
                 </View>
                 <View>
                   <Text textStyle={{ fontSize: 10 }} text="Score" />
-                  <Text
+                  <TextMedium
                     text={item.score}
                     textStyle={{
                       color: Themes.primary,
                       marginTop: 5,
-                      fontSize: 10,
+                      fontSize: 12,
                     }}
                   />
                   <Text
@@ -300,7 +304,9 @@ const DataBase = ({ navigation }) => {
   };
 
   return (
-    <View>
+    <View style={{ marginTop: StatusBar.currentHeight }}>
+      <StatusBar backgroundColor={Themes.primary} />
+
       {Header()}
       {Body()}
     </View>
@@ -325,13 +331,13 @@ const styles = StyleSheet.create({
     height: 18,
   },
   bodyContainer: {
-    top: "-12%",
+    top: "-15%",
     overflow: "hidden",
   },
   bodyContentContainer: {
     backgroundColor: "#fff",
-    width: Dimensions.get("window").width * 0.95,
-    height: Dimensions.get("screen").height * 0.815,
+    width: Dimensions.get("window").width * 0.92,
+    height: Dimensions.get("screen").height * 0.82,
     borderRadius: 10,
     alignItems: "center",
   },
@@ -339,7 +345,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     margiTop: "2%",
   },
-  left: {},
+  left: {
+    // marginLeft: 5,
+  },
   parameters1: {
     fontSize: 18,
     color: Themes.primary,
@@ -347,7 +355,7 @@ const styles = StyleSheet.create({
   },
   idNumber: {
     color: Themes.primary,
-    fontSize: 14,
+    fontSize: 12,
   },
   deleteBtnContainer: {
     borderWidth: 1,
@@ -382,7 +390,7 @@ const styles = StyleSheet.create({
     padding: 9,
     borderRadius: 5,
     marginBottom: "2%",
-    shadowColor: "lightgray",
+    shadowColor: "darkgray",
     shadowOffset: {
       width: 0,
       height: 4,

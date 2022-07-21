@@ -9,11 +9,11 @@ import {
 import React, { useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { useUserAuth } from "../context/firebaseContext/AuthContext";
-import { browserLocalPersistence, setPersistence } from "firebase/auth";
 
 import { Themes } from "../constants";
 import { globalStyles } from "../styles";
 import { Button, Text, TextInput, TextBold } from "../components/common";
+import KeyBoardAvoidingWrapper from "../components/Keyboard/KeyBoardAvoidingWrapper";
 
 function SignIn({ navigation }) {
   const [email, setEmail] = useState("");
@@ -29,7 +29,6 @@ function SignIn({ navigation }) {
 
   const handleSubmit = async () => {
     setLoading(true);
-    // setPersistence(auth, browserLocalPersistence)
     try {
       await logIn(email, password);
       navigation.replace("SideMenu");
@@ -51,7 +50,7 @@ function SignIn({ navigation }) {
             onPress={() => navigation.navigate("Register")}
             style={styles.AntDesign}
           >
-            <AntDesign color="black" size={24} name="left" />
+            <AntDesign color="blue" size={24} name="left" />
           </TouchableOpacity>
 
           <Image
@@ -60,27 +59,23 @@ function SignIn({ navigation }) {
           />
 
           <TextBold textStyle={[styles.text]} text="Welcome Back !" />
-          <View style={styles.inputContainer}>
-            <TextInput
-              edit={loading ? false : true}
-              value={email}
-              textInputStyle={styles.textInputStyle}
-              onChangeText={(item) => setEmail(item)}
-              placeholder="Email"
-              // placeholder="Hospital ID"
-            />
-          </View>
-          <View style={styles.inputContainer}>
-            <TextInput
-              edit={loading ? false : true}
-              value={password}
-              textEntry={true}
-              textInputStyle={styles.textInputStyle}
-              onChangeText={(item) => setPassword(item)}
-              placeholder="Password"
-              // placeholder="Hospital ID"
-            />
-          </View>
+          <TextInput
+            containerStyle={styles.inputContainer}
+            edit={loading ? false : true}
+            value={email}
+            textInputStyle={styles.textInputStyle}
+            onChangeText={(item) => setEmail(item)}
+            placeholder="Email"
+          />
+          <TextInput
+            containerStyle={styles.inputContainer}
+            edit={loading ? false : true}
+            value={password}
+            textEntry={true}
+            textInputStyle={styles.textInputStyle}
+            onChangeText={(item) => setPassword(item)}
+            placeholder="Password"
+          />
           <Text textStyle={styles.errText} text={`${error && error}`}></Text>
           <View
             style={{
@@ -124,16 +119,18 @@ function SignIn({ navigation }) {
   };
 
   return (
-    <View>
-      {Header()}
-      {Body()}
-    </View>
+    <KeyBoardAvoidingWrapper>
+      <View>
+        {Header()}
+        {Body()}
+      </View>
+    </KeyBoardAvoidingWrapper>
   );
 }
 
 const styles = StyleSheet.create({
   headerContainer: {
-    height: Dimensions.get("window").height * 0.2,
+    height: Dimensions.get("window").height * 0.25,
     backgroundColor: Themes.primary,
   },
   bodyContainer: {
@@ -147,24 +144,25 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   image: {
-    marginTop: "4%",
+    marginTop: "4.5%",
     resizeMode: "contain",
-    width: "70%",
+    width: "75%",
     height: "20%",
   },
   text: {
-    marginTop: "8%",
-    fontFamily: "Montserrat",
-    fontSize: 15,
+    marginTop: "3.5%",
+    fontSize: 18,
     color: Themes.primary,
   },
   inputContainer: {
     width: "90%",
-    marginTop: "4%",
+    height: "10%",
+    marginTop: "1.3%",
   },
   textInputStyle: {
-    borderRadius: 6,
+    borderRadius: 5,
     fontSize: 12,
+    padding: 10,
   },
   textStyle: {
     color: Themes.secondary,
@@ -181,8 +179,9 @@ const styles = StyleSheet.create({
     fontSize: 11,
   },
   containerStyle: {
-    marginTop: "8%",
+    marginTop: "4%",
     borderRadius: 6,
+    height: 48,
   },
   btnText: {
     color: "#fff",
@@ -192,12 +191,14 @@ const styles = StyleSheet.create({
     position: "absolute",
     left: "3%",
     top: "4%",
+    zIndex: 1,
   },
   errText: {
     color: Themes.secondary,
     fontSize: 9,
     alignSelf: "flex-start",
     marginLeft: "6%",
+    marginTop: ".4%",
     paddingTop: "1%",
   },
 });

@@ -4,9 +4,9 @@ import {
   Dimensions,
   TouchableOpacity,
   ActivityIndicator,
+  StatusBar,
 } from "react-native";
 import React, { useState } from "react";
-import { Picker } from "@react-native-picker/picker";
 import { AntDesign } from "@expo/vector-icons";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../firebase/firebase-config";
@@ -16,7 +16,6 @@ import { globalStyles } from "../styles";
 import { Button, TextInput, Text, TextBold } from "../components/common";
 
 const RetrieveId = ({ navigation }) => {
-  // const [state, setState] = useState("");
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -33,7 +32,7 @@ const RetrieveId = ({ navigation }) => {
             onPress={() => navigation.navigate("SignIn")}
             style={styles.AntDesign}
           >
-            <AntDesign color={Themes.primary} size={24} name="left" />
+            <AntDesign color={Themes.primary} size={28} name="left" />
           </TouchableOpacity>
           <TextBold
             text="Retrieve Password"
@@ -43,93 +42,13 @@ const RetrieveId = ({ navigation }) => {
           <View style={styles.container}>
             <TextInput
               edit={loading ? false : true}
-              textInputStyle={{ fontSize: 12, borderRadius: 5 }}
+              textInputStyle={{ fontSize: 12, borderRadius: 5, padding: 8 }}
               placeholder="Email"
               onChangeText={(item) => {
                 setEmail(item);
               }}
             />
             <View>
-              {/* <View
-                style={{
-                  flexDirection: "row",
-                  width: "100%",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <View
-                  style={{
-                    width: "68%",
-                    borderWidth: 1,
-                    borderColor: "lightgrey",
-                    marginTop: 22,
-                    height: 50,
-                    justifyContent: "center",
-                    borderRadius: 5,
-                  }}
-                >
-                  <Picker
-                    selectedValue={state}
-                    dropdownIconColor={Themes.primary}
-                    dropdownIconRippleColor={Themes.primary}
-                    fontFamily="Montserrat"
-                    onValueChange={(item, index) => setState(item)}
-                    style={{
-                      borderWidth: 1,
-                      borderColor: "red",
-                      color: Themes.text,
-                    }}
-                  >
-                    <Picker.Item label="state" enabled={false} value="state" />
-                    <Picker.Item label="Bauchi" value="Bauchi" />
-                    <Picker.Item label="Gombe" value="Gombe" />
-                    <Picker.Item label="Lagos" value="Lagos" />
-                    <Picker.Item label="Kaduna" value="Kaduna" />
-                    <Picker.Item label="Kano" value="Kano" />
-                    <Picker.Item label="Sokoto" value="Sokoto" />
-                    <Picker.Item label="Katsina" value="Katsina" />
-                    <Picker.Item label="Oyo" value="Oyo" />
-                    <Picker.Item label="Enugu" value="Enugu" />
-                    <Picker.Item label="Ondo" value="Ondo" />
-                    <Picker.Item label="Borno" value="Borno" />
-                    <Picker.Item label="Niger" value="Niger" />
-                    <Picker.Item label="Nasarawa" value="Nasarawa" />
-                    <Picker.Item label="Adamawa" value="Adamawa" />
-                    <Picker.Item label="Kwara" value="Kwara" />
-                    <Picker.Item label="Benue" value="Benue" />
-                    <Picker.Item label="Rivers" value="Rivers" />
-                    <Picker.Item label="Anambra" value="Anambra" />
-                    <Picker.Item label="Kogi" value="Kogi" />
-                    <Picker.Item label="Ogun" value="Ogun" />
-                    <Picker.Item label="Imo" value="Imo" />
-                    <Picker.Item label="Plateau" value="Plateau" />
-                    <Picker.Item label="Zamfara" value="Zamfara" />
-                    <Picker.Item label="Zamfara" value="Zamfara" />
-                    <Picker.Item label="Taraba" value="Taraba" />
-                    <Picker.Item label="Yobe" value="Yobe" />
-                    <Picker.Item label="Osun" value="Osun" />
-                    <Picker.Item label="Jigawa" value="Jigawa" />
-                    <Picker.Item label="Cross River" value="Cross River" />
-                    <Picker.Item label="Delta" value="Delta" />
-                    <Picker.Item label="Edo" value="Edo" />
-                    <Picker.Item label="Kebbi" value="Kebbi" />
-                    <Picker.Item label="Abia" value="Abia" />
-                    <Picker.Item label="Niger" value="Niger" />
-                    <Picker.Item label="Bayelsa" value="Bayelsa" />
-                    <Picker.Item label="Ekiti" value="Ekiti" />
-                    <Picker.Item label="Abuja" value="Abuja" />
-                  </Picker>
-                </View>
-                <View style={{ width: "28%" }}>
-                  <TextInput
-                    textInputStyle={{ fontSize: 12, borderRadius: 5 }}
-                    placeholder="City"
-                    onChangeText={() => {}}
-                  />
-                </View>
-              </View> */}
-
               <Text textStyle={styles.errText} text={`${error && error}`} />
 
               <TouchableOpacity
@@ -176,7 +95,8 @@ const RetrieveId = ({ navigation }) => {
   };
 
   return (
-    <View>
+    <View style={{ marginTop: StatusBar.currentHeight }}>
+      <StatusBar backgroundColor={Themes.primary} />
       {Header()}
       {Body()}
     </View>
@@ -203,7 +123,7 @@ const styles = StyleSheet.create({
   },
   container: {
     width: "90%",
-    marginTop: "20%",
+    marginTop: "7%",
   },
   signInText: {
     color: Themes.primary,
@@ -221,7 +141,7 @@ const styles = StyleSheet.create({
   AntDesign: {
     position: "absolute",
     left: "3%",
-    top: "6%",
+    top: "5%",
   },
   errText: {
     color: Themes.secondary,

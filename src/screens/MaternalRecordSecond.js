@@ -4,6 +4,7 @@ import {
   Dimensions,
   TouchableOpacity,
   ActivityIndicator,
+  StatusBar,
 } from "react-native";
 import React, { useState, useContext } from "react";
 import { AntDesign } from "@expo/vector-icons";
@@ -51,7 +52,7 @@ const MaternalRecordSecond = ({ navigation, route }) => {
                 borderRadius: 5,
                 borderColor: "lightgrey",
                 marginTop: 4,
-                height: 45,
+                height: 48,
                 justifyContent: "center",
               }}
             >
@@ -91,7 +92,7 @@ const MaternalRecordSecond = ({ navigation, route }) => {
                 borderRadius: 5,
                 borderColor: "lightgrey",
                 marginTop: 4,
-                height: 39,
+                height: 48,
                 justifyContent: "center",
               }}
             >
@@ -134,7 +135,7 @@ const MaternalRecordSecond = ({ navigation, route }) => {
                 borderRadius: 5,
                 borderColor: "lightgrey",
                 marginTop: 4,
-                height: 39,
+                height: 48,
                 justifyContent: "center",
               }}
             >
@@ -219,7 +220,9 @@ const MaternalRecordSecond = ({ navigation, route }) => {
   };
 
   return (
-    <View>
+    <View style={{ marginTop: StatusBar.currentHeight }}>
+      <StatusBar backgroundColor={Themes.primary} />
+
       {Header()}
       {Body()}
     </View>

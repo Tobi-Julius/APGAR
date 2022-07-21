@@ -70,8 +70,16 @@ const Register = ({ navigation }) => {
   };
   const InputFields = () => {
     return (
-      <View style={{ width: "90%", borderRadius: 10, marginTop: "5%" }}>
+      <View
+        style={{
+          width: "90%",
+          borderRadius: 10,
+          marginTop: "3%",
+          height: "80%",
+        }}
+      >
         <TextInput
+          containerStyle={styles.textInputContainer}
           edit={loading ? false : true}
           value={hospitalName}
           placeholder="Hospital Name"
@@ -83,18 +91,19 @@ const Register = ({ navigation }) => {
             flexDirection: "row",
             width: "100%",
             justifyContent: "space-between",
-            alignItems: "center",
+            alignItems: "flex-end",
+            height: "10%",
+            marginBottom: "2.5%",
           }}
         >
           <View
             style={{
               width: "68%",
               borderWidth: 1,
-              borderRadius: 5,
-              borderColor: "lightgrey",
-              marginTop: 15,
-              height: 40,
+              height: "80%",
               justifyContent: "center",
+              borderColor: "lightgrey",
+              borderRadius: 5,
             }}
           >
             <Picker
@@ -105,82 +114,84 @@ const Register = ({ navigation }) => {
               fontFamily="Montserrat"
               onValueChange={(item, index) => setState(item)}
               style={{
-                borderColor: "red",
                 color: Themes.text,
-                borderRadius: 5,
                 fontSize: 5,
+                borderColor: "red",
+                borderWidth: 1,
+                height: "40%",
               }}
             >
               <Picker.Item label="state" enabled={false} value="state" />
-              <Picker.Item label="Bauchi" value="Bauchi" />
-              <Picker.Item label="Gombe" value="Gombe" />
-              <Picker.Item label="Lagos" value="Lagos" />
-              <Picker.Item label="Kaduna" value="Kaduna" />
-              <Picker.Item label="Kano" value="Kano" />
-              <Picker.Item label="Sokoto" value="Sokoto" />
-              <Picker.Item label="Katsina" value="Katsina" />
-              <Picker.Item label="Oyo" value="Oyo" />
-              <Picker.Item label="Enugu" value="Enugu" />
-              <Picker.Item label="Ondo" value="Ondo" />
-              <Picker.Item label="Borno" value="Borno" />
-              <Picker.Item label="Niger" value="Niger" />
-              <Picker.Item label="Nasarawa" value="Nasarawa" />
+              <Picker.Item label="Abia" value="Abia" />
+              <Picker.Item label="FCT-Abuja" value="Abuja" />
+              <Picker.Item label="Akwa Ibom" value="Akwa Ibom" />
               <Picker.Item label="Adamawa" value="Adamawa" />
-              <Picker.Item label="Kwara" value="Kwara" />
-              <Picker.Item label="Benue" value="Benue" />
-              <Picker.Item label="Rivers" value="Rivers" />
               <Picker.Item label="Anambra" value="Anambra" />
-              <Picker.Item label="Kogi" value="Kogi" />
-              <Picker.Item label="Ogun" value="Ogun" />
-              <Picker.Item label="Imo" value="Imo" />
-              <Picker.Item label="Plateau" value="Plateau" />
-              <Picker.Item label="Zamfara" value="Zamfara" />
-              <Picker.Item label="Zamfara" value="Zamfara" />
-              <Picker.Item label="Taraba" value="Taraba" />
-              <Picker.Item label="Yobe" value="Yobe" />
-              <Picker.Item label="Osun" value="Osun" />
-              <Picker.Item label="Jigawa" value="Jigawa" />
+              <Picker.Item label="Bauchi" value="Bauchi" />
+              <Picker.Item label="Bayelsa" value="Bayelsa" />
+              <Picker.Item label="Benue" value="Benue" />
+              <Picker.Item label="Borno" value="Borno" />
               <Picker.Item label="Cross River" value="Cross River" />
               <Picker.Item label="Delta" value="Delta" />
+              <Picker.Item label="Ebonyi" value="Ebonyi" />
               <Picker.Item label="Edo" value="Edo" />
-              <Picker.Item label="Kebbi" value="Kebbi" />
-              <Picker.Item label="Abia" value="Abia" />
-              <Picker.Item label="Niger" value="Niger" />
-              <Picker.Item label="Bayelsa" value="Bayelsa" />
               <Picker.Item label="Ekiti" value="Ekiti" />
-              <Picker.Item label="Abuja" value="Abuja" />
+              <Picker.Item label="Enugu" value="Enugu" />
+              <Picker.Item label="Gombe" value="Gombe" />
+              <Picker.Item label="Imo" value="Imo" />
+              <Picker.Item label="Jigawa" value="Jigawa" />
+              <Picker.Item label="Kaduna" value="Kaduna" />
+              <Picker.Item label="Kano" value="Kano" />
+              <Picker.Item label="Katsina" value="Katsina" />
+              <Picker.Item label="Kebbi" value="Kebbi" />
+              <Picker.Item label="Kogi" value="Kogi" />
+              <Picker.Item label="Kwara" value="Kwara" />
+              <Picker.Item label="Lagos" value="Lagos" />
+              <Picker.Item label="Nasarawa" value="Nasarawa" />
+              <Picker.Item label="Niger" value="Niger" />
+              <Picker.Item label="Ogun" value="Ogun" />
+              <Picker.Item label="Ondo" value="Ondo" />
+              <Picker.Item label="Osun" value="Osun" />
+              <Picker.Item label="Oyo" value="Oyo" />
+              <Picker.Item label="Plateau" value="Plateau" />
+              <Picker.Item label="Rivers" value="Rivers" />
+              <Picker.Item label="Sokoto" value="Sokoto" />
+              <Picker.Item label="Taraba" value="Taraba" />
+              <Picker.Item label="Yobe" value="Yobe" />
+              <Picker.Item label="Zamfara" value="Zamfara" />
             </Picker>
           </View>
-
-          <View style={{ width: "28%" }}>
-            <TextInput
-              edit={loading ? false : true}
-              value={city}
-              placeholder="City"
-              onChangeText={(item) => setCity(item)}
-              textInputStyle={styles.TextInput}
-            />
-          </View>
-        </View>
-        <View>
           <TextInput
+            containerStyle={{
+              width: "28%",
+            }}
+            textInputStyle={{
+              height: "80%",
+              borderRadius: 5,
+            }}
             edit={loading ? false : true}
-            value={email}
-            placeholder="Email"
-            onChangeText={(item) => setEmail(item)}
-            textInputStyle={styles.TextInput}
+            value={city}
+            placeholder="City"
+            onChangeText={(item) => setCity(item)}
           />
         </View>
-        <View>
-          <TextInput
-            edit={loading ? false : true}
-            value={password}
-            placeholder="Password"
-            onChangeText={(item) => setPassword(item)}
-            textInputStyle={styles.TextInput}
-            textEntry={true}
-          />
-        </View>
+        <TextInput
+          edit={loading ? false : true}
+          value={email}
+          placeholder="Email"
+          onChangeText={(item) => setEmail(item)}
+          textInputStyle={styles.TextInput}
+          containerStyle={styles.textInputContainer}
+        />
+        <TextInput
+          edit={loading ? false : true}
+          value={password}
+          placeholder="Password"
+          onChangeText={(item) => setPassword(item)}
+          textInputStyle={styles.TextInput}
+          textEntry={true}
+          containerStyle={styles.textInputContainer}
+        />
         {inputFields ? (
           <Text textStyle={styles.errText} text="Pls, Input all fields" />
         ) : null}
@@ -199,8 +210,13 @@ const Register = ({ navigation }) => {
           containerStyle={styles.btnContainer}
           textStyle={styles.btnText}
         />
-        <View></View>
-        <View style={{ flexDirection: "row", justifyContent: "center" }}>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "center",
+            marginTop: "2%",
+          }}
+        >
           <Text
             text="Registered ?"
             textStyle={[styles.register, globalStyles.Heading3]}
@@ -227,7 +243,7 @@ const Register = ({ navigation }) => {
             style={styles.image}
             source={require("../images/onboarding2.png")}
           />
-          <TextBold textStyle={[styles.text]} text="Register your Hospital" />
+          <TextBold textStyle={styles.text} text="Register your Hospital" />
           {InputFields()}
         </View>
       </View>
@@ -246,7 +262,7 @@ const Register = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   headerContainer: {
-    height: Dimensions.get("window").height * 0.2,
+    height: Dimensions.get("window").height * 0.24,
     backgroundColor: Themes.primary,
   },
   bodyContainer: {
@@ -260,37 +276,38 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   image: {
-    marginTop: "4%",
+    marginTop: "5%",
     resizeMode: "contain",
-    width: "70%",
-    height: "20%",
+    width: "76%",
+    height: "24%",
   },
   text: {
-    marginTop: "6%",
-    fontSize: 14,
+    marginTop: "2%",
+    fontSize: 18,
     color: Themes.primary,
   },
   btnText: {
     color: "#fff",
+    padding: "4.5%",
   },
   btnContainer: {
-    padding: 17,
-    marginTop: "8%",
-    marginBottom: "3%",
+    height: "10%",
     borderRadius: 5,
-  },
-  TextInput: {
-    borderRadius: 5,
-    height: 40,
-    fontSize: 12,
   },
   errText: {
     color: Themes.secondary,
-    fontSize: 12,
-    paddingTop: 4,
+    fontSize: 7,
   },
   register: {
     fontSize: 13,
+  },
+  TextInput: {
+    height: "60%",
+    borderRadius: 5,
+    fontSize: 12,
+  },
+  textInputContainer: {
+    height: "12%",
   },
 });
 

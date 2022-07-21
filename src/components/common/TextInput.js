@@ -20,6 +20,7 @@ export const TextInput = ({
   containerStyle,
   edit,
   textEntry,
+  blur,
   ...others
 }) => {
   const [isLoaded] = useFonts(customFonts);
@@ -30,6 +31,7 @@ export const TextInput = ({
     <View style={[containerStyle]}>
       <Text style={[labelStyle, styles.styleLable]}>{label}</Text>
       <Input
+        onBlur={blur}
         editable={edit}
         placeholder={placeholder}
         value={value}
@@ -49,7 +51,7 @@ const styles = StyleSheet.create({
     borderColor: "lightgrey",
     borderWidth: 1,
     color: Themes.text,
-    padding: 10,
+    paddingLeft: 4,
     fontFamily: "Montserrat",
   },
   styleLable: {

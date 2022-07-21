@@ -4,6 +4,7 @@ import {
   Dimensions,
   TouchableOpacity,
   ActivityIndicator,
+  StatusBar,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
@@ -67,14 +68,7 @@ const Result = ({ navigation, route }) => {
               {patientData === undefined ? (
                 <ActivityIndicator color={Themes.secondary} size="small" />
               ) : (
-                <Text
-                  textStyle={styles.textStyle}
-                  text={`${
-                    patientData.score === 10
-                      ? patientData.score
-                      : `0${patientData.score}`
-                  }`}
-                />
+                <Text textStyle={styles.textStyle} text={patientData.score} />
               )}
               <View style={styles.footer} />
               {patientData === undefined ? (
@@ -136,7 +130,9 @@ const Result = ({ navigation, route }) => {
   };
 
   return (
-    <View>
+    <View style={{ marginTop: StatusBar.currentHeight }}>
+      <StatusBar backgroundColor={Themes.primary} />
+
       {Header()}
       {Body()}
     </View>
@@ -177,6 +173,8 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 10,
     bottom: 0,
     position: "absolute",
+    justifyContent: "center",
+    alignItems: "center",
   },
   containerStyle: {
     position: "absolute",
@@ -193,7 +191,7 @@ const styles = StyleSheet.create({
   leftIcon: {
     position: "absolute",
     left: "2%",
-    marginTop: "6%",
+    marginTop: "5%",
     zIndex: 1,
   },
   textBtn: {
@@ -233,5 +231,9 @@ const styles = StyleSheet.create({
   comment: {
     marginTop: "5%",
     fontSize: 12,
+  },
+  idFooter: {
+    color: Themes.text,
+    // alignSelf: "center",
   },
 });

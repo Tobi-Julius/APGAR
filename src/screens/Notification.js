@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   FlatList,
   ActivityIndicator,
+  StatusBar,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { AntDesign } from "@expo/vector-icons";
@@ -17,10 +18,8 @@ import { db, auth } from "../firebase/firebase-config";
 
 const Notification = ({ navigation }) => {
   const [patientValue, setPatientValue] = useState([]);
-  const [loading, setLoading] = useState([]);
 
   useEffect(async () => {
-    setLoading(true);
     const getData = async () => {
       const q = query(collection(db, `users/${auth.currentUser.uid}/user`));
       const querySnapshot = await getDocs(q);
@@ -30,7 +29,6 @@ const Notification = ({ navigation }) => {
       }));
       setPatientValue(data);
     };
-    setLoading(false);
     getData();
   }, []);
 
@@ -111,22 +109,6 @@ const Notification = ({ navigation }) => {
                 }
               />
             </View>
-            {/* 
-            <TouchableOpacity
-              onPress={async () => {
-                const docRef = doc(
-                  db,
-                  `users/${auth.currentUser.uid}/user`,
-                  `${item.id}`
-                )
-                await updateDoc(docRef, {
-                  notificationMessage: deleteField()
-                })
-              }}
-              activeOpacity={0.6}
-            >
-              <AntDesign name="delete" size={15} color={Themes.secondary} />
-            </TouchableOpacity> */}
           </View>
         </View>
         <View style={styles.messageSeparator} />
@@ -135,7 +117,9 @@ const Notification = ({ navigation }) => {
   };
 
   return (
-    <View>
+    <View style={{ marginTop: StatusBar.currentHeight }}>
+      <StatusBar backgroundColor={Themes.primary} />
+
       {Header()}
       {Body()}
     </View>

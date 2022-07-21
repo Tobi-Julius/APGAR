@@ -1,12 +1,12 @@
 import "react-native-gesture-handler";
+import { registerRootComponent } from "expo";
 import { StatusBar } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React, { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
-const Stack = createNativeStackNavigator();
 import { Themes } from "./constants";
+const Stack = createNativeStackNavigator();
 import Onboarding from "./screens/Onboarding";
 import SignIn from "./screens/SignIn";
 import Register from "./screens/Register";
@@ -23,8 +23,6 @@ import Delete from "./screens/Delete";
 import MaternalHistory from "./screens/MaternalHistory";
 import { AuthProvider } from "./context/firebaseContext/AuthContext";
 
-import { GlobalProvider } from "./context/GlobalState";
-
 function App() {
   const [isAppFirstLaunch, setIsAppFirstLaunch] = useState(null);
 
@@ -40,39 +38,35 @@ function App() {
 
   return (
     isAppFirstLaunch !== null && (
-      <GlobalProvider>
-        <AuthProvider>
-          <NavigationContainer>
-            <StatusBar style="auto" backgroundColor={Themes.primary} />
-            <Stack.Navigator screenOptions={{ headerShown: false }}>
-              {isAppFirstLaunch && (
-                <Stack.Screen name="Onboarding" component={Onboarding} />
-              )}
-              <Stack.Screen name="Register" component={Register} />
-              <Stack.Screen name="SignIn" component={SignIn} />
-              <Stack.Screen name="RegisterSucess" component={RegisterSucess} />
-              <Stack.Screen name="SideMenu" component={SideMenu} />
-              <Stack.Screen name="RetrieveId" component={RetrieveId} />
-              <Stack.Screen name="Recovery" component={Recovery} />
-              <Stack.Screen name="Notification" component={Notification} />
-              <Stack.Screen name="Result" component={Result} />
-              <Stack.Screen name="MaternalRecord" component={MaternalRecord} />
-              <Stack.Screen
-                name="MaternalRecordSecond"
-                component={MaternalRecordSecond}
-              />
-              <Stack.Screen name="Detail" component={Detail} />
-              <Stack.Screen
-                name="MaternalHistory"
-                component={MaternalHistory}
-              />
-              <Stack.Screen name="Delete" component={Delete} />
-            </Stack.Navigator>
-          </NavigationContainer>
-        </AuthProvider>
-      </GlobalProvider>
+      <AuthProvider>
+        <NavigationContainer>
+          {/* <StatusBar style="auto" backgroundColor={Themes.primary} /> */}
+          <StatusBar backgroundColor="transparent" translucent={true} />
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
+            {isAppFirstLaunch && (
+              <Stack.Screen name="Onboarding" component={Onboarding} />
+            )}
+            <Stack.Screen name="Register" component={Register} />
+            <Stack.Screen name="SignIn" component={SignIn} />
+            <Stack.Screen name="RegisterSucess" component={RegisterSucess} />
+            <Stack.Screen name="SideMenu" component={SideMenu} />
+            <Stack.Screen name="RetrieveId" component={RetrieveId} />
+            <Stack.Screen name="Recovery" component={Recovery} />
+            <Stack.Screen name="Notification" component={Notification} />
+            <Stack.Screen name="Result" component={Result} />
+            <Stack.Screen name="MaternalRecord" component={MaternalRecord} />
+            <Stack.Screen
+              name="MaternalRecordSecond"
+              component={MaternalRecordSecond}
+            />
+            <Stack.Screen name="Detail" component={Detail} />
+            <Stack.Screen name="MaternalHistory" component={MaternalHistory} />
+            <Stack.Screen name="Delete" component={Delete} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </AuthProvider>
     )
   );
 }
 
-export default App;
+registerRootComponent(App);

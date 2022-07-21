@@ -1,5 +1,12 @@
-import { StyleSheet, View, Dimensions, TouchableOpacity } from "react-native";
-import React from "react";
+import {
+  StyleSheet,
+  View,
+  Dimensions,
+  TouchableOpacity,
+  StatusBar,
+  ActivityIndicator,
+} from "react-native";
+import React, { useState } from "react";
 import { doc, deleteDoc } from "firebase/firestore";
 
 import { Themes } from "../constants";
@@ -8,6 +15,7 @@ import { db, auth } from "../firebase/firebase-config";
 
 const Delete = ({ navigation, route }) => {
   const { id } = route.params;
+  const [loading, setLoading] = useState(false);
 
   const Header = () => {
     return <View style={styles.headerContainer} />;
@@ -25,28 +33,38 @@ const Delete = ({ navigation, route }) => {
             />
           </View>
 
-          <View style={styles.btns}>
-            <TouchableOpacity
-              activeOpacity={0.6}
-              style={styles.noBtn}
-              onPress={() => navigation.goBack()}
-            >
-              <Text textStyle={styles.noBtnText} text="NO" />
-            </TouchableOpacity>
+          {loading ? (
+            <ActivityIndicator
+              style={{ marginTop: "8%" }}
+              color={Themes.secondary}
+              size="large"
+            />
+          ) : (
+            <View style={styles.btns}>
+              <TouchableOpacity
+                activeOpacity={0.6}
+                style={styles.noBtn}
+                onPress={() => navigation.goBack()}
+              >
+                <Text textStyle={styles.noBtnText} text="NO" />
+              </TouchableOpacity>
 
-            <TouchableOpacity
-              onPress={async () => {
-                await deleteDoc(
-                  doc(db, `users/${auth.currentUser.uid}/user`, id)
-                );
-                navigation.navigate("Database");
-              }}
-              activeOpacity={0.6}
-              style={styles.yesBtn}
-            >
-              <Text textStyle={styles.yesBtnText} text="YES" />
-            </TouchableOpacity>
-          </View>
+              <TouchableOpacity
+                onPress={async () => {
+                  setLoading(true);
+                  await deleteDoc(
+                    doc(db, `users/${auth.currentUser.uid}/user`, id)
+                  );
+                  setLoading(false);
+                  navigation.navigate("Database");
+                }}
+                activeOpacity={0.6}
+                style={styles.yesBtn}
+              >
+                <Text textStyle={styles.yesBtnText} text="YES" />
+              </TouchableOpacity>
+            </View>
+          )}
 
           <View
             style={{
@@ -55,7 +73,8 @@ const Delete = ({ navigation, route }) => {
               flexDirection: "row",
               justifyContent: "center",
               backgroundColor: Themes.primary,
-              padding: "10%",
+              padding: "8%",
+              marginTop: "2%",
               width: "100%",
               borderBottomRightRadius: 10,
               borderBottomLeftRadius: 10,
@@ -67,7 +86,8 @@ const Delete = ({ navigation, route }) => {
   };
 
   return (
-    <View>
+    <View style={{ marginTop: StatusBar.currentHeight }}>
+      <StatusBar backgroundColor={Themes.primary} />
       {Header()}
       {Body()}
     </View>
@@ -84,9 +104,18 @@ const styles = StyleSheet.create({
     backgroundColor: "#fcfcfc",
     height: "45%",
     borderRadius: 10,
+    shadowColor: "black",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.35,
+    shadowRadius: 3.65,
+    elevation: 5,
+    // borderRadius: 5,
   },
   container: {
-    height: Dimensions.get("window").height * 0.75,
+    height: Dimensions.get("window").height * 0.65,
     justifyContent: "center",
     alignItems: "center",
   },

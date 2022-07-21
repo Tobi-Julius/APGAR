@@ -4,7 +4,6 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
-import { GlobalContext } from "../context/GlobalState";
 
 import TakeAPGARScore from "../screens/TakeAPGARScore";
 import DataBase from "../screens/DataBase";

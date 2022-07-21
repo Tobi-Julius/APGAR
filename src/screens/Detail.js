@@ -4,6 +4,7 @@ import {
   Dimensions,
   TouchableOpacity,
   ActivityIndicator,
+  StatusBar,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { AntDesign } from "@expo/vector-icons";
@@ -76,31 +77,34 @@ const Detail = ({ navigation, route }) => {
                   }}
                   text={data.activity}
                 />
-                <Text text={data.activityScore} textStyle={styles.text} />
+                <Text text={data.activityScore} textStyle={styles.textLeft} />
               </View>
 
               <View style={styles.row}>
                 <Text textStyle={styles.text} text="Pulse" />
                 <Text textStyle={{ fontSize: 10 }} text={data.pulse} />
-                <Text textStyle={styles.text} text={data.pulseScore} />
+                <Text textStyle={styles.textLeft} text={data.pulseScore} />
               </View>
 
               <View style={styles.row}>
                 <Text textStyle={styles.text} text="Grimace" />
                 <Text textStyle={{ fontSize: 10 }} text={data.grimace} />
-                <Text textStyle={styles.text} text={data.grimaceScore} />
+                <Text textStyle={styles.textLeft} text={data.grimaceScore} />
               </View>
 
               <View style={styles.row}>
                 <Text textStyle={styles.text} text="Appearance" />
                 <Text textStyle={{ fontSize: 10 }} text={data.appearance} />
-                <Text textStyle={styles.text} text={data.appearanceScore} />
+                <Text textStyle={styles.textLeft} text={data.appearanceScore} />
               </View>
 
               <View style={styles.row}>
                 <Text textStyle={styles.text} text="Respiration" />
                 <Text textStyle={{ fontSize: 10 }} text={data.respiration} />
-                <Text textStyle={styles.text} text={data.respirationScore} />
+                <Text
+                  textStyle={styles.textLeft}
+                  text={data.respirationScore}
+                />
               </View>
 
               <View style={styles.footerContainer}>
@@ -122,9 +126,7 @@ const Detail = ({ navigation, route }) => {
                   <View style={styles.scoreContainer}>
                     <Text
                       textStyle={styles.scoreText}
-                      text={`SCORE: ${
-                        data.score === 10 ? data.score : `0${data.score}`
-                      }`}
+                      text={`SCORE: ${data.score}`}
                     />
                   </View>
                 ) : (
@@ -153,7 +155,8 @@ const Detail = ({ navigation, route }) => {
   };
 
   return (
-    <View>
+    <View style={{ marginTop: StatusBar.currentHeight }}>
+      <StatusBar backgroundColor={Themes.primary} />
       {Header()}
       {Body()}
     </View>
@@ -173,7 +176,7 @@ const styles = StyleSheet.create({
   bodyContentContainer: {
     backgroundColor: "#fff",
     width: Dimensions.get("window").width * 0.9,
-    height: Dimensions.get("screen").height * 0.86,
+    height: Dimensions.get("screen").height * 0.77,
     borderRadius: 10,
     alignItems: "center",
     zIndex: 1,
@@ -211,6 +214,15 @@ const styles = StyleSheet.create({
     backgroundColor: "#fcfcfc",
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
+    shadowColor: "#fcfcfc",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.35,
+    shadowRadius: 3.65,
+    elevation: 5,
+    borderRadius: 5,
   },
   row: {
     flexDirection: "row",
@@ -219,6 +231,11 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 12,
+    marginLeft: 5,
+  },
+  textLeft: {
+    fontSize: 12,
+    marginRight: 5,
   },
   footerContainer: {
     flexDirection: "row",
@@ -232,6 +249,7 @@ const styles = StyleSheet.create({
     right: 0,
     top: "30%",
     width: "45%",
+    justifyContent: "flex-end",
   },
   takeScore: {
     position: "absolute",
@@ -261,14 +279,14 @@ const styles = StyleSheet.create({
     fontSize: 13,
   },
   btnContainer: {
-    marginTop: "22%",
+    marginTop: "12%",
     borderRadius: 5,
     width: "50%",
     alignSelf: "center",
     zIndex: 1,
   },
   btnText: {
-    padding: 13,
+    padding: "5%",
     color: "#fff",
     fontSize: 18,
   },

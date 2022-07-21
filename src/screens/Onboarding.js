@@ -14,7 +14,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { useFonts } from "@use-expo/font";
 import AppLoading from "expo-app-loading";
 
-import { Text } from "../components/common";
+import { Text, TextBold } from "../components/common";
 import { globalStyles } from "../styles";
 import { Themes } from "../constants";
 
@@ -36,7 +36,7 @@ const Onboarding = ({ navigation }) => {
     {
       id: 2,
       text: "Register your Hospital ",
-      subText: "Get a Unique ID No for your Hospital",
+      subText: "Get a private database for your Hospital",
       image: require("../images/onboarding2.png"),
     },
   ];
@@ -48,13 +48,13 @@ const Onboarding = ({ navigation }) => {
     return (
       <View style={styles.screenWidth}>
         <Image source={item.image} style={styles.image} />
-        <Text
+        <TextBold
           text={item.text}
           textStyle={[styles.text, globalStyles.Heading1]}
         />
         <Text
           text={item.subText}
-          textStyle={[styles.text, globalStyles.Heading3]}
+          textStyle={[styles.subText, globalStyles.Heading3]}
         />
       </View>
     );
@@ -90,10 +90,11 @@ const Onboarding = ({ navigation }) => {
             <TouchableOpacity
               activeOpacity={0.6}
               onPress={() => navigation.replace("Register")}
+              style={{ width: 78, height: 25 }}
             >
               <MainText
                 style={{
-                  fontSize: 20,
+                  fontSize: 16,
                   textAlignVertical: "center",
                   fontFamily: "Montserrat",
                 }}
@@ -104,7 +105,16 @@ const Onboarding = ({ navigation }) => {
             <TouchableOpacity
               activeOpacity={0.6}
               onPress={() => navigation.replace("SignIn")}
-              style={styles.arrowContainer}
+              style={{
+                width: 65,
+                height: 36,
+                backgroundColor: Themes.primary,
+                borderRadius: 6,
+                fontWeight: 500,
+                fontSize: 16,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
             >
               <MainText
                 style={{ color: "#fff", padding: 1, fontFamily: "Montserrat" }}
@@ -118,8 +128,15 @@ const Onboarding = ({ navigation }) => {
             <TouchableOpacity
               activeOpacity={0.6}
               onPress={() => navigation.replace("Register")}
+              style={{ width: 45, height: 22 }}
             >
-              <MainText style={{ fontSize: 20, fontFamily: "Montserrat" }}>
+              <MainText
+                style={{
+                  fontSize: 16,
+                  textAlignVertical: "center",
+                  fontFamily: "Montserrat",
+                }}
+              >
                 Skip
               </MainText>
             </TouchableOpacity>
@@ -170,7 +187,7 @@ const Onboarding = ({ navigation }) => {
         data={onboardingData}
         renderItem={renderItem}
         contentContainerStyle={{
-          height: Dimensions.get("window").height * 0.6,
+          height: Dimensions.get("window").height * 0.54,
           marginVertical: "15%",
           overflow: "hidden",
         }}
@@ -195,13 +212,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   image: {
-    height: "70%",
+    height: "68%",
     resizeMode: "contain",
     overflow: "hidden",
     width: "85%",
   },
   Slider: {
-    height: Dimensions.get("window").height * 0.1,
+    // height: Dimensions.get("window").height * 0.1,
+    marginTop: 109,
     flexDirection: "row",
     justifyContent: "center",
   },
@@ -213,7 +231,7 @@ const styles = StyleSheet.create({
     marginLeft: "1%",
   },
   Footer: {
-    height: Dimensions.get("screen").height * 0.25,
+    height: Dimensions.get("screen").height * 0.24,
     justifyContent: "flex-end",
     paddingBottom: "15%",
     paddingLeft: "8%",
@@ -221,20 +239,24 @@ const styles = StyleSheet.create({
   },
   arrowContainer: {
     backgroundColor: Themes.primary,
-    padding: 7,
-    paddingLeft: 20,
-    paddingRight: 20,
-    borderRadius: 2,
+    width: 56,
+    height: 36,
+    borderRadius: 10,
+    alignItems: "center",
+    justifyContent: "center",
   },
   innerContainer: {
     justifyContent: "space-between",
     flexDirection: "row",
+    alignItems: "center",
   },
   subText: {
     fontFamily: "Montserrat",
+    marginTop: "2%",
   },
   text: {
     fontFamily: "Montserrat",
+    marginTop: 8,
   },
 });
 

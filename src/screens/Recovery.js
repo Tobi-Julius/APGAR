@@ -1,9 +1,9 @@
-import { StyleSheet, View, Dimensions } from "react-native";
+import { StyleSheet, View, Dimensions, StatusBar } from "react-native";
 import React from "react";
 
 import { Themes } from "../constants";
 import { globalStyles } from "../styles";
-import { Button, Text } from "../components/common";
+import { Button, Text, TextBold } from "../components/common";
 
 const Recovery = ({ navigation }) => {
   const Body = () => {
@@ -11,7 +11,7 @@ const Recovery = ({ navigation }) => {
       <View style={[styles.bodyContainer, globalStyles.rowCenter]}>
         <View style={styles.bodyContentContainer}>
           <View style={{ marginTop: "10%" }}>
-            <Text
+            <TextBold
               text="ID Recovery"
               textStyle={[styles.textStyle, globalStyles.Heading1]}
             />
@@ -19,6 +19,15 @@ const Recovery = ({ navigation }) => {
           <View style={[globalStyles.rowCenter, styles.container]}>
             <View
               style={{
+                shadowColor: "black",
+                shadowOffset: {
+                  width: 0,
+                  height: 4,
+                },
+                shadowOpacity: 0.35,
+                shadowRadius: 3.65,
+                elevation: 5,
+                borderRadius: 5,
                 backgroundColor: "#fcfcfc",
                 height: "65%",
                 width: "75%",
@@ -27,7 +36,6 @@ const Recovery = ({ navigation }) => {
                 justifyContent: "center",
               }}
             >
-              {/* <Text text='Your Hospital'/> */}
               <Text text="Your Password Reset Link has been" />
               <Text text="sent to the email you provided" />
               <Text
@@ -55,7 +63,8 @@ const Recovery = ({ navigation }) => {
   };
 
   return (
-    <View>
+    <View style={{ marginTop: StatusBar.currentHeight }}>
+      <StatusBar backgroundColor={Themes.primary} />
       {Header()}
       {Body()}
     </View>
@@ -85,7 +94,7 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     color: Themes.secondary,
-    marginTop: "8%",
+    // marginTop: "1%",
   },
   footer: {
     backgroundColor: Themes.primary,

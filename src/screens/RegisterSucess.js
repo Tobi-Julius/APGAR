@@ -1,7 +1,6 @@
 import { StyleSheet, View, Dimensions } from "react-native";
 import React, { useContext } from "react";
 import { AntDesign } from "@expo/vector-icons";
-import { GlobalContext } from "../context/GlobalState";
 import { useUserAuth } from "../context/firebaseContext/AuthContext";
 
 import { Themes } from "../constants";
@@ -10,13 +9,7 @@ import { globalStyles } from "../styles";
 
 const RegisterSucess = ({ navigation, route }) => {
   const { user } = useUserAuth();
-  // const { users } = useContext(GlobalContext);
 
-  // const { id } = route.params;
-
-  // const data = users.find((item) => {
-  //   return item.id === id;
-  // });
   const Header = () => {
     return <View style={styles.headerContainer} />;
   };

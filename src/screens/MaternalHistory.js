@@ -4,6 +4,7 @@ import {
   Dimensions,
   TouchableOpacity,
   ActivityIndicator,
+  StatusBar,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
@@ -68,11 +69,11 @@ const MaternalHistory = ({ navigation, route }) => {
               <View style={styles.maternalContainer}>
                 <View style={styles.headerTextContainer}>
                   <Text
-                    textStyle={{ fontSize: 12 }}
+                    textStyle={{ fontSize: 12, marginLeft: 5 }}
                     text="Maternal Hypertension"
                   />
                   <Text
-                    textStyle={{ fontSize: 10 }}
+                    textStyle={{ fontSize: 10, marginRight: 5 }}
                     text={data.maternalHtpertension}
                   />
                 </View>
@@ -92,9 +93,12 @@ const MaternalHistory = ({ navigation, route }) => {
                     marginTop: 25,
                   }}
                 >
-                  <Text textStyle={{ fontSize: 12 }} text="Gestation Period" />
                   <Text
-                    textStyle={{ fontSize: 10 }}
+                    textStyle={{ fontSize: 12, marginLeft: 5 }}
+                    text="Gestation Period"
+                  />
+                  <Text
+                    textStyle={{ fontSize: 10, marginRight: 5 }}
                     text={data.gestationPeriod}
                   />
                 </View>
@@ -116,51 +120,66 @@ const MaternalHistory = ({ navigation, route }) => {
                     paddingRight: 5,
                   }}
                 >
-                  <Text textStyle={{ fontSize: 12 }} text="Delivery Mode" />
-                  <Text textStyle={{ fontSize: 10 }} text={data.deliveryMode} />
-                </View>
-                <View
-                  style={{
-                    width: "100%",
-                    borderColor: "lightgray",
-                    borderWidth: 1,
-                    marginTop: 15,
-                  }}
-                />
-                <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    width: "100%",
-                    marginTop: 25,
-                    paddingLeft: 5,
-                    paddingRight: 5,
-                  }}
-                >
-                  <Text textStyle={{ fontSize: 12 }} text="Birth Weight" />
-                  <Text textStyle={{ fontSize: 10 }} text={data.birthWeight} />
-                </View>
-                <View
-                  style={{
-                    width: "100%",
-                    borderColor: "lightgray",
-                    borderWidth: 1,
-                    marginTop: 15,
-                  }}
-                />
-                <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    width: "100%",
-                    marginTop: 25,
-                    paddingLeft: 5,
-                    paddingRight: 5,
-                  }}
-                >
-                  <Text textStyle={{ fontSize: 12 }} text="Fetal Position" />
                   <Text
-                    textStyle={{ fontSize: 10 }}
+                    textStyle={{ fontSize: 12, marginLeft: 5 }}
+                    text="Delivery Mode"
+                  />
+                  <Text
+                    textStyle={{ fontSize: 10, marginRight: 5 }}
+                    text={data.deliveryMode}
+                  />
+                </View>
+                <View
+                  style={{
+                    width: "100%",
+                    borderColor: "lightgray",
+                    borderWidth: 1,
+                    marginTop: 15,
+                  }}
+                />
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    width: "100%",
+                    marginTop: 25,
+                    paddingLeft: 5,
+                    paddingRight: 5,
+                  }}
+                >
+                  <Text
+                    textStyle={{ fontSize: 12, marginLeft: 5 }}
+                    text="Birth Weight"
+                  />
+                  <Text
+                    textStyle={{ fontSize: 10, marginRight: 5 }}
+                    text={data.birthWeight}
+                  />
+                </View>
+                <View
+                  style={{
+                    width: "100%",
+                    borderColor: "lightgray",
+                    borderWidth: 1,
+                    marginTop: 15,
+                  }}
+                />
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    width: "100%",
+                    marginTop: 25,
+                    paddingLeft: 5,
+                    paddingRight: 5,
+                  }}
+                >
+                  <Text
+                    textStyle={{ fontSize: 12, marginLeft: 5 }}
+                    text="Fetal Position"
+                  />
+                  <Text
+                    textStyle={{ fontSize: 10, marginRight: 5 }}
                     text={data.fetalPosition}
                   />
                 </View>
@@ -182,8 +201,14 @@ const MaternalHistory = ({ navigation, route }) => {
                     paddingRight: 5,
                   }}
                 >
-                  <Text textStyle={{ fontSize: 12 }} text="MSL" />
-                  <Text textStyle={{ fontSize: 10 }} text={data.MSL} />
+                  <Text
+                    textStyle={{ fontSize: 12, marginLeft: 5 }}
+                    text="MSL"
+                  />
+                  <Text
+                    textStyle={{ fontSize: 10, marginRight: 5 }}
+                    text={data.MSL}
+                  />
                 </View>
                 <View
                   style={{
@@ -198,9 +223,7 @@ const MaternalHistory = ({ navigation, route }) => {
                 <Button
                   textStyle={styles.btnText}
                   containerStyle={styles.btnContainer}
-                  title={`Score: ${
-                    data.score === 10 ? data.score : `0${data.score}`
-                  }`}
+                  title={`Score: ${data.score}`}
                 />
               ) : (
                 <TouchableOpacity
@@ -219,7 +242,9 @@ const MaternalHistory = ({ navigation, route }) => {
   };
 
   return (
-    <View>
+    <View style={{ marginTop: StatusBar.currentHeight }}>
+      <StatusBar backgroundColor={Themes.primary} />
+
       {Header()}
       {Body()}
     </View>
@@ -263,6 +288,15 @@ const styles = StyleSheet.create({
     backgroundColor: "#fcfcfc",
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
+    shadowColor: "lightgray",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.35,
+    shadowRadius: 3.65,
+    elevation: 5,
+    borderRadius: 5,
   },
   X: {
     position: "absolute",
@@ -276,7 +310,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   maternalContainer: {
-    marginTop: "20%",
+    marginTop: "18%",
   },
   btnContainer: {
     bottom: 0,
