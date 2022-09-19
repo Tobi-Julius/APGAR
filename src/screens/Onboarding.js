@@ -1,61 +1,46 @@
 import React, { useState, useRef } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
 import {
-  SafeAreaView,
   View,
-  Text as MainText,
-  StyleSheet,
-  FlatList,
-  StatusBar,
   Image,
-  Dimensions,
+  FlatList,
+  StyleSheet,
   TouchableOpacity,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-import { useFonts } from "@use-expo/font";
-import AppLoading from "expo-app-loading";
 
-import { Text, TextBold } from "../components/common";
+import { Text } from "../components/common";
 import { globalStyles } from "../styles";
-import { Themes } from "../constants";
+import { image, theme } from "../constants";
+import { layout } from "../utils";
 
-const customFonts = {
-  Montserrat: require("../assets/font/Montserrat.ttf"),
-};
-
-const Onboarding = ({ navigation }) => {
-  const ref = useRef(null);
-  const [isLoaded] = useFonts(customFonts);
+export const Onboarding = ({ navigation }) => {
+  const ref = useRef();
 
   const onboardingData = [
     {
       id: 1,
       text: "APGAR Database",
       subText: "Record and Store APGAR Score",
-      image: require("../images/onboarding1.png"),
+      image: image.onboarding1,
     },
     {
       id: 2,
       text: "Register your Hospital ",
-      subText: "Get a private database for your Hospital",
-      image: require("../images/onboarding2.png"),
+      subText: "Get your hospital on our hospital listing",
+      image: image.onboarding2,
     },
   ];
 
   const renderItem = ({ item }) => {
-    if (!isLoaded) {
-      return <AppLoading />;
-    }
     return (
-      <View style={styles.screenWidth}>
+      <View style={[styles.imageTextContainer, { alignItems: "center" }]}>
         <Image source={item.image} style={styles.image} />
-        <TextBold
-          text={item.text}
-          textStyle={[styles.text, globalStyles.Heading1]}
-        />
-        <Text
-          text={item.subText}
-          textStyle={[styles.subText, globalStyles.Heading3]}
-        />
+
+        <View style={[styles.textContainer]}>
+          <Text text={item.text} textStyle={styles.text} />
+          <Text text={item.subText} textStyle={styles.subText} />
+        </View>
       </View>
     );
   };
@@ -70,9 +55,9 @@ const Onboarding = ({ navigation }) => {
               style={[
                 styles.sliderRings,
                 currentIndex === index && {
-                  width: 14,
-                  height: 8,
-                  backgroundColor: Themes.primary,
+                  width: layout.widthPixel(14),
+                  height: layout.heightPixel(8),
+                  backgroundColor: theme.primary,
                 },
               ]}
             />
@@ -86,64 +71,35 @@ const Onboarding = ({ navigation }) => {
     return (
       <View style={styles.Footer}>
         {currentIndex === onboardingData.length - 1 ? (
-          <View style={styles.innerContainer}>
+          <View style={[styles.innerContainer, globalStyles.rowBetween]}>
             <TouchableOpacity
               activeOpacity={0.6}
               onPress={() => navigation.replace("Register")}
-              style={{ width: 78, height: 25 }}
+              style={styles.leftText}
             >
-              <MainText
-                style={{
-                  fontSize: 16,
-                  textAlignVertical: "center",
-                  fontFamily: "Montserrat",
-                }}
-              >
-                Register
-              </MainText>
+              <Text textStyle={styles.register} text="Register" />
             </TouchableOpacity>
             <TouchableOpacity
               activeOpacity={0.6}
               onPress={() => navigation.replace("SignIn")}
-              style={{
-                width: 65,
-                height: 36,
-                backgroundColor: Themes.primary,
-                borderRadius: 6,
-                fontWeight: 500,
-                fontSize: 16,
-                justifyContent: "center",
-                alignItems: "center",
-              }}
+              style={styles.rightText}
             >
-              <MainText
-                style={{ color: "#fff", padding: 1, fontFamily: "Montserrat" }}
-              >
-                Sign in
-              </MainText>
+              <Text textStyle={styles.signIn} text="Sign In" />
             </TouchableOpacity>
           </View>
         ) : (
-          <View style={styles.innerContainer}>
+          <View style={[styles.innerContainer, globalStyles.rowBetween]}>
             <TouchableOpacity
               activeOpacity={0.6}
               onPress={() => navigation.replace("Register")}
-              style={{ width: 45, height: 22 }}
+              style={styles.leftText}
             >
-              <MainText
-                style={{
-                  fontSize: 16,
-                  textAlignVertical: "center",
-                  fontFamily: "Montserrat",
-                }}
-              >
-                Skip
-              </MainText>
+              <Text textStyle={styles.skip} text="Skip" />
             </TouchableOpacity>
             <TouchableOpacity
               activeOpacity={0.6}
               onPress={goNextSlide}
-              style={styles.arrowContainer}
+              style={[styles.rightText, globalStyles.rowCenter]}
             >
               <AntDesign color="#fff" size={18} name="arrowright" />
             </TouchableOpacity>
@@ -157,27 +113,21 @@ const Onboarding = ({ navigation }) => {
 
   const updateCurrentSlideIndex = (e) => {
     const contentOffsetX = e.nativeEvent.contentOffset.x;
-    const currentIndex = Math.round(
-      contentOffsetX / Dimensions.get("window").width
-    );
+    const currentIndex = Math.round(contentOffsetX / layout.width);
     setCurrentIndex(currentIndex);
   };
   const goNextSlide = () => {
     const nextSlideIndex = currentIndex + 1;
     {
       if (nextSlideIndex !== onboardingData.length) {
-        const offset = nextSlideIndex * Dimensions.get("window").width;
+        const offset = nextSlideIndex * layout.width;
         ref?.current?.scrollToOffset({ offset });
         setCurrentIndex(nextSlideIndex);
       }
     }
   };
-  if (!isLoaded) {
-    return <AppLoading />;
-  }
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar style="auto" backgroundColor="#fff" />
+    <SafeAreaView>
       <FlatList
         ref={ref}
         onMomentumScrollEnd={updateCurrentSlideIndex}
@@ -186,11 +136,6 @@ const Onboarding = ({ navigation }) => {
         showsHorizontalScrollIndicator={false}
         data={onboardingData}
         renderItem={renderItem}
-        contentContainerStyle={{
-          height: Dimensions.get("window").height * 0.54,
-          marginVertical: "15%",
-          overflow: "hidden",
-        }}
       />
       {Slider()}
       {Footer()}
@@ -202,62 +147,72 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    overflow: "hidden",
   },
-  list: {
-    alignItems: "center",
+  imageTextContainer: {
+    width: layout.width,
+    marginTop: layout.pixelSizeVertical(130),
   },
-  screenWidth: {
-    width: Dimensions.get("window").width,
+  textContainer: {
     alignItems: "center",
+    marginVertical: layout.heightPixel(100),
+  },
+  text: {
+    fontFamily: "Montserrat_700Bold",
+    fontSize: layout.size.h2,
+    color: theme.primary,
+  },
+  subText: {
+    fontFamily: "Montserrat_400Regular",
+    fontSize: layout.size.h4,
+    color: theme.primary,
+    letterSpacing: 0.5,
   },
   image: {
-    height: "68%",
+    height: layout.heightPixel(249),
     resizeMode: "contain",
-    overflow: "hidden",
-    width: "85%",
+    width: layout.widthPixel(288),
   },
   Slider: {
-    // height: Dimensions.get("window").height * 0.1,
-    marginTop: 109,
+    height: layout.heightPixel(10),
+
     flexDirection: "row",
     justifyContent: "center",
   },
   sliderRings: {
-    height: 7,
-    width: 7,
-    backgroundColor: Themes.text,
-    borderRadius: 100 / 2,
-    marginLeft: "1%",
+    height: layout.heightPixel(7),
+    width: layout.widthPixel(7),
+    backgroundColor: theme.text,
+    borderRadius: layout.fontPixel(30),
+    marginLeft: layout.pixelSizeHorizontal(5),
   },
   Footer: {
-    height: Dimensions.get("screen").height * 0.24,
+    height: layout.heightPixel(180),
     justifyContent: "flex-end",
-    paddingBottom: "15%",
-    paddingLeft: "8%",
-    paddingRight: "8%",
   },
-  arrowContainer: {
-    backgroundColor: Themes.primary,
-    width: 56,
-    height: 36,
-    borderRadius: 10,
-    alignItems: "center",
-    justifyContent: "center",
+  skip: {
+    fontFamily: "Montserrat_400Regular",
+    fontSize: layout.size.h4,
+    color: theme.primary,
+  },
+  register: {
+    fontFamily: "Montserrat_400Regular",
+    fontSize: layout.size.h4,
+    color: theme.primary,
+  },
+  signIn: {
+    fontFamily: "Montserrat_400Regular",
+    fontSize: layout.size.h4,
+    color: theme.white,
+  },
+
+  rightText: {
+    backgroundColor: theme.primary,
+    paddingVertical: layout.pixelSizeVertical(10),
+    paddingHorizontal: layout.pixelSizeHorizontal(20),
+    borderRadius: layout.fontPixel(10),
+    fontSize: layout.size.h6,
   },
   innerContainer: {
-    justifyContent: "space-between",
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  subText: {
-    fontFamily: "Montserrat",
-    marginTop: "2%",
-  },
-  text: {
-    fontFamily: "Montserrat",
-    marginTop: 8,
+    paddingHorizontal: layout.pixelSizeHorizontal(30),
   },
 });
-
-export default Onboarding;

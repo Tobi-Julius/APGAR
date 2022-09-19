@@ -1,46 +1,30 @@
-import React from 'react'
-import { StyleSheet, TouchableOpacity } from 'react-native'
-import {globalStyles} from '../../styles'
-import  { Themes }  from '../../constants'
-// import {Text} from 'react-native'
-import { useFonts } from '@use-expo/font';
-import AppLoading from 'expo-app-loading';
-import { Text } from './Text'
-
-const customFonts = {
-  Montserrat: require("../../assets/font/Montserrat.ttf")
-};
-
+import React from "react";
+import { TouchableOpacity } from "react-native";
+import { globalStyles } from "../../styles";
+import { theme } from "../../constants";
+import { Text } from "./Text";
 
 export const Button = ({
-    title,
-    onPress,
-    textStyle,
+  title,
+  onPress,
+  textStyle,
   containerStyle,
-    disabled,
-    ...others
+  disabled,
+  ...others
 }) => {
-  const [isLoaded] =useFonts(customFonts)
-      if(!isLoaded) {
-        return <AppLoading />
-      } return (
+  return (
     <TouchableOpacity
-          activeOpacity={0.6}
-          disabled={disabled}
-    style={[globalStyles.rowCenter ,{backgroundColor: Themes.primary}, containerStyle]}
-    onPress={onPress}
-    {...others}>
-        <Text
-        text={title}
-        color={globalStyles.textColor}
-        style={[textStyle, styles.styleText]}
-        />
+      activeOpacity={0.6}
+      disabled={disabled}
+      style={[
+        globalStyles.rowCenter,
+        { backgroundColor: theme.primary },
+        containerStyle,
+      ]}
+      onPress={onPress}
+      {...others}
+    >
+      <Text text={title} color={globalStyles.textColor} style={[textStyle]} />
     </TouchableOpacity>
-  )
-}
-
-const styles = StyleSheet.create({
-  styleText: {
-    fontFamily: 'Montserrat'
-  }
-})
+  );
+};

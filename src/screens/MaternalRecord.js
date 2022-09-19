@@ -11,15 +11,19 @@ import { AntDesign } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
 import { auth } from "../firebase/firebase-config";
 
-import { Themes } from "../constants";
+import { theme } from "../constants";
 import { globalStyles } from "../styles";
-import { Button, TextInput, Text, TextBold } from "../components/common";
+import { Button, TextInput, Text } from "../components/common";
 import KeyBoardAvoidingWrapper from "../components/Keyboard/KeyBoardAvoidingWrapper";
 import { db } from "../firebase/firebase-config";
 import { doc, updateDoc } from "firebase/firestore";
+import { Header } from "../components/primary";
+import { useNavigation } from "@react-navigation/native";
+import { MaternalInitial } from "../components/secondary/MaternalInitial";
 
-const MaternalRecord = ({ navigation, route }) => {
-  const { id, motherId } = route.params;
+export const MaternalRecord = () => {
+  const navigation = useNavigation();
+  // const { id, motherId } = route.params;
 
   // const data = patients.find((item) => {
   //   return item.id === id;
@@ -33,8 +37,8 @@ const MaternalRecord = ({ navigation, route }) => {
 
   return (
     <KeyBoardAvoidingWrapper>
-      <View style={{ marginTop: StatusBar.currentHeight }}>
-        <StatusBar backgroundColor={Themes.primary} />
+      {/* <View style={{ marginTop: StatusBar.currentHeight }}>
+        <StatusBar backgroundColor={theme.primary} />
         <View style={styles.headerContainer} />
         <View style={[styles.bodyContainer, globalStyles.rowCenter]}>
           <View style={styles.bodyContentContainer}>
@@ -46,7 +50,7 @@ const MaternalRecord = ({ navigation, route }) => {
               >
                 <AntDesign name="left" color="blue" size={26} />
               </TouchableOpacity>
-              <TextBold
+              <Text
                 text="Maternal Records"
                 textStyle={[styles.textStyle]}
               />
@@ -84,27 +88,19 @@ const MaternalRecord = ({ navigation, route }) => {
                 <Picker
                   selectedValue={deliveryMode}
                   mode={"dropdown"}
-                  dropdownIconColor={Themes.primary}
-                  dropdownIconRippleColor={Themes.primary}
-                  fontFamily="Montserrat"
+                  dropdownIconColor={theme.primary}
+                  dropdownIconRippleColor={theme.primary}
                   onValueChange={(item, index) => {
                     setdeliveryMode(item);
                   }}
                   style={{
                     borderColor: "red",
-                    color: Themes.text,
+                    color: theme.text,
                     borderRadius: 5,
                     fontWeight: "200",
                   }}
                 >
-                  <Picker.Item
-                    label="Select Option"
-                    color="lightgrey"
-                    fontFamily="Montserrat"
-                    value="Select Option"
-                  />
-                  <Picker.Item label="SVG" value="SVG" />
-                  <Picker.Item label="CS" value="CS" />
+                 
                 </Picker>
               </View>
             </View>
@@ -168,17 +164,24 @@ const MaternalRecord = ({ navigation, route }) => {
             />
           </View>
         </View>
+      </View> */}
+      <View>
+        <Header
+          onPress={() => navigation.goBack()}
+          show
+          iconName="chevron-back"
+          text="Maternal Records"
+        />
+        <MaternalInitial />
       </View>
     </KeyBoardAvoidingWrapper>
   );
 };
 
-export default MaternalRecord;
-
 const styles = StyleSheet.create({
   headerContainer: {
     height: Dimensions.get("window").height * 0.2,
-    backgroundColor: Themes.primary,
+    backgroundColor: theme.primary,
   },
   bodyContainer: {
     top: "-15%",
@@ -194,10 +197,10 @@ const styles = StyleSheet.create({
     height: Dimensions.get("window").height * 0.55,
   },
   textStyle: {
-    color: Themes.secondary,
+    color: theme.secondary,
     marginTop: "5.5%",
     fontSize: 16,
-    color: Themes.primary,
+    color: theme.primary,
     textAlign: "center",
   },
   leftIcon: {
@@ -226,7 +229,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   errText: {
-    color: Themes.secondary,
+    color: theme.secondary,
     fontSize: 12,
     paddingTop: 4,
   },

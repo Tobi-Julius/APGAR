@@ -1,456 +1,345 @@
-import {
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  Dimensions,
-  Image,
-  FlatList,
-  ScrollView,
-  StatusBar,
-} from "react-native";
+import { ScrollView, RefreshControl } from "react-native";
 import React, { useState, useEffect, useCallback } from "react";
-import { Ionicons } from "@expo/vector-icons";
-import { Octicons } from "@expo/vector-icons";
-import { SimpleLineIcons } from "@expo/vector-icons";
 import { collection, getDocs, query, where } from "firebase/firestore";
 
-import { Themes } from "../constants";
-import openMenu from "../images/Icon/menuOpen.png";
-import Logo from "../images/APGARlogo.png";
-import {
-  TextInput,
-  Button,
-  TextBold,
-  Text,
-  TextMedium,
-} from "../components/common";
+import { theme } from "../constants";
 import { auth, db } from "../firebase/firebase-config";
 
-const Home = ({ navigation }) => {
-  const [patientValue, setPatientValue] = useState([]);
+import { HomeHeader, HomeBody } from "../components/primary";
 
-  const getData = async () => {
-    const q = query(collection(db, `users/${auth.currentUser.uid}/user`));
-    const querySnapshot = await getDocs(q);
-    const data = querySnapshot.docs.map((doc) => ({
-      ...doc.data(),
-      id: doc.id,
-    }));
-    setPatientValue(data);
-  };
+import react from "react";
+import { layout } from "../utils";
 
-  useEffect(() => {
-    getData();
-  }, []);
+const wait = (time) => {
+  return new Promise((resolve) => setTimeout(resolve, time));
+};
 
-  const Header = () => {
-    return (
-      <View style={styles.headerContainer}>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-            width: "90%",
-            marginTop: "8%",
-          }}
-        >
-          <TouchableOpacity
-            activeOpacity={0.6}
-            onPress={() => navigation.openDrawer()}
-          >
-            <Image
-              source={openMenu}
-              style={{
-                width: 20,
-                height: 20,
-              }}
-            />
-          </TouchableOpacity>
-          <View>
-            <Image source={Logo} />
-          </View>
-          <TouchableOpacity
-            activeOpacity={0.6}
-            onPress={() => navigation.navigate("Notification")}
-          >
-            <Ionicons
-              name="md-notifications-outline"
-              size={25}
-              color={Themes.white}
-            />
-          </TouchableOpacity>
-        </View>
-        <TextInput
-          // inputType="Numeric"
-          onChangeText={async (text) => {
-            const q = query(
-              collection(db, `users/${auth.currentUser.uid}/user`),
-              where("motherId", "==", text.toLowerCase())
-            );
-            const querySnapshot = await getDocs(q);
-            const data = querySnapshot.docs.map((doc) => ({
-              ...doc.data(),
-              id: doc.id,
-            }));
-            setPatientValue(data);
-          }}
-          containerStyle={{
-            width: " 90%",
-            height: "45%",
-            borderRadius: 6,
-            marginTop: 8,
-          }}
-          placeholder="Search ID"
-          textInputStyle={{
-            color: Themes.text,
-            backgroundColor: Themes.white,
-            borderRadius: 5,
-            padding: 8,
-          }}
-        />
-      </View>
-    );
-  };
-  const Body = () => {
-    return (
-      <View style={styles.body}>
-        <View style={styles.one}>
-          <View style={{ marginTop: 12 }}>
-            <TextBold
-              textStyle={{ fontSize: 13, marginBottom: 3 }}
-              text="Take APGAR Score"
-            />
-            <View style={{ borderRadius: 20, height: "93%" }}>
-              <Image
-                source={require("../images/Home/APGARScore.png")}
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  borderRadius: 20,
-                  position: "relative",
-                }}
-              />
-              <View
-                style={{
-                  position: "absolute",
-                  bottom: 0,
-                  flexDirection: "row",
-                  width: "100%",
-                  backgroundColor: Themes.fadeBackground,
-                  justifyContent: "space-between",
-                  paddingRight: 5,
-                  alignItems: "center",
-                  borderBottomRightRadius: 19,
-                  borderBottomLeftRadius: 19,
-                  zIndex: 1,
-                }}
-              >
-                <View
-                  style={{
-                    marginBottom: 5,
-                    width: "77%",
-                  }}
-                >
-                  <TextMedium
-                    textStyle={{ fontSize: 11, letterSpacing: -0.3 }}
-                    text="Instantly input APGAR parameters and generate"
-                  />
-                  <TextMedium
-                    textStyle={{ fontSize: 10, letterSpacing: -0.7 }}
-                    text="APGAR score of a new born baby"
-                  />
-                </View>
-                <Button
-                  onPress={() => {
-                    navigation.navigate("Take APGAR Score");
-                  }}
-                  containerStyle={{
-                    borderRadius: 5,
-                    width: "23%",
-                  }}
-                  textStyle={{
-                    fontSize: 10,
-                    padding: 6,
-                    color: Themes.white,
-                    letterSpacing: -0.8,
-                  }}
-                  title="Take Score"
-                />
-              </View>
-            </View>
-          </View>
-        </View>
-        <View style={styles.two}>
-          <View style={{ marginTop: 17 }}>
-            <TextBold
-              textStyle={{ fontSize: 13, marginBottom: 3 }}
-              text="Check APGAR database"
-            />
-            <View style={{ borderRadius: 20, height: "93%" }}>
-              <Image
-                source={require("../images/Home/database.png")}
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  borderRadius: 20,
-                  position: "relative",
-                }}
-              />
-              <View
-                style={{
-                  position: "absolute",
-                  bottom: 0,
-                  flexDirection: "row",
-                  width: "100%",
-                  backgroundColor: Themes.fadeBackground,
-                  justifyContent: "space-between",
-                  paddingRight: 5,
-                  alignItems: "center",
-                  borderBottomRightRadius: 19,
-                  borderBottomLeftRadius: 19,
-                  zIndex: 1,
-                  padding: 5,
-                }}
-              >
-                <View
-                  style={{
-                    marginBottom: 5,
-                    width: "65%",
-                  }}
-                >
-                  <TextMedium
-                    textStyle={{ fontSize: 11, letterSpacing: -0.3 }}
-                    text="Easy access to APGAR database"
-                  />
-                </View>
-                <Button
-                  onPress={() => {
-                    navigation.navigate("Database");
-                  }}
-                  containerStyle={{
-                    borderRadius: 5,
-                    width: "30%",
-                  }}
-                  textStyle={{
-                    fontSize: 10,
-                    padding: 6,
-                    color: Themes.white,
-                    letterSpacing: -0.8,
-                  }}
-                  title="Check Database"
-                />
-              </View>
-            </View>
-          </View>
-        </View>
-        <View style={styles.three}>
-          <TextBold
-            textStyle={{ fontSize: 13, marginBottom: "1%" }}
-            text="Past Records"
-          />
-          {patientValue < 1 ? (
-            <View
-              style={{
-                alignItems: "center",
-                justifyContent: "center",
-                height: "100%",
-              }}
-            >
-              <TextBold
-                style={{
-                  color: Themes.secondary,
-                }}
-                text="EXPLORE OUR APP"
-              />
-            </View>
-          ) : (
-            <FlatList
-              horizontal
-              data={patientValue}
-              renderItem={({ item, index }) => {
-                return (
-                  <View
-                    style={{
-                      marginLeft: 17,
-                      right: 15,
-                      borderRadius: 8,
-                    }}
-                  >
-                    <Image
-                      source={{ uri: item.image }}
-                      style={styles.babyImage}
-                    />
-                    <View style={styles.idContainer}>
-                      <TextMedium
-                        textStyle={{ fontSize: 6, color: "#000" }}
-                        text="ID"
-                      />
-                      <TextMedium
-                        textStyle={{ fontSize: 10, color: Themes.primary }}
-                        text={item.motherId}
-                      />
-                    </View>
-                    <View style={styles.scoreContainer}>
-                      <View>
-                        <Text textStyle={{ fontSize: 7 }} text="Score" />
-                        <TextBold
-                          textStyle={{ color: Themes.primary, fontSize: 10 }}
-                          text={`${item.score}`}
-                        />
-                      </View>
-                      <View>
-                        <SimpleLineIcons
-                          name="options-vertical"
-                          size={11}
-                          color="black"
-                        />
-                      </View>
-                    </View>
-                  </View>
-                );
-              }}
-            />
-          )}
-        </View>
-        <View style={styles.four}>
-          <View style={styles.top} />
-          <View style={styles.homeIcon}>
-            <Octicons name="home" color={Themes.primary} size={20} />
-          </View>
-          <View style={styles.bottom} />
-        </View>
-      </View>
-    );
-  };
+export const Home = () => {
+  // const [patientValue, setPatientValue] = useState([]);
+
+  // const getData = async () => {
+  //   const q = query(collection(db, `users/${auth.currentUser.uid}/user`));
+  //   const querySnapshot = await getDocs(q);
+  //   const data = querySnapshot.docs.map((doc) => ({
+  //     ...doc.data(),
+  //     id: doc.id,
+  //   }));
+  //   setPatientValue(data);
+  // };
+
+  // useEffect(() => {
+  //   getData();
+  // }, []);
+
+  // const Header = () => {
+  //   return (
+  //     <View style={styles.headerContainer}>
+  //       <View
+  //         style={{
+  //           flexDirection: "row",
+  //           alignItems: "center",
+  //           justifyContent: "space-between",
+  //           width: "90%",
+  //           marginTop: "8%",
+  //         }}
+  //       >
+  //         <TouchableOpacity
+  //           activeOpacity={0.6}
+  //           onPress={() => navigation.openDrawer()}
+  //         >
+  //           <Image
+  //             source={icon.open}
+  //             style={{
+  //               width: 20,
+  //               height: 20,
+  //             }}
+  //           />
+  //         </TouchableOpacity>
+  //         <View>
+  //           <Image source={image.APGARlogo} />
+  //         </View>
+  //         <TouchableOpacity
+  //           activeOpacity={0.6}
+  //           onPress={() => navigation.navigate("Notification")}
+  //         >
+  //           <Ionicons
+  //             name="md-notifications-outline"
+  //             size={25}
+  //             color={theme.white}
+  //           />
+  //         </TouchableOpacity>
+  //       </View>
+  //       <TextInput
+  //         // inputType="Numeric"
+  //         onChangeText={async (text) => {
+  //           const q = query(
+  //             collection(db, `users/${auth.currentUser.uid}/user`),
+  //             where("motherId", "==", text.toLowerCase())
+  //           );
+  //           const querySnapshot = await getDocs(q);
+  //           const data = querySnapshot.docs.map((doc) => ({
+  //             ...doc.data(),
+  //             id: doc.id,
+  //           }));
+  //           setPatientValue(data);
+  //         }}
+  //         containerStyle={{
+  //           width: " 90%",
+  //           height: "45%",
+  //           borderRadius: 6,
+  //           marginTop: 8,
+  //         }}
+  //         placeholder="Search ID"
+  //         textInputStyle={{
+  //           color: theme.text,
+  //           backgroundColor: theme.white,
+  //           borderRadius: 5,
+  //           padding: 8,
+  //         }}
+  //       />
+  //     </View>
+  //   );
+  // };
+  // const Body = () => {
+  //   return (
+  //     <View style={styles.body}>
+  //       <View style={styles.one}>
+  //         <View style={{ marginTop: 12 }}>
+  //           <Text
+  //             textStyle={{ fontSize: 13, marginBottom: 3 }}
+  //             text="Take APGAR Score"
+  //           />
+  //           <View style={{ borderRadius: 20, height: "93%" }}>
+  //             <Image
+  //               source={image.APGARScore}
+  //               style={{
+  //                 width: "100%",
+  //                 height: "100%",
+  //                 borderRadius: 20,
+  //                 position: "relative",
+  //               }}
+  //             />
+  //             <View
+  //               style={{
+  //                 position: "absolute",
+  //                 bottom: 0,
+  //                 flexDirection: "row",
+  //                 width: "100%",
+  //                 backgroundColor: theme.fadeBackground,
+  //                 justifyContent: "space-between",
+  //                 paddingRight: 5,
+  //                 alignItems: "center",
+  //                 borderBottomRightRadius: 19,
+  //                 borderBottomLeftRadius: 19,
+  //                 zIndex: 1,
+  //               }}
+  //             >
+  //               <View
+  //                 style={{
+  //                   marginBottom: 5,
+  //                   width: "77%",
+  //                 }}
+  //               >
+  //                 <Text
+  //                   textStyle={{ fontSize: 11, letterSpacing: -0.3 }}
+  //                   text="Instantly input APGAR parameters and generate"
+  //                 />
+  //                 <Text
+  //                   textStyle={{ fontSize: 10, letterSpacing: -0.7 }}
+  //                   text="APGAR score of a new born baby"
+  //                 />
+  //               </View>
+  //               <Button
+  //                 onPress={() => {
+  //                   navigation.navigate("Take APGAR Score");
+  //                 }}
+  //                 containerStyle={{
+  //                   borderRadius: 5,
+  //                   width: "23%",
+  //                 }}
+  //                 textStyle={{
+  //                   fontSize: 10,
+  //                   padding: 6,
+  //                   color: theme.white,
+  //                   letterSpacing: -0.8,
+  //                 }}
+  //                 title="Take Score"
+  //               />
+  //             </View>
+  //           </View>
+  //         </View>
+  //       </View>
+  //       <View style={styles.two}>
+  //         <View style={{ marginTop: 17 }}>
+  //           <Text
+  //             textStyle={{ fontSize: 13, marginBottom: 3 }}
+  //             text="Check APGAR database"
+  //           />
+  //           <View style={{ borderRadius: 20, height: "93%" }}>
+  //             <Image
+  //               source={image.database}
+  //               style={{
+  //                 width: "100%",
+  //                 height: "100%",
+  //                 borderRadius: 20,
+  //                 position: "relative",
+  //               }}
+  //             />
+  //             <View
+  //               style={{
+  //                 position: "absolute",
+  //                 bottom: 0,
+  //                 flexDirection: "row",
+  //                 width: "100%",
+  //                 backgroundColor: theme.fadeBackground,
+  //                 justifyContent: "space-between",
+  //                 paddingRight: 5,
+  //                 alignItems: "center",
+  //                 borderBottomRightRadius: 19,
+  //                 borderBottomLeftRadius: 19,
+  //                 zIndex: 1,
+  //                 padding: 5,
+  //               }}
+  //             >
+  //               <View
+  //                 style={{
+  //                   marginBottom: 5,
+  //                   width: "65%",
+  //                 }}
+  //               >
+  //                 <Text
+  //                   textStyle={{ fontSize: 11, letterSpacing: -0.3 }}
+  //                   text="Easy access to APGAR database"
+  //                 />
+  //               </View>
+  //               <Button
+  //                 onPress={() => {
+  //                   navigation.navigate("Database");
+  //                 }}
+  //                 containerStyle={{
+  //                   borderRadius: 5,
+  //                   width: "30%",
+  //                 }}
+  //                 textStyle={{
+  //                   fontSize: 10,
+  //                   padding: 6,
+  //                   color: theme.white,
+  //                   letterSpacing: -0.8,
+  //                 }}
+  //                 title="Check Database"
+  //               />
+  //             </View>
+  //           </View>
+  //         </View>
+  //       </View>
+  //       <View style={styles.three}>
+  //         <Text
+  //           textStyle={{ fontSize: 13, marginBottom: "1%" }}
+  //           text="Past Records"
+  //         />
+  //         {patientValue < 1 ? (
+  //           <View
+  //             style={{
+  //               alignItems: "center",
+  //               justifyContent: "center",
+  //               height: "100%",
+  //             }}
+  //           >
+  //             <Text
+  //               style={{
+  //                 color: theme.secondary,
+  //               }}
+  //               text="EXPLORE OUR APP"
+  //             />
+  //           </View>
+  //         ) : (
+  //           <FlatList
+  //             horizontal
+  //             data={patientValue}
+  //             renderItem={({ item, index }) => {
+  //               return (
+  //                 <View
+  //                   style={{
+  //                     marginLeft: 17,
+  //                     right: 15,
+  //                     borderRadius: 8,
+  //                   }}
+  //                 >
+  //                   <Image
+  //                     source={{ uri: item.image }}
+  //                     style={styles.babyImage}
+  //                   />
+  //                   <View style={styles.idContainer}>
+  //                     <Text
+  //                       textStyle={{ fontSize: 6, color: "#000" }}
+  //                       text="ID"
+  //                     />
+  //                     <Text
+  //                       textStyle={{ fontSize: 10, color: theme.primary }}
+  //                       text={item.motherId}
+  //                     />
+  //                   </View>
+  //                   <View style={styles.scoreContainer}>
+  //                     <View>
+  //                       <Text textStyle={{ fontSize: 7 }} text="Score" />
+  //                       <Text
+  //                         textStyle={{ color: theme.primary, fontSize: 10 }}
+  //                         text={`${item.score}`}
+  //                       />
+  //                     </View>
+  //                     <View>
+  //                       <SimpleLineIcons
+  //                         name="options-vertical"
+  //                         size={11}
+  //                         color="black"
+  //                       />
+  //                     </View>
+  //                   </View>
+  //                 </View>
+  //               );
+  //             }}
+  //           />
+  //         )}
+  //       </View>
+  //       <View style={styles.four}>
+  //         <View style={styles.top} />
+  //         <View style={styles.homeIcon}>
+  //           <Octicons name="home" color={theme.primary} size={20} />
+  //         </View>
+  //         <View style={styles.bottom} />
+  //       </View>
+  //     </View>
+  //   );
+  // };
+
+  const [refreshing, setRefreshing] = useState(false);
 
   return (
-    <ScrollView style={{ marginTop: StatusBar.currentHeight }}>
-      <StatusBar backgroundColor={Themes.primary} />
-      {Header()}
-      {Body()}
+    <ScrollView
+      style={{ backgroundColor: theme.white, flex: 1, height: layout.height }}
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          color={"red"}
+          enabled
+          progressBackgroundColor={"white"}
+          size="default"
+          onRefresh={react.useCallback(() => {
+            setRefreshing(true);
+            wait(3000)
+              .then((res) => {
+                console.warn("REFRESHING");
+                setRefreshing(false);
+              })
+              .catch((err) => {
+                console.warn(err);
+              });
+          }, [refreshing])}
+        />
+      }
+    >
+      <HomeHeader />
+      <HomeBody />
     </ScrollView>
   );
 };
-const styles = StyleSheet.create({
-  headerContainer: {
-    height: Dimensions.get("window").height * 0.2,
-    backgroundColor: Themes.primary,
-    alignItems: "center",
-  },
-  container: {
-    alignSelf: "center",
-    justifyContent: "space-between",
-    flexDirection: "row",
-    width: "90%",
-    marginTop: "8%",
-    alignItems: "center",
-  },
-  searchContainer: {
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 1,
-    borderColor: "red",
-    height: 40,
-  },
-  menuStyle: {
-    width: 22,
-    height: 22,
-  },
-  inputStyle: {},
-  searchIcon: {
-    position: "absolute",
-    justifyContent: "center",
-    right: "8%",
-    top: "65%",
-  },
-  body: {
-    height: Dimensions.get("window").height * 0.8,
-    width: "100%",
-    alignItems: "center",
-  },
-  one: {
-    height: "31%",
-    width: "95%",
-    borderRadius: 10,
-  },
-  two: {
-    height: "31%",
-    width: "95%",
-    borderRadius: 10,
-  },
-  three: {
-    height: "21%",
-    width: "92%",
-    overflow: "hidden",
-    marginTop: "4.5%",
-  },
-  four: {
-    marginTop: "2%",
-    height: "14%",
-    width: "100%",
-  },
-
-  text: {
-    width: "80%",
-  },
-  babyImage: {
-    width: 100,
-    height: "100%",
-    resizeMode: "cover",
-    borderRadius: 8,
-  },
-  idContainer: {
-    position: "absolute",
-    right: "5%",
-    top: "5%",
-    backgroundColor: Themes.fadeBackground,
-    padding: 1,
-    borderRadius: 3,
-    alignItems: "center",
-    maxWidth: 33,
-    maxHeight: 31,
-    width: 33,
-    height: 31,
-  },
-  scoreContainer: {
-    position: "absolute",
-    bottom: 0,
-    backgroundColor: Themes.fadeBackground,
-    flexDirection: "row",
-    width: "100%",
-    height: "22%",
-    justifyContent: "space-between",
-    paddingLeft: 2,
-    paddingRight: 2,
-    alignItems: "flex-end",
-  },
-  top: {
-    backgroundColor: Themes.white,
-    height: "50%",
-    width: "100%",
-  },
-  bottom: {
-    backgroundColor: Themes.primary,
-    height: "50%",
-    width: "100%",
-  },
-  homeIcon: {
-    position: "absolute",
-    bottom: "23%",
-    left: "44%",
-    backgroundColor: Themes.white,
-    zIndex: 1,
-    width: 50,
-    height: 50,
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 25,
-  },
-  emptyData: {
-    alignItems: "center",
-    color: Themes.secondary,
-  },
-});
-
-export default Home;

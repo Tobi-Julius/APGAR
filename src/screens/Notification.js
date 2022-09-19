@@ -11,12 +11,12 @@ import React, { useState, useEffect } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { collection, getDocs, query } from "firebase/firestore";
 
-import { Themes } from "../constants";
-import { Text, TextBold } from "../components/common";
+import { theme } from "../constants";
+import { Text } from "../components/common";
 import { globalStyles } from "../styles";
 import { db, auth } from "../firebase/firebase-config";
 
-const Notification = ({ navigation }) => {
+export const Notification = ({ navigation }) => {
   const [patientValue, setPatientValue] = useState([]);
 
   useEffect(async () => {
@@ -49,7 +49,7 @@ const Notification = ({ navigation }) => {
               <AntDesign name="left" color="blue" size={28} />
             </TouchableOpacity>
 
-            <TextBold
+            <Text
               text="Notifications"
               textStyle={[styles.textStyle, globalStyles.Heading1]}
             />
@@ -63,7 +63,7 @@ const Notification = ({ navigation }) => {
           </View>
           <View>
             {patientValue === true ? (
-              <ActivityIndicator size="large" color={Themes.secondary} />
+              <ActivityIndicator size="large" color={theme.secondary} />
             ) : (
               <View>
                 {patientValue.length < 1 ? (
@@ -118,7 +118,7 @@ const Notification = ({ navigation }) => {
 
   return (
     <View style={{ marginTop: StatusBar.currentHeight }}>
-      <StatusBar backgroundColor={Themes.primary} />
+      <StatusBar backgroundColor={theme.primary} />
 
       {Header()}
       {Body()}
@@ -131,7 +131,7 @@ export default Notification;
 const styles = StyleSheet.create({
   headerContainer: {
     height: Dimensions.get("window").height * 0.2,
-    backgroundColor: Themes.primary,
+    backgroundColor: theme.primary,
   },
   bodyContainer: {
     top: "-15%",
@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
     height: Dimensions.get("window").height * 0.55,
   },
   textStyle: {
-    color: Themes.secondary,
+    color: theme.secondary,
     marginTop: "4%",
   },
   leftIcon: {
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
   },
   notificationText: {
     fontSize: 14,
-    color: Themes.primary,
+    color: theme.primary,
     marginLeft: "1%",
   },
   messageContainer: {
@@ -182,8 +182,8 @@ const styles = StyleSheet.create({
     maxWidth: "90%",
   },
   messageNumber: {
-    backgroundColor: Themes.secondary,
-    color: Themes.white,
+    backgroundColor: theme.secondary,
+    color: theme.white,
     padding: 6,
     borderRadius: 5,
     marginLeft: 8,
@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
   },
   timeAgo: {
     marginLeft: 10,
-    color: Themes.text,
+    color: theme.text,
   },
   separator: {
     borderTopWidth: 1,

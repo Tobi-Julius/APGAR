@@ -9,11 +9,11 @@ import {
 import React, { useState } from "react";
 import { doc, deleteDoc } from "firebase/firestore";
 
-import { Themes } from "../constants";
-import { Text, TextBold } from "../components/common";
+import { theme } from "../constants";
+import { Text } from "../components/common";
 import { db, auth } from "../firebase/firebase-config";
 
-const Delete = ({ navigation, route }) => {
+export const Delete = ({ navigation, route }) => {
   const { id } = route.params;
   const [loading, setLoading] = useState(false);
 
@@ -26,7 +26,7 @@ const Delete = ({ navigation, route }) => {
       <View style={[styles.container]}>
         <View style={styles.innerContainer}>
           <View style={styles.deleteTextContainer}>
-            <TextBold
+            <Text
               text="Delete ?"
               textAlign="center"
               textStyle={styles.deleteText}
@@ -36,7 +36,7 @@ const Delete = ({ navigation, route }) => {
           {loading ? (
             <ActivityIndicator
               style={{ marginTop: "8%" }}
-              color={Themes.secondary}
+              color={theme.secondary}
               size="large"
             />
           ) : (
@@ -72,7 +72,7 @@ const Delete = ({ navigation, route }) => {
               bottom: 0,
               flexDirection: "row",
               justifyContent: "center",
-              backgroundColor: Themes.primary,
+              backgroundColor: theme.primary,
               padding: "8%",
               marginTop: "2%",
               width: "100%",
@@ -87,7 +87,7 @@ const Delete = ({ navigation, route }) => {
 
   return (
     <View style={{ marginTop: StatusBar.currentHeight }}>
-      <StatusBar backgroundColor={Themes.primary} />
+      <StatusBar backgroundColor={theme.primary} />
       {Header()}
       {Body()}
     </View>
@@ -97,7 +97,7 @@ const Delete = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   headerContainer: {
     height: Dimensions.get("window").height * 0.2,
-    backgroundColor: Themes.primary,
+    backgroundColor: theme.primary,
   },
   innerContainer: {
     width: "70%",
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     color: "#fff",
   },
   number: {
-    color: Themes.secondary,
+    color: theme.secondary,
   },
   footerContainer: {
     width: "70%",
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
     marginTop: "15%",
   },
   deleteText: {
-    color: Themes.secondary,
+    color: theme.secondary,
   },
   btns: {
     marginTop: "15%",
@@ -154,16 +154,16 @@ const styles = StyleSheet.create({
   },
   noBtn: {
     borderWidth: 1,
-    borderColor: Themes.primary,
+    borderColor: theme.primary,
     borderRadius: 7,
     fontSize: 12,
   },
   yesBtn: {
-    backgroundColor: Themes.secondary,
+    backgroundColor: theme.secondary,
     borderRadius: 7,
   },
   noBtnText: {
-    color: Themes.primary,
+    color: theme.primary,
     padding: 25,
   },
   yesBtnText: {
@@ -171,5 +171,3 @@ const styles = StyleSheet.create({
     padding: 25,
   },
 });
-
-export default Delete;

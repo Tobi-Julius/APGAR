@@ -10,38 +10,38 @@ import React, { useEffect, useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { collection, getDocs, query } from "firebase/firestore";
 
-import { Text, TextBold } from "../components/common";
-import { Themes } from "../constants";
+import { Text } from "../components/common";
+import { theme } from "../constants";
 import { globalStyles } from "../styles";
 import { Button } from "../components/common";
 import { auth, db } from "../firebase/firebase-config";
+import { Header } from "../components/primary";
+import { CardButtons, ResultCard } from "../models";
+import { useNavigation } from "@react-navigation/native";
 
-const Result = ({ navigation, route }) => {
-  const [patientValue, setPatientValue] = useState([]);
+export const Result = () => {
+  const navigation = useNavigation();
+  // const [patientValue, setPatientValue] = useState([]);
 
-  const getData = async () => {
-    const q = query(collection(db, `users/${auth.currentUser.uid}/user`));
-    const querySnapshot = await getDocs(q);
-    const data = querySnapshot.docs.map((doc) => ({
-      ...doc.data(),
-      id: doc.id,
-    }));
-    setPatientValue(data);
-  };
+  // const getData = async () => {
+  //   const q = query(collection(db, `users/${auth.currentUser.uid}/user`));
+  //   const querySnapshot = await getDocs(q);
+  //   const data = querySnapshot.docs.map((doc) => ({
+  //     ...doc.data(),
+  //     id: doc.id,
+  //   }));
+  //   setPatientValue(data);
+  // };
 
-  useEffect(async () => {
-    getData();
-  }, []);
+  // useEffect(async () => {
+  //   getData();
+  // }, []);
 
-  const { id } = route.params;
+  // const { id } = route.params;
 
-  const patientData = patientValue.find((each) => {
-    return each.id === id;
-  });
-
-  const Header = () => {
-    return <View style={styles.headerContainer} />;
-  };
+  // const patientData = patientValue.find((each) => {
+  //   return each.id === id;
+  // });
 
   const Body = () => {
     return (
@@ -56,7 +56,7 @@ const Result = ({ navigation, route }) => {
               <AntDesign name="left" color="blue" size={28} />
             </TouchableOpacity>
 
-            <TextBold
+            <Text
               text="Result"
               textStyle={[styles.textStyle, globalStyles.Heading1]}
             />
@@ -66,13 +66,13 @@ const Result = ({ navigation, route }) => {
               <Text textStyle={{ fontSize: 13 }} text="APGAR Score" />
               <Text textStyle={{ fontSize: 12 }} text="is" />
               {patientData === undefined ? (
-                <ActivityIndicator color={Themes.secondary} size="small" />
+                <ActivityIndicator color={theme.secondary} size="small" />
               ) : (
                 <Text textStyle={styles.textStyle} text={patientData.score} />
               )}
               <View style={styles.footer} />
               {patientData === undefined ? (
-                <ActivityIndicator color={Themes.primary} size="small" />
+                <ActivityIndicator color={theme.primary} size="small" />
               ) : (
                 <Text textStyle={styles.comment} text={patientData.comment} />
               )}
@@ -92,7 +92,7 @@ const Result = ({ navigation, route }) => {
                 style={{
                   backgroundColor: "#fff",
                   alignItems: "center",
-                  borderColor: Themes.primary,
+                  borderColor: theme.primary,
                   borderWidth: 1,
                   borderRadius: 7,
                 }}
@@ -101,7 +101,7 @@ const Result = ({ navigation, route }) => {
               </TouchableOpacity>
             </View>
             {patientData === undefined ? (
-              <ActivityIndicator color={Themes.secondary} size="small" />
+              <ActivityIndicator color={theme.secondary} size="small" />
             ) : (
               <Button
                 title="Add Maternal Record"
@@ -130,21 +130,23 @@ const Result = ({ navigation, route }) => {
   };
 
   return (
-    <View style={{ marginTop: StatusBar.currentHeight }}>
-      <StatusBar backgroundColor={Themes.primary} />
-
-      {Header()}
-      {Body()}
+    <View style={{ backgroundColor: theme.white, flex: 1 }}>
+      <Header
+        onPress={() => navigation.goBack()}
+        text="Result"
+        iconName="chevron-back"
+        show
+      />
+      <ResultCard />
+      <CardButtons />
     </View>
   );
 };
 
-export default Result;
-
 const styles = StyleSheet.create({
   headerContainer: {
     height: Dimensions.get("window").height * 0.2,
-    backgroundColor: Themes.primary,
+    backgroundColor: theme.primary,
   },
   bodyContainer: {
     top: "-15%",
@@ -161,12 +163,12 @@ const styles = StyleSheet.create({
     height: Dimensions.get("window").height * 0.54,
   },
   textStyle: {
-    color: Themes.secondary,
+    color: theme.secondary,
     marginTop: "5%",
     fontSize: 12,
   },
   footer: {
-    backgroundColor: Themes.primary,
+    backgroundColor: theme.primary,
     width: "100%",
     height: "17%",
     borderBottomRightRadius: 10,
@@ -233,7 +235,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   idFooter: {
-    color: Themes.text,
+    color: theme.text,
     // alignSelf: "center",
   },
 });

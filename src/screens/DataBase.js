@@ -13,12 +13,12 @@ import { AntDesign } from "@expo/vector-icons";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { Picker } from "@react-native-picker/picker";
 
-import { Themes } from "../constants";
-import { Text, TextBold, TextMedium } from "../components/common";
+import { theme } from "../constants";
+import { Text } from "../components/common";
 import { globalStyles } from "../styles";
 import { db, auth } from "../firebase/firebase-config";
 
-const DataBase = ({ navigation }) => {
+export const DataBase = ({ navigation }) => {
   const [patientValue, setPatientValue] = useState([]);
   const [picker, setPicker] = useState("createdAt");
 
@@ -64,7 +64,7 @@ const DataBase = ({ navigation }) => {
               <AntDesign color="blue" size={28} name="left" />
             </TouchableOpacity>
             <View style={styles.paramsContainer}>
-              <TextBold text="Database" textStyle={[styles.parameters1]} />
+              <Text text="Database" textStyle={[styles.parameters1]} />
             </View>
             <View
               style={{
@@ -80,22 +80,21 @@ const DataBase = ({ navigation }) => {
               <Picker
                 selectedValue={picker}
                 mode={"dropdown"}
-                dropdownIconColor={Themes.primary}
-                dropdownIconRippleColor={Themes.primary}
-                fontFamily="Montserrat"
+                dropdownIconColor={theme.primary}
+                dropdownIconRippleColor={theme.primary}
                 onValueChange={(item, index) => {
                   setPicker(item);
                 }}
                 // style={{
                 //   borderColor: "red",
                 //   borderWidth: 1,
-                //   color: Themes.text,
+                //   color: theme.text,
                 //   borderRadius: 5,
                 // }}
               >
                 <Picker.Item
                   label="Sort By"
-                  color={Themes.text}
+                  color={theme.text}
                   enabled={false}
                   value="Sort By"
                 />
@@ -106,9 +105,9 @@ const DataBase = ({ navigation }) => {
           </View>
           {patientValue < 1 ? (
             <View>
-              <TextBold
+              <Text
                 style={{
-                  color: Themes.secondary,
+                  color: theme.secondary,
                 }}
                 text="EXPLORE OUR APP"
               />
@@ -140,7 +139,7 @@ const DataBase = ({ navigation }) => {
             }}
           >
             <View>
-              <TextBold text={item.motherId} textStyle={styles.idNumber} />
+              <Text text={item.motherId} textStyle={styles.idNumber} />
               <Text textStyle={{ fontSize: 10 }} text="ID" />
             </View>
 
@@ -218,10 +217,10 @@ const DataBase = ({ navigation }) => {
                 </View>
                 <View>
                   <Text textStyle={{ fontSize: 10 }} text="Score" />
-                  <TextMedium
+                  <Text
                     text={item.score}
                     textStyle={{
-                      color: Themes.primary,
+                      color: theme.primary,
                       marginTop: 5,
                       fontSize: 12,
                     }}
@@ -229,7 +228,7 @@ const DataBase = ({ navigation }) => {
                   <Text
                     text={item.comment}
                     textStyle={{
-                      color: Themes.primary,
+                      color: theme.primary,
                       marginTop: 5,
                       fontSize: 10,
                     }}
@@ -305,7 +304,7 @@ const DataBase = ({ navigation }) => {
 
   return (
     <View style={{ marginTop: StatusBar.currentHeight }}>
-      <StatusBar backgroundColor={Themes.primary} />
+      <StatusBar backgroundColor={theme.primary} />
 
       {Header()}
       {Body()}
@@ -313,12 +312,10 @@ const DataBase = ({ navigation }) => {
   );
 };
 
-export default DataBase;
-
 const styles = StyleSheet.create({
   headerContainer: {
     height: Dimensions.get("window").height * 0.2,
-    backgroundColor: Themes.primary,
+    backgroundColor: theme.primary,
     justifyContent: "center",
   },
   container: {
@@ -350,11 +347,11 @@ const styles = StyleSheet.create({
   },
   parameters1: {
     fontSize: 18,
-    color: Themes.primary,
+    color: theme.primary,
     marginTop: "1%",
   },
   idNumber: {
-    color: Themes.primary,
+    color: theme.primary,
     fontSize: 12,
   },
   deleteBtnContainer: {
@@ -367,7 +364,7 @@ const styles = StyleSheet.create({
     padding: 5,
     textAlign: "center",
     fontSize: 10,
-    color: Themes.secondary,
+    color: theme.secondary,
   },
   detailBtnContainer: {
     borderRadius: 7,
@@ -375,7 +372,7 @@ const styles = StyleSheet.create({
   detailBtnText: {
     padding: 5,
     fontWeight: "900",
-    color: Themes.primary,
+    color: theme.primary,
     backgroundColor: "#f5f6ff",
     textAlign: "center",
     fontSize: 10,
@@ -401,7 +398,7 @@ const styles = StyleSheet.create({
   },
   maternalText: {
     textDecorationLine: "underline",
-    color: Themes.secondary,
+    color: theme.secondary,
     fontSize: 10,
     marginTop: 5,
   },
@@ -418,12 +415,12 @@ const styles = StyleSheet.create({
     zIndex: 2,
   },
   deleteBtnTextModal: {
-    color: Themes.secondary,
+    color: theme.secondary,
     width: "100%",
     padding: 2,
   },
   emptyData: {
     marginTop: 25,
-    color: Themes.secondary,
+    color: theme.secondary,
   },
 });

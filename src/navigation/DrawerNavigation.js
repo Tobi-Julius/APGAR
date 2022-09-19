@@ -1,21 +1,16 @@
-import { StyleSheet } from "react-native";
-import React, { useContext } from "react";
+import React from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 
-import TakeAPGARScore from "../screens/TakeAPGARScore";
-import DataBase from "../screens/DataBase";
-// import Feedback from '../screens/Feedback'
-import Home from "../screens/Home";
-import CustomDrawer from "./CustomDrawer";
+import { Home, TakeAPGARScore, DataBase } from "../screens";
+import { CustomDrawer } from "../Drawer";
+import { layout } from "../utils";
 
 const Drawer = createDrawerNavigator();
 
-const SideMenu = ({ route }) => {
-  // const { id } = route.params;
-
+const DrawerNavigation = () => {
   return (
     <Drawer.Navigator
       initialRouteName="Home"
@@ -23,10 +18,11 @@ const SideMenu = ({ route }) => {
       screenOptions={{
         headerShown: false,
         drawerLabelStyle: {
-          marginLeft: -20,
-          fontFamily: "Montserrat",
-          padding: 5,
+          marginLeft: -layout.pixelSizeHorizontal(20),
+          fontFamily: "Montserrat_500Medium",
+          padding: layout.pixelSizeVertical(5),
         },
+        headerPressOpacity: 0.6,
       }}
     >
       <Drawer.Screen
@@ -41,7 +37,6 @@ const SideMenu = ({ route }) => {
       <Drawer.Screen
         name="Take APGAR Score"
         component={TakeAPGARScore}
-        // initialParams={{ id: id }}
         options={{
           drawerIcon: ({ color }) => (
             <FontAwesome5 color={color} size={20} name="edit" />
@@ -51,22 +46,14 @@ const SideMenu = ({ route }) => {
       <Drawer.Screen
         name="Database"
         component={DataBase}
-        // initialParams={{ id: id }}
         options={{
           drawerIcon: ({ color }) => (
             <Feather color={color} size={20} name="database" />
           ),
         }}
       />
-      {/* <Drawer.Screen name='Feedback' component={Feedback}  options={{
-          drawerIcon: ({color}) => (
-            <MaterialCommunityIcons color={color} size={20} name='message-text-outline' />
-          )
-        }}/> */}
     </Drawer.Navigator>
   );
 };
 
-export default SideMenu;
-
-const styles = StyleSheet.create({});
+export default DrawerNavigation;

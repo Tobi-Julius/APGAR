@@ -10,12 +10,12 @@ import React, { useEffect, useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { collection, getDocs, query } from "firebase/firestore";
 
-import { Themes } from "../constants";
+import { theme } from "../constants";
 import { globalStyles } from "../styles";
-import { Text, Button, TextBold } from "../components/common";
+import { Text, Button } from "../components/common";
 import { auth, db } from "../firebase/firebase-config";
 
-const MaternalHistory = ({ navigation, route }) => {
+export const MaternalHistory = ({ navigation, route }) => {
   const [patientValue, setPatientValue] = useState([]);
 
   const getData = async () => {
@@ -45,7 +45,7 @@ const MaternalHistory = ({ navigation, route }) => {
     return (
       <View style={[styles.bodyContainer, globalStyles.rowCenter]}>
         {data === undefined ? (
-          <ActivityIndicator size="large" color={Themes.secondary} />
+          <ActivityIndicator size="large" color={theme.secondary} />
         ) : (
           <View style={styles.bodyContentContainer}>
             <TouchableOpacity
@@ -55,8 +55,8 @@ const MaternalHistory = ({ navigation, route }) => {
               <AntDesign color="blue" size={28} name="left" />
             </TouchableOpacity>
             <View style={styles.paramsContainer}>
-              <TextBold text="ID : " textStyle={[styles.parameters1]} />
-              <TextBold text={data.motherId} textStyle={[styles.parameters1]} />
+              <Text text="ID : " textStyle={[styles.parameters1]} />
+              <Text text={data.motherId} textStyle={[styles.parameters1]} />
             </View>
             <View style={styles.container}>
               <TouchableOpacity
@@ -243,7 +243,7 @@ const MaternalHistory = ({ navigation, route }) => {
 
   return (
     <View style={{ marginTop: StatusBar.currentHeight }}>
-      <StatusBar backgroundColor={Themes.primary} />
+      <StatusBar backgroundColor={theme.primary} />
 
       {Header()}
       {Body()}
@@ -251,12 +251,10 @@ const MaternalHistory = ({ navigation, route }) => {
   );
 };
 
-export default MaternalHistory;
-
 const styles = StyleSheet.create({
   headerContainer: {
     height: Dimensions.get("window").height * 0.2,
-    backgroundColor: Themes.primary,
+    backgroundColor: theme.primary,
   },
   bodyContainer: {
     top: "-15%",
@@ -279,7 +277,7 @@ const styles = StyleSheet.create({
   },
   parameters1: {
     fontSize: 24,
-    color: Themes.primary,
+    color: theme.primary,
     fontWeight: "900",
   },
   container: {
@@ -305,7 +303,7 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   XStyles: {
-    color: Themes.secondary,
+    color: theme.secondary,
     fontWeight: "900",
     fontSize: 20,
   },
@@ -332,13 +330,13 @@ const styles = StyleSheet.create({
     paddingRight: 5,
   },
   linkTextAdd: {
-    color: Themes.secondary,
+    color: theme.secondary,
     textDecorationLine: "underline",
   },
   takeScore: {
     position: "absolute",
     right: 0,
-    color: Themes.secondary,
+    color: theme.secondary,
     borderTopLeftRadius: 10,
     position: "absolute",
     bottom: 0,

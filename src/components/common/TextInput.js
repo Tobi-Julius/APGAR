@@ -1,39 +1,33 @@
-import { StyleSheet, TextInput as Input, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import React from "react";
-import { useFonts } from "@use-expo/font";
-import AppLoading from "expo-app-loading";
+import { TextInput as Input } from "react-native-paper";
+import { useTheme } from "react-native-paper";
 
-import { Themes } from "../../constants";
-
-const customFonts = {
-  Montserrat: require("../../assets/font/Montserrat.ttf"),
-};
+import { layout } from "../../utils";
 
 export const TextInput = ({
   value,
   placeholder,
   onChangeText,
-  label,
-  labelStyle,
   textInputStyle,
   inputType,
   containerStyle,
   edit,
   textEntry,
   blur,
+  error,
+  placeholderTextColor,
+  type,
   ...others
 }) => {
-  const [isLoaded] = useFonts(customFonts);
-  if (!isLoaded) {
-    return <AppLoading />;
-  }
+  const theme = useTheme();
   return (
     <View style={[containerStyle]}>
-      <Text style={[labelStyle, styles.styleLable]}>{label}</Text>
       <Input
+        mode="outlined"
+        label={placeholder}
         onBlur={blur}
         editable={edit}
-        placeholder={placeholder}
         value={value}
         autoCorrect={false}
         onChangeText={onChangeText}
@@ -41,6 +35,16 @@ export const TextInput = ({
         secureTextEntry={textEntry}
         style={[styles.inputStyle, textInputStyle]}
         {...others}
+        selectionColor={theme.primary}
+        outlineColor="lightgrey"
+        activeOutlineColor={theme.primary}
+        error={error}
+        textInputHeight={layout.heightPixel(38)}
+        textContentTyp={type}
+        inputStyle={{
+          fontFamily: "Montserrat_500Medium",
+          fontSize: layout.size.h4,
+        }}
       />
     </View>
   );
@@ -48,13 +52,8 @@ export const TextInput = ({
 
 const styles = StyleSheet.create({
   inputStyle: {
-    borderColor: "lightgrey",
-    borderWidth: 1,
-    color: Themes.text,
-    paddingLeft: 4,
-    fontFamily: "Montserrat",
-  },
-  styleLable: {
-    fontFamily: "Montserrat",
+    fontFamily: "Montserrat_400Regular",
+    fontSize: layout.size.h3,
+    backgroundColor: "#fff",
   },
 });

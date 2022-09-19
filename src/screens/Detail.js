@@ -1,4 +1,5 @@
 import {
+  image,
   StyleSheet,
   View,
   Dimensions,
@@ -10,12 +11,12 @@ import React, { useState, useEffect } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { collection, getDocs, query } from "firebase/firestore";
 
-import { Themes } from "../constants";
+import { theme } from "../constants";
 import { globalStyles } from "../styles";
-import { Text, Button, TextBold } from "../components/common";
+import { Text, Button } from "../components/common";
 import { db, auth } from "../firebase/firebase-config";
 
-const Detail = ({ navigation, route }) => {
+export const Detail = ({ navigation, route }) => {
   const [patientValue, setPatientValue] = useState([]);
 
   const getData = async () => {
@@ -45,7 +46,7 @@ const Detail = ({ navigation, route }) => {
     return (
       <View style={[styles.bodyContainer, globalStyles.rowCenter]}>
         {data === undefined ? (
-          <ActivityIndicator color={Themes.secondary} size="large" />
+          <ActivityIndicator color={theme.secondary} size="large" />
         ) : (
           <View style={styles.bodyContentContainer}>
             <TouchableOpacity
@@ -56,8 +57,8 @@ const Detail = ({ navigation, route }) => {
             </TouchableOpacity>
 
             <View style={styles.paramsContainer}>
-              <TextBold text="ID : " textStyle={[styles.parameters1]} />
-              <TextBold text={data.motherId} textStyle={[styles.parameters1]} />
+              <Text text="ID : " textStyle={[styles.parameters1]} />
+              <Text text={data.motherId} textStyle={[styles.parameters1]} />
             </View>
             <View style={styles.container}>
               <View style={styles.textHeadContainer}>
@@ -156,19 +157,17 @@ const Detail = ({ navigation, route }) => {
 
   return (
     <View style={{ marginTop: StatusBar.currentHeight }}>
-      <StatusBar backgroundColor={Themes.primary} />
+      <StatusBar backgroundColor={theme.primary} />
       {Header()}
       {Body()}
     </View>
   );
 };
 
-export default Detail;
-
 const styles = StyleSheet.create({
   headerContainer: {
     height: Dimensions.get("window").height * 0.2,
-    backgroundColor: Themes.primary,
+    backgroundColor: theme.primary,
   },
   bodyContainer: {
     top: "-15%",
@@ -192,7 +191,7 @@ const styles = StyleSheet.create({
   },
   parameters1: {
     fontSize: 24,
-    color: Themes.primary,
+    color: theme.primary,
   },
   indicatorText: {
     color: "#fff",
@@ -200,7 +199,7 @@ const styles = StyleSheet.create({
   textHeadContainer: {
     flexDirection: "row",
     padding: 15,
-    backgroundColor: Themes.primary,
+    backgroundColor: theme.primary,
     justifyContent: "space-between",
     paddingLeft: 10,
     paddingRight: 10,
@@ -243,7 +242,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   scoreContainer: {
-    backgroundColor: Themes.primary,
+    backgroundColor: theme.primary,
     borderTopLeftRadius: 10,
     position: "absolute",
     right: 0,
@@ -256,17 +255,17 @@ const styles = StyleSheet.create({
     right: "3%",
     top: "6%",
     marginTop: "15%",
-    color: Themes.secondary,
+    color: theme.secondary,
     borderTopLeftRadius: 10,
   },
   linkText: {
-    color: Themes.primary,
+    color: theme.primary,
     textDecorationLine: "underline",
     fontSize: 11,
     marginBottom: 6,
   },
   linkTextAdd: {
-    color: Themes.secondary,
+    color: theme.secondary,
     textDecorationLine: "underline",
     fontSize: 10,
     zIndex: 1,

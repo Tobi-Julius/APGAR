@@ -1,3 +1,5 @@
-import Themes from './Themes'
+import { theme } from "./themes";
+import { icon } from "./icon";
+import { image } from "./image";
 
-export {Themes};
+export { theme, icon, image };
