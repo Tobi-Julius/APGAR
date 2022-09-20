@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
     fontFamily: "Montserrat_500Medium",
   },
   inputContainer: {
-    marginBottom: layout.pixelSizeVertical(5),
+    marginBottom: layout.pixelSizeVertical(10),
     fontFamily: "Montserrat_500Medium",
   },
   signin: {
@@ -41,7 +41,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
   },
   handleStyle: {
-    backgroundColor: theme.primary,
+    backgroundColor: "transparent",
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
   },
@@ -62,8 +62,8 @@ export const styles = StyleSheet.create({
     color: theme.primary,
   },
   email: {
-    fontFamily: "Montserrat_600SemiBold",
-    fontSize: layout.size.h4,
+    fontFamily: "Montserrat_500Medium",
+    fontSize: layout.size.h5,
     color: theme.primary,
     marginTop: layout.pixelSizeVertical(40),
   },
@@ -82,6 +82,11 @@ export const styles = StyleSheet.create({
     color: theme.white,
     paddingVertical: layout.pixelSizeVertical(18),
     paddingHorizontal: layout.pixelSizeHorizontal(50),
+  },
+  error: {
+    color: theme.secondary,
+    fontFamily: "Montserrat_400Regular",
+    fontSize: layout.size.h5,
   },
   bottomSheet: {},
 });

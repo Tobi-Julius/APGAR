@@ -1,19 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { createSharedElementStackNavigator } from "react-navigation-shared-element";
-import {
-  Register,
-  Recovery,
-  SignIn,
-  RetrieveId,
-  Onboarding,
-  RegisterSucess,
-} from "../screens";
+import { Register, SignIn, RetrieveId, Onboarding } from "../screens";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const AuthStack = createSharedElementStackNavigator();
 
 const AuthNavigation = () => {
   const [isAppFirstLaunch, setIsAppFirstLaunch] = useState(null);
+  
   const options = {
     animationEnabled: true,
     headerTransparent: true,

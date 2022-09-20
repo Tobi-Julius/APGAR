@@ -30,4 +30,15 @@ export const styles = StyleSheet.create({
     fontFamily: "Montserrat_500Medium",
     fontSize: layout.size.h4,
   },
+  inputStyle: {
+    fontFamily: "Montserrat_500Medium",
+  },
+  inputContainer: {
+    fontFamily: "Montserrat_500Medium",
+  },
+  error: {
+    color: theme.secondary,
+    fontFamily: "Montserrat_400Regular",
+    fontSize: layout.size.h5,
+  },
 });

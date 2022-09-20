@@ -4,18 +4,28 @@ import { globalStyles } from "../../../styles";
 import { styles } from "./style";
 import { Button, Text } from "../../common";
 import { Picker } from "@react-native-picker/picker";
-import { useNavigation } from "@react-navigation/native";
+import { theme } from "../../../constants";
 
-export const MaternalFinal = () => {
-  const navigation = useNavigation();
-
+export const MaternalFinal = ({ updateHandler, setValue, value }) => {
   return (
     <View style={[globalStyles.rowCenter]}>
       <View style={styles.contentContainer}>
         <View style={styles.pickerContainer}>
           <Text textStyle={styles.title} text="Maternal Hypertension" />
           <View style={styles.picker}>
-            <Picker>
+            <Picker
+              enabled={value.loading ? false : true}
+              selectedValue={value.maternalHypertension}
+              dropdownIconColor={theme.primary}
+              dropdownIconRippleColor={theme.primary}
+              mode="dropdown"
+              onValueChange={(text) => {
+                setValue({
+                  ...value,
+                  maternalHypertension: text,
+                });
+              }}
+            >
               <Picker.Item
                 label="Select Option"
                 enabled={false}
@@ -30,7 +40,19 @@ export const MaternalFinal = () => {
         <View style={styles.pickerContainer}>
           <Text textStyle={styles.title} text="Fetal Position" />
           <View style={styles.picker}>
-            <Picker>
+            <Picker
+              enabled={value.loading ? false : true}
+              selectedValue={value.fetalPosition}
+              dropdownIconColor={theme.primary}
+              dropdownIconRippleColor={theme.primary}
+              mode="dropdown"
+              onValueChange={(text) => {
+                setValue({
+                  ...value,
+                  fetalPosition: text,
+                });
+              }}
+            >
               <Picker.Item
                 label="Select Option"
                 enabled={false}
@@ -45,7 +67,19 @@ export const MaternalFinal = () => {
         <View style={styles.pickerContainer}>
           <Text textStyle={styles.title} text="Meconium Stained Liquor(MSL)" />
           <View style={styles.picker}>
-            <Picker>
+            <Picker
+              enabled={value.loading ? false : true}
+              selectedValue={value.MSL}
+              dropdownIconColor={theme.primary}
+              dropdownIconRippleColor={theme.primary}
+              mode="dropdown"
+              onValueChange={(text) => {
+                setValue({
+                  ...value,
+                  MSL: text,
+                });
+              }}
+            >
               <Picker.Item
                 label="Select Option"
                 enabled={false}
@@ -57,7 +91,8 @@ export const MaternalFinal = () => {
           </View>
         </View>
         <Button
-          onPress={() => navigation.navigate("Database")}
+          disabled={value.loading ? true : false}
+          onPress={() => updateHandler()}
           textStyle={styles.btnText}
           title="Save"
           containerStyle={styles.btnContainer}

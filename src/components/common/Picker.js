@@ -3,9 +3,9 @@ import { PaperSelect } from "react-native-paper-select";
 import { theme } from "../../constants";
 import { layout } from "../../utils";
 
-export const Picker = () => {
+export const Picker = ({ pick, setPick, loading }) => {
   const [state, setState] = useState({
-    value: "",
+    value: pick.state,
     error: "",
     selectedList: [],
     list: [
@@ -47,8 +47,10 @@ export const Picker = () => {
       { _id: "37", value: "Zamfara" },
     ],
   });
+
   return (
     <PaperSelect
+      disabled={loading ? true : false}
       label="State"
       value={state.value}
       onSelection={(value) => {
@@ -57,6 +59,10 @@ export const Picker = () => {
           value: value.text,
           selectedList: value.selectedList,
           error: "",
+        });
+        setPick({
+          ...pick,
+          state: value.text,
         });
       }}
       arrayList={[...state.list]}

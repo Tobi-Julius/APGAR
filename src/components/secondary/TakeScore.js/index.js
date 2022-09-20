@@ -1,19 +1,17 @@
-import { View } from "react-native";
+import { View, ActivityIndicator } from "react-native";
 import React from "react";
 import { Picker } from "@react-native-picker/picker";
 import { theme } from "../../../constants";
 import { Text, Button } from "../../common";
 import { globalStyles } from "../../../styles";
 import { styles } from "./styles";
-import { useNavigation } from "@react-navigation/native";
 
-export const TakeScore = () => {
-  const navigation = useNavigation();
-
-  const takeScoreHandler = () => {
-    navigation.navigate("Result");
-  };
-
+export const TakeScore = ({
+  others,
+  valueScore,
+  setValueScore,
+  scoreTakenHandler,
+}) => {
   return (
     <View style={[globalStyles.rowCenter, styles.container]}>
       <View style={styles.contentContainer}>
@@ -23,11 +21,17 @@ export const TakeScore = () => {
           <Text textStyle={styles.title} text="Activity" />
           <View style={styles.picker}>
             <Picker
+              enabled={others.loading ? false : true}
+              selectedValue={valueScore.activity}
               dropdownIconColor={theme.primary}
               dropdownIconRippleColor={theme.primary}
               mode="dropdown"
               onValueChange={(picked, index) => {
-                console.warn(picked, index - 1);
+                setValueScore({
+                  ...valueScore,
+                  activity: picked,
+                  activityScore: index - 1,
+                });
               }}
             >
               <Picker.Item
@@ -56,11 +60,17 @@ export const TakeScore = () => {
           <Text textStyle={styles.title} text="Pulse" />
           <View style={styles.picker}>
             <Picker
+              enabled={others.loading ? false : true}
+              selectedValue={valueScore.pulse}
               dropdownIconColor={theme.primary}
               dropdownIconRippleColor={theme.primary}
               mode="dropdown"
               onValueChange={(picked, index) => {
-                console.warn(picked, index - 1);
+                setValueScore({
+                  ...valueScore,
+                  pulse: picked,
+                  pulseScore: index - 1,
+                });
               }}
             >
               <Picker.Item
@@ -80,11 +90,17 @@ export const TakeScore = () => {
             <Text textStyle={styles.title} text="Grimace" />
             <View style={styles.picker}>
               <Picker
+                enabled={others.loading ? false : true}
+                selectedValue={valueScore.grimace}
                 dropdownIconColor={theme.primary}
                 dropdownIconRippleColor={theme.primary}
                 mode="dropdown"
                 onValueChange={(picked, index) => {
-                  console.warn(picked, index - 1);
+                  setValueScore({
+                    ...valueScore,
+                    grimace: picked,
+                    grimaceScore: index - 1,
+                  });
                 }}
               >
                 <Picker.Item
@@ -115,11 +131,17 @@ export const TakeScore = () => {
             <Text textStyle={styles.title} text="Appearance" />
             <View style={styles.picker}>
               <Picker
+                enabled={others.loading ? false : true}
+                selectedValue={valueScore.appearance}
                 dropdownIconColor={theme.primary}
                 dropdownIconRippleColor={theme.primary}
                 mode="dropdown"
                 onValueChange={(picked, index) => {
-                  console.warn(picked, index - 1);
+                  setValueScore({
+                    ...valueScore,
+                    appearance: picked,
+                    appearanceScore: index - 1,
+                  });
                 }}
               >
                 <Picker.Item
@@ -144,11 +166,17 @@ export const TakeScore = () => {
             <Text textStyle={styles.title} text="Respiration" />
             <View style={styles.picker}>
               <Picker
+                enabled={others.loading ? false : true}
+                selectedValue={valueScore.respiration}
                 dropdownIconColor={theme.primary}
                 dropdownIconRippleColor={theme.primary}
                 mode="dropdown"
                 onValueChange={(picked, index) => {
-                  console.warn(picked, index - 1);
+                  setValueScore({
+                    ...valueScore,
+                    respiration: picked,
+                    respirationScore: index - 1,
+                  });
                 }}
               >
                 <Picker.Item
@@ -166,11 +194,19 @@ export const TakeScore = () => {
               </Picker>
             </View>
           </View>
+          <Text text={others.error && others.error} textStyle={styles.error} />
           <Button
-            onPress={() => takeScoreHandler()}
+            disabled={others.loading ? true : false}
+            onPress={() => scoreTakenHandler()}
             containerStyle={styles.btnContainer}
             textStyle={styles.btnText}
-            title="Take Score"
+            title={
+              others.loading ? (
+                <ActivityIndicator color={theme.white} size="small" />
+              ) : (
+                "Take Score"
+              )
+            }
           />
         </View>
       </View>

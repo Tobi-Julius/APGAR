@@ -27,6 +27,7 @@ export const styles = StyleSheet.create({
   },
   varContainer: {
     marginVertical: layout.pixelSizeVertical(30),
+    alignItems: "center",
   },
   score: {
     color: theme.secondary,
@@ -36,6 +37,7 @@ export const styles = StyleSheet.create({
   condition: {
     fontFamily: "Montserrat_400Regular",
     fontSize: layout.size.h5,
+    marginVertical: layout.pixelSizeVertical(6),
   },
   footer: {
     width: layout.widthPixel(270),
@@ -46,5 +48,4 @@ export const styles = StyleSheet.create({
     borderBottomLeftRadius: layout.fontPixel(15),
     borderBottomRightRadius: layout.fontPixel(15),
   },
-
 });

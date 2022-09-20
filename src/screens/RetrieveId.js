@@ -1,8 +1,7 @@
-import { View, StyleSheet } from "react-native";
-import React, { useRef, useCallback, useMemo } from "react";
+import { View, StyleSheet, ActivityIndicator } from "react-native";
+import React, { useRef, useCallback, useMemo, useState } from "react";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../firebase/firebase-config";
-
 import { theme } from "../constants";
 import { globalStyles } from "../styles";
 import { Button, TextInput, Text } from "../components/common";
@@ -16,11 +15,17 @@ import {
 } from "@gorhom/bottom-sheet";
 
 export const RetrieveId = () => {
-  const bottomSheetModalRef = useRef();
+  const [value, setValue] = useState({
+    email: "",
+    loading: false,
+    error: "",
+  });
 
+  const navigation = useNavigation();
+
+  const bottomSheetModalRef = useRef();
   // variables
   const snapPoints = useMemo(() => ["20%", "40%"], []);
-
   // callbacks
   const handlePresentModalPress = useCallback(() => {
     bottomSheetModalRef.current?.present();
@@ -30,86 +35,23 @@ export const RetrieveId = () => {
     bottomSheetModalRef.current.dismiss();
   }, []);
 
-  // const [email, setEmail] = useState("");
-  // const [error, setError] = useState("");
-  // const [loading, setLoading] = useState(false);
-
-  // const Header = () => {
-  //   return <View style={styles.headerContainer} />;
-  // };
-
-  // const Body = () => {
-  //   return (
-  //     <View style={[styles.bodyContainer, globalStyles.rowCenter]}>
-  //       <View style={styles.bodyContentContainer}>
-  //         <TouchableOpacity
-  //           onPress={() => navigation.navigate("SignIn")}
-  //           style={styles.AntDesign}
-  //         >
-  //           <AntDesign color={theme.primary} size={28} name="left" />
-  //         </TouchableOpacity>
-  //         <Text
-  //           text="Retrieve Password"
-  //           textStyle={[globalStyles.Heading1, styles.textStyle]}
-  //         />
-
-  //         <View style={styles.container}>
-  //           <TextInput
-  //             edit={loading ? false : true}
-  //             textInputStyle={{ fontSize: 12, borderRadius: 5, padding: 8 }}
-  //             placeholder="Email"
-  //             onChangeText={(item) => {
-  //               setEmail(item);
-  //             }}
-  //           />
-  //           <View>
-  //             <Text textStyle={styles.errText} text={`${error && error}`} />
-
-  //             <TouchableOpacity
-  //               disabled={loading ? true : false}
-  //               activeOpacity={0.6}
-  //               style={{
-  //                 marginTop: "3%",
-  //               }}
-  //               onPress={() => {
-  //                 navigation.navigate("SignIn");
-  //               }}
-  //             >
-  //               <Text textStyle={styles.signInText} text={"Sign in"} />
-  //             </TouchableOpacity>
-  //             <Button
-  //               onPress={async () => {
-  //                 setLoading(true);
-  //                 try {
-  //                   await sendPasswordResetEmail(auth, email);
-  //                   setEmail("");
-  //                   setError("");
-  //                   setLoading(false);
-  //                   navigation.navigate("Recovery");
-  //                 } catch (error) {
-  //                   setError(error.message);
-  //                   setLoading(false);
-  //                 }
-  //               }}
-  //               textStyle={styles.btnText}
-  //               containerStyle={styles.containerStyle}
-  //               title={
-  //                 loading ? (
-  //                   <ActivityIndicator color="white" size="small" />
-  //                 ) : (
-  //                   "Retrieve Passsword"
-  //                 )
-  //               }
-  //             />
-  //           </View>
-  //         </View>
-  //       </View>
-  //     </View>
-  //   );
-  // };
-
-  const navigation = useNavigation();
-
+  const RetrieveIdHandler = async () => {
+    setValue({
+      ...value,
+      loading: true,
+    });
+    try {
+      await sendPasswordResetEmail(auth, email);
+      setValue({ ...value, loading: false, error: "" });
+      handlePresentModalPress();
+    } catch (error) {
+      setValue({
+        ...value,
+        error: error.message,
+        loading: false,
+      });
+    }
+  };
   return (
     <BottomSheetModalProvider>
       <View style={globalStyles.container}>
@@ -126,7 +68,17 @@ export const RetrieveId = () => {
           ]}
         >
           <View style={{ width: layout.widthPixel(340) }}>
-            <TextInput placeholder="Email" />
+            <TextInput
+              value={value.email}
+              disabled={value.loading ? true : false}
+              onChangeText={(text) => {
+                setValue({ ...value, email: text });
+              }}
+              containerStyle={styles.inputContainer}
+              textInputStyle={styles.inputStyle}
+              placeholder="Email"
+            />
+            <Text textStyle={styles.error} text={value.error && value.error} />
             <TouchableOpacity
               style={{
                 marginTop: layout.pixelSizeVertical(15),
@@ -134,29 +86,21 @@ export const RetrieveId = () => {
               activeOpacity={0.6}
               onPress={() => navigation.navigate("SignIn")}
             >
-              <Text
-                textStyle={{
-                  fontFamily: "Montserrat_400Regular",
-                  textDecorationLine: "underline",
-                  color: theme.primary,
-                  fontSize: layout.size.h4,
-                }}
-                text="Sign In"
-              />
+              <Text textStyle={styles.signIn} text="Sign In" />
             </TouchableOpacity>
+
             <Button
-              onPress={() => handlePresentModalPress()}
-              containerStyle={{
-                marginVertical: layout.pixelSizeVertical(40),
-                borderRadius: layout.fontPixel(30),
-              }}
-              textStyle={{
-                color: theme.white,
-                fontFamily: "Montserrat_600SemiBold",
-                fontSize: layout.size.h3,
-                paddingVertical: layout.pixelSizeVertical(20),
-              }}
-              title={"Retrieve Password"}
+              disabled={value.loading ? true : false}
+              onPress={() => RetrieveIdHandler()}
+              containerStyle={styles.btnContainer}
+              textStyle={styles.btnText}
+              title={
+                value.loading ? (
+                  <ActivityIndicator color={theme.white} size="small" />
+                ) : (
+                  "Retrieve Password"
+                )
+              }
             />
             <BottomSheetModal
               ref={bottomSheetModalRef}
@@ -176,18 +120,12 @@ export const RetrieveId = () => {
                     text="Your password reset link has been sent to the email provided"
                   />
                   <Button
-                    onPress={() => navigation.navigate("SignIn")}
-                    containerStyle={{
-                      marginVertical: layout.pixelSizeVertical(50),
-                      borderRadius: layout.fontPixel(10),
+                    onPress={() => {
+                      navigation.navigate("SignIn");
+                      dismiss();
                     }}
-                    textStyle={{
-                      fontFamily: "Montserrat_600SemiBold",
-                      fontSize: layout.size.h4,
-                      color: theme.white,
-                      paddingVertical: layout.pixelSizeVertical(18),
-                      paddingHorizontal: layout.pixelSizeHorizontal(50),
-                    }}
+                    containerStyle={styles.modalTextStyle}
+                    textStyle={styles.modalBtnStyle}
                     title="Sign In"
                   />
                 </View>
@@ -231,5 +169,44 @@ const styles = StyleSheet.create({
     fontFamily: "Montserrat_400Regular",
     marginBottom: layout.pixelSizeVertical(65),
     textAlign: "center",
+  },
+  inputStyle: {
+    fontFamily: "Montserrat_500Medium",
+  },
+  inputContainer: {
+    marginBottom: layout.pixelSizeVertical(10),
+    fontFamily: "Montserrat_500Medium",
+  },
+  signIn: {
+    fontFamily: "Montserrat_400Regular",
+    textDecorationLine: "underline",
+    color: theme.primary,
+    fontSize: layout.size.h4,
+  },
+  btnContainer: {
+    marginVertical: layout.pixelSizeVertical(40),
+    borderRadius: layout.fontPixel(30),
+  },
+  btnText: {
+    color: theme.white,
+    fontFamily: "Montserrat_600SemiBold",
+    fontSize: layout.size.h3,
+    paddingVertical: layout.pixelSizeVertical(20),
+  },
+  modalBtnStyle: {
+    fontFamily: "Montserrat_600SemiBold",
+    fontSize: layout.size.h4,
+    color: theme.white,
+    paddingVertical: layout.pixelSizeVertical(18),
+    paddingHorizontal: layout.pixelSizeHorizontal(50),
+  },
+  modalTextStyle: {
+    marginVertical: layout.pixelSizeVertical(50),
+    borderRadius: layout.fontPixel(10),
+  },
+  error: {
+    color: theme.secondary,
+    fontFamily: "Montserrat_400Regular",
+    fontSize: layout.size.h5,
   },
 });

@@ -10,6 +10,7 @@ import { HomeList } from "../HomeList.js";
 import { layout } from "../../../utils";
 
 export const HomeBody = () => {
+  
   const navigation = useNavigation();
 
   const data = [

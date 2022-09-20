@@ -31,5 +31,10 @@ export const styles = StyleSheet.create({
     fontFamily: "Montserrat_600SemiBold",
     fontSize: layout.size.h3,
   },
+  error: {
+    color: theme.secondary,
+    fontFamily: "Montserrat_400Regular",
+    fontSize: layout.size.h5,
+  },
   inputStyle: {},
 });

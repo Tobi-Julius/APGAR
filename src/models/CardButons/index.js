@@ -8,7 +8,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { theme } from "../../constants";
 import { useNavigation } from "@react-navigation/native";
 
-export const CardButtons = () => {
+export const CardButtons = ({ id }) => {
   const navigation = useNavigation();
   return (
     <View>
@@ -21,7 +21,7 @@ export const CardButtons = () => {
             title="Skip to Record"
           />
           <Button
-            onPress={() => navigation.navigate("MaternalRecord")}
+            onPress={() => navigation.navigate("MaternalRecord", { id: id })}
             containerStyle={styles.addBtnContainer}
             textStyle={styles.addBtnText}
             title="Add maternal record"

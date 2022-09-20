@@ -13,15 +13,11 @@ const NavigationContainer = () => {
   return (
     <MainNavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {/* {!user ? ( */}
-        <Stack.Screen
-          name="AuthNavigation"
-          component={AuthNavigation}
-          // options={{tabA}}
-        />
-        {/* ) : ( */}
-        <Stack.Screen name="RootNavigation" component={RootNavigation} />
-        {/* )} */}
+        {user ? (
+          <Stack.Screen name="RootNavigation" component={RootNavigation} />
+        ) : (
+          <Stack.Screen name="AuthNavigation" component={AuthNavigation} />
+        )}
       </Stack.Navigator>
     </MainNavigationContainer>
   );

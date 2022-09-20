@@ -18,12 +18,15 @@ export const TextInput = ({
   error,
   placeholderTextColor,
   type,
+  disabled,
   ...others
 }) => {
   const theme = useTheme();
   return (
     <View style={[containerStyle]}>
       <Input
+        placeholderTextColor={placeholderTextColor}
+        disabled={disabled}
         mode="outlined"
         label={placeholder}
         onBlur={blur}
@@ -45,6 +48,7 @@ export const TextInput = ({
           fontFamily: "Montserrat_500Medium",
           fontSize: layout.size.h4,
         }}
+        caretHidden={true}
       />
     </View>
   );

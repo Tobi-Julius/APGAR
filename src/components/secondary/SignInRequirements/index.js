@@ -3,26 +3,38 @@ import React from "react";
 import { Button, Text, TextInput } from "../../common";
 import { globalStyles } from "../../../styles";
 import { styles } from "./styles";
-import { useNavigation } from "@react-navigation/native";
 
-export const SignInRequirements = () => {
-  const navigation = useNavigation();
-
+export const SignInRequirements = ({ value, setValue, handleSubmit }) => {
   return (
     <View style={[globalStyles.rowCenter]}>
       <View style={styles.container}>
         <TextInput
+          value={value.email}
           containerStyle={styles.inputContainer}
           textInputStyle={styles.inputStyle}
           placeholder="Email"
+          onChangeText={(text) => {
+            setValue({
+              ...value,
+              email: text,
+            });
+          }}
         />
         <TextInput
+          value={value.password}
           containerStyle={styles.inputContainer}
           textInputStyle={styles.inputStyle}
           placeholderTextColor="red"
           placeholder="Password"
           secureTextEntry={true}
+          onChangeText={(text) => {
+            setValue({
+              ...value,
+              password: text,
+            });
+          }}
         />
+        <Text textStyle={styles.error} text={value.error && value.error} />
         <TouchableOpacity
           onPress={() => navigation.navigate("RetrieveId")}
           activeOpacity={0.6}
@@ -36,7 +48,7 @@ export const SignInRequirements = () => {
           <Text textStyle={styles.register} text="Register" />
         </TouchableOpacity>
         <Button
-          onPress={() => navigation.navigate("RootNavigation")}
+          onPress={() => handleSubmit()}
           title="Sign In"
           textStyle={styles.btnText}
           containerStyle={styles.btnContainer}

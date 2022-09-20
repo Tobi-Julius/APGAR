@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
     backgroundColor: theme.white,
   },
   container: {
-    marginTop: layout.pixelSizeVertical(15),
+    marginTop: layout.pixelSizeVertical(10),
     width: layout.widthPixel(340),
     alignItems: "center",
   },

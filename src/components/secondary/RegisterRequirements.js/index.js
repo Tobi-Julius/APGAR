@@ -1,5 +1,5 @@
-import { TouchableOpacity, View, StyleSheet } from "react-native";
-import React, { useCallback, useMemo, useRef } from "react";
+import { TouchableOpacity, View, ActivityIndicator } from "react-native";
+import React, { useCallback, useMemo } from "react";
 import { TextInput, Picker, Button, Text } from "../../common";
 import { styles } from "./styles";
 import { globalStyles } from "../../../styles";
@@ -9,18 +9,17 @@ import {
   BottomSheetModalProvider,
 } from "@gorhom/bottom-sheet";
 
-export const RegisterRequirement = () => {
+export const RegisterRequirement = ({
+  value,
+  setValue,
+  handleSubmit,
+  loading,
+  bottomSheetModalRef,
+}) => {
   const navigation = useNavigation();
 
-  const bottomSheetModalRef = useRef();
-
-  // variables
   const snapPoints = useMemo(() => ["25%", "55%", "65%"], []);
 
-  // callbacks
-  const handlePresentModalPress = useCallback(() => {
-    bottomSheetModalRef.current?.present();
-  }, []);
   const dismiss = useCallback(() => {
     bottomSheetModalRef.current.dismiss();
   }, []);
@@ -30,26 +29,48 @@ export const RegisterRequirement = () => {
       <View style={[styles.wrapper, globalStyles.rowCenter]}>
         <View style={styles.container}>
           <TextInput
+            value={value.hospitalName}
+            disabled={loading ? true : false}
+            onChangeText={(text) => {
+              setValue({ ...value, hospitalName: text });
+            }}
             placeholder="Hospital name"
             containerStyle={styles.inputContainer}
             textInputStyle={styles.inputStyle}
           />
-          <Picker />
+          <Picker pick={value} loading={loading} setPick={setValue} />
           <TextInput
+            value={value.city}
+            disabled={loading ? true : false}
+            onChangeText={(text) => {
+              setValue({ ...value, city: text });
+            }}
             placeholder="City"
             containerStyle={styles.inputContainer}
             textInputStyle={styles.inputStyle}
           />
           <TextInput
+            value={value.email}
+            disabled={loading ? true : false}
+            onChangeText={(text) => {
+              setValue({ ...value, email: text });
+            }}
             placeholder="Email"
             containerStyle={styles.inputContainer}
             textInputStyle={styles.inputStyle}
           />
           <TextInput
+            value={value.password}
+            disabled={loading ? true : false}
+            onChangeText={(text) => {
+              setValue({ ...value, password: text });
+            }}
+            secureTextEntry
             placeholder="Password"
             containerStyle={styles.inputContainer}
             textInputStyle={styles.inputStyle}
           />
+          <Text textStyle={styles.error} text={value.error && value.error} />
           <TouchableOpacity
             onPress={() => {
               navigation.navigate("SignIn");
@@ -61,8 +82,16 @@ export const RegisterRequirement = () => {
           <Button
             containerStyle={styles.btnContainer}
             textStyle={styles.btnText}
-            title="Register"
-            onPress={() => handlePresentModalPress()}
+            title={
+              loading ? (
+                <ActivityIndicator size="small" color="white" />
+              ) : (
+                "Register"
+              )
+            }
+            onPress={() => {
+              handleSubmit();
+            }}
           />
           <View
             style={{
@@ -82,13 +111,13 @@ export const RegisterRequirement = () => {
                   <Text textStyle={styles.sucess} text="Sucess!" />
                   <Text
                     textStyle={styles.welcomeText}
-                    text="Hello, Jacobs Clinic your hospital has been registered sucessfully"
+                    text={`${value.email} your hospital has been registered sucessfully`}
                   />
-                  <Text textStyle={styles.email} text="@Email" />
                   <Text
-                    textStyle={styles.keepSafe}
-                    text="Keep your password safe"
+                    textStyle={styles.email}
+                    text="Check inbox or spam for verification"
                   />
+                  <Text textStyle={styles.keepSafe} text={`${value.email}`} />
                   <Button
                     onPress={() => {
                       navigation.navigate("SignIn");
