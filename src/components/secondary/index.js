@@ -4,6 +4,7 @@ import { SignInRequirements } from "./SignInRequirements";
 import { Search } from "./Search";
 import { TakeScore } from "./TakeScore.js";
 import { MaternalFinal } from "./MaternalFinal";
+import { DatabaseCard } from "./DatabaseCard";
 
 export {
   RSHeader,
@@ -12,4 +13,5 @@ export {
   Search,
   TakeScore,
   MaternalFinal,
+  DatabaseCard,
 };

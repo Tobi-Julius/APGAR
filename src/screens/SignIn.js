@@ -46,7 +46,7 @@ export const SignIn = () => {
     <KeyBoardAvoidingWrapper>
       <View>
         <Header
-          onPress={() => navigation.goBack()}
+          onPress={() => navigation.navigate("Register")}
           show
           iconName="chevron-back"
         />

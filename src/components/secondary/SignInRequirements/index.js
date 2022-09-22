@@ -3,6 +3,8 @@ import React from "react";
 import { Button, Text, TextInput } from "../../common";
 import { globalStyles } from "../../../styles";
 import { styles } from "./styles";
+import { ActivityIndicator } from "react-native";
+import { theme } from "../../../constants";
 
 export const SignInRequirements = ({ value, setValue, handleSubmit }) => {
   return (
@@ -48,8 +50,15 @@ export const SignInRequirements = ({ value, setValue, handleSubmit }) => {
           <Text textStyle={styles.register} text="Register" />
         </TouchableOpacity>
         <Button
+          disabled={value.loading ? true : false}
           onPress={() => handleSubmit()}
-          title="Sign In"
+          title={
+            value.loading ? (
+              <ActivityIndicator color={theme.white} size="small" />
+            ) : (
+              "Sign In"
+            )
+          }
           textStyle={styles.btnText}
           containerStyle={styles.btnContainer}
         />

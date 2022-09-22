@@ -77,7 +77,7 @@ export const MaternalRecord = () => {
     <KeyBoardAvoidingWrapper>
       <View>
         <Header
-          onPress={() => navigation.navigate("DrawerNavigation")}
+          onPress={() => navigation.navigate("DataBase")}
           show
           iconName="chevron-back"
           text="Maternal Records"

@@ -9,6 +9,7 @@ import {
   MaternalRecordSecond,
   Notification,
   Result,
+  DataBase,
 } from "../screens";
 
 const Stack = createSharedElementStackNavigator();
@@ -77,6 +78,7 @@ const RootNavigation = () => {
         component={MaternalHistory}
         options={options}
       />
+      <Stack.Screen name="DataBase" component={DataBase} options={options} />
       <Stack.Screen name="Detail" component={Detail} options={options} />
       <Stack.Screen name="Result" component={Result} options={options} />
       <Stack.Screen name="Delete" component={Delete} options={options} />

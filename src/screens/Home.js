@@ -17,23 +17,23 @@ const wait = (time) => {
 export const Home = () => {
   const [patientValue, setPatientValue] = useState([]);
 
-  const getData = useCallback(async () => {
-    const q = query(collection(db, `users/${auth.currentUser.uid}/user`));
-    const querySnapshot = await getDocs(q);
-    const data = querySnapshot.docs.map((doc) => ({
-      ...doc.data(),
-      id: doc.id,
-    }));
-    setPatientValue(data);
-  }, []);
+  // const getData = useCallback(async () => {
+  //   const q = query(collection(db, `users/${auth.currentUser.uid}/user`));
+  //   const querySnapshot = await getDocs(q);
+  //   const data = querySnapshot.docs.map((doc) => ({
+  //     ...doc.data(),
+  //     id: doc.id,
+  //   }));
+  //   setPatientValue(data);
+  // }, []);
 
-  useEffect(() => {
-    let subcribe = true;
-    if (subcribe) {
-      getData();
-    }
-    return () => (subcribe = false);
-  }, []);
+  // useEffect(() => {
+  //   let subcribe = true;
+  //   if (subcribe) {
+  //     getData();
+  //   }
+  //   return () => (subcribe = false);
+  // }, []);
 
   const [refreshing, setRefreshing] = useState(false);
 

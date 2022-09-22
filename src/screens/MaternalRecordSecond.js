@@ -46,7 +46,7 @@ export const MaternalRecordSecond = () => {
           fetalPosition: value.fetalPosition,
         })
           .then(() => {
-            navigation.replace("DrawerNavigation");
+            navigation.replace("DataBase");
             setValue({
               ...value,
               loading: false,
