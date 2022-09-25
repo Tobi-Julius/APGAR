@@ -5,6 +5,8 @@ import { Search } from "./Search";
 import { TakeScore } from "./TakeScore.js";
 import { MaternalFinal } from "./MaternalFinal";
 import { DatabaseCard } from "./DatabaseCard";
+import { ScoreDetail } from "./ScoreDetail";
+import { MaternalDetail } from "./MaternalDetail";
 
 export {
   RSHeader,
@@ -14,4 +16,6 @@ export {
   TakeScore,
   MaternalFinal,
   DatabaseCard,
+  ScoreDetail,
+  MaternalDetail,
 };

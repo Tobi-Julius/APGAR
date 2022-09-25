@@ -4,13 +4,15 @@ import DrawerNavigation from "./DrawerNavigation";
 import {
   MaternalHistory,
   Detail,
-  Delete,
   MaternalRecord,
   MaternalRecordSecond,
   Notification,
   Result,
   DataBase,
 } from "../screens";
+import { auth } from "../firebase/firebase-config";
+import { ActivityIndicator } from "react-native";
+import { theme } from "../constants";
 
 const Stack = createSharedElementStackNavigator();
 
@@ -81,7 +83,6 @@ const RootNavigation = () => {
       <Stack.Screen name="DataBase" component={DataBase} options={options} />
       <Stack.Screen name="Detail" component={Detail} options={options} />
       <Stack.Screen name="Result" component={Result} options={options} />
-      <Stack.Screen name="Delete" component={Delete} options={options} />
     </Stack.Navigator>
   );
 };

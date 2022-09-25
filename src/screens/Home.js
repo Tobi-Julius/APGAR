@@ -1,39 +1,39 @@
 import { ScrollView, RefreshControl } from "react-native";
-import React, { useState, useEffect, useCallback } from "react";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import React, { useState, useEffect } from "react";
+import { collection, getDocs, query } from "firebase/firestore";
 
 import { theme } from "../constants";
-import { auth, db } from "../firebase/firebase-config";
+import { db } from "../firebase/firebase-config";
+import { useUserAuth } from "../context/firebaseContext/AuthContext";
 
 import { HomeHeader, HomeBody } from "../components/primary";
 
 import react from "react";
 import { layout } from "../utils";
 
-const wait = (time) => {
-  return new Promise((resolve) => setTimeout(resolve, time));
-};
-
 export const Home = () => {
   const [patientValue, setPatientValue] = useState([]);
+  const { user } = useUserAuth();
 
-  // const getData = useCallback(async () => {
-  //   const q = query(collection(db, `users/${auth.currentUser.uid}/user`));
-  //   const querySnapshot = await getDocs(q);
-  //   const data = querySnapshot.docs.map((doc) => ({
-  //     ...doc.data(),
-  //     id: doc.id,
-  //   }));
-  //   setPatientValue(data);
-  // }, []);
+  const getData = async () => {
+    if (user) {
+      const q = query(collection(db, `users/${user.uid}/user`));
+      const querySnapshot = await getDocs(q);
+      const data = querySnapshot?.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      setPatientValue(data);
+    }
+  };
 
-  // useEffect(() => {
-  //   let subcribe = true;
-  //   if (subcribe) {
-  //     getData();
-  //   }
-  //   return () => (subcribe = false);
-  // }, []);
+  useEffect(() => {
+    let subcribe = true;
+    if (subcribe) {
+      getData();
+    }
+    return () => (subcribe = false);
+  }, [user]);
 
   const [refreshing, setRefreshing] = useState(false);
 
@@ -43,26 +43,27 @@ export const Home = () => {
       refreshControl={
         <RefreshControl
           refreshing={refreshing}
-          color={"red"}
           enabled
           progressBackgroundColor={"white"}
           size="default"
-          onRefresh={react.useCallback(() => {
+          onRefresh={react.useCallback(async () => {
             setRefreshing(true);
-            wait(3000)
-              .then((res) => {
-                console.warn("REFRESHING");
-                setRefreshing(false);
-              })
-              .catch((err) => {
-                console.warn(err);
-              });
-          }, [refreshing])}
+            if (user) {
+              setRefreshing(false);
+              const q = query(collection(db, `users/${user.uid}/user`));
+              const querySnapshot = await getDocs(q);
+              const data = querySnapshot?.docs.map((doc) => ({
+                ...doc.data(),
+                id: doc.id,
+              }));
+              setPatientValue(data);
+            }
+          }, [patientValue])}
         />
       }
     >
       <HomeHeader />
-      <HomeBody />
+      <HomeBody patientValue={patientValue} />
     </ScrollView>
   );
 };

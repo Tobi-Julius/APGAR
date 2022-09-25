@@ -4,13 +4,13 @@ import { layout } from "../../../utils";
 
 export const styles = StyleSheet.create({
   container: {
-    width: layout.widthPixel(360),
-    paddingVertical: layout.pixelSizeVertical(10),
+    width: layout.widthPixel(370),
+    paddingVertical: layout.pixelSizeVertical(17),
   },
   contentContainer: {
     height: layout.heightPixel(210),
-    width: layout.widthPixel(360),
-    marginVertical: layout.pixelSizeVertical(14),
+    width: layout.widthPixel(370),
+    marginVertical: layout.pixelSizeVertical(6),
   },
   image: {
     width: "100%",
@@ -28,20 +28,19 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: layout.pixelSizeHorizontal(4),
-
   },
   title: {
     flex: 3,
-    fontFamily: "Montserrat_400Regular",
+    fontFamily: "Montserrat_500Medium",
+    fontWeight: "600",
     fontSize: layout.size.h5,
-    
   },
   btnContainer: {
     flex: 1.3,
     borderRadius: layout.fontPixel(7),
   },
   inputStyle: {
-    paddingVertical: layout.pixelSizeVertical(6),
+    paddingVertical: layout.pixelSizeVertical(8),
     color: theme.white,
     fontFamily: "Montserrat_400Regular",
     fontSize: layout.size.h5,

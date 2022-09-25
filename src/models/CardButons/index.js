@@ -15,7 +15,7 @@ export const CardButtons = ({ id }) => {
       <View style={[globalStyles.rowCenter]}>
         <View style={[styles.contentContainer, globalStyles.rowBetween]}>
           <Button
-            onPress={() => navigation.navigate("Database")}
+            onPress={() => navigation.navigate("DataBase")}
             containerStyle={styles.skipBtnContainer}
             textStyle={styles.skipBtnText}
             title="Skip to Record"

@@ -42,7 +42,7 @@ export const MaternalRecordSecond = () => {
         const docRef = doc(db, `users/${auth.currentUser.uid}/user`, id);
         await updateDoc(docRef, {
           MSL: value.MSL,
-          maternalHtpertension: value.maternalHypertension,
+          maternalHypertension: value.maternalHypertension,
           fetalPosition: value.fetalPosition,
         })
           .then(() => {

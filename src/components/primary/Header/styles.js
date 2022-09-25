@@ -4,7 +4,7 @@ import { layout } from "../../../utils";
 
 export const styles = StyleSheet.create({
   container: {
-    height: layout.heightPixel(190),
+    height: layout.heightPixel(200),
     width: layout.width,
     alignItems: "flex-end",
     justifyContent: "center",
@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
   innerContainer: {
     backgroundColor: theme.white,
     marginBottom: -layout.pixelSizeVertical(30),
-    width: layout.widthPixel(340),
+    width: layout.widthPixel(360),
     height: layout.heightPixel(75),
     borderRadius: layout.fontPixel(30),
     justifyContent: "space-between",

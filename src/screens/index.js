@@ -1,5 +1,4 @@
 export * from "./DataBase";
-export * from "./Delete";
 export * from "./Detail";
 export * from "./Home";
 export * from "./MaternalHistory";

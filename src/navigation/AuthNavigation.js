@@ -7,7 +7,7 @@ const AuthStack = createSharedElementStackNavigator();
 
 const AuthNavigation = () => {
   const [isAppFirstLaunch, setIsAppFirstLaunch] = useState(null);
-  
+
   const options = {
     animationEnabled: true,
     headerTransparent: true,
@@ -51,11 +51,9 @@ const AuthNavigation = () => {
   };
   useEffect(() => {
     let subscribe = true;
-
     if (subscribe) {
       savedData();
     }
-
     return () => (subscribe = false);
   }, []);
 

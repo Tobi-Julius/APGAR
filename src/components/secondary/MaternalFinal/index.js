@@ -5,6 +5,7 @@ import { styles } from "./style";
 import { Button, Text } from "../../common";
 import { Picker } from "@react-native-picker/picker";
 import { theme } from "../../../constants";
+import { ActivityIndicator } from "react-native";
 
 export const MaternalFinal = ({ updateHandler, setValue, value }) => {
   return (
@@ -94,7 +95,13 @@ export const MaternalFinal = ({ updateHandler, setValue, value }) => {
           disabled={value.loading ? true : false}
           onPress={() => updateHandler()}
           textStyle={styles.btnText}
-          title="Save"
+          title={
+            value.loading ? (
+              <ActivityIndicator color={theme.white} size="small" />
+            ) : (
+              "Save"
+            )
+          }
           containerStyle={styles.btnContainer}
         />
       </View>

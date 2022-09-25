@@ -50,11 +50,11 @@ export const TakeAPGARScore = () => {
       respirationScore,
     } = valueScore;
     if (
-      valueScore.activity === "" ||
-      valueScore.respiration === "" ||
-      valueScore.pulse === "" ||
-      valueScore.grimace === "" ||
-      valueScore.appearance === ""
+      !valueScore.activity ||
+      !valueScore.respiration ||
+      !valueScore.pulse ||
+      !valueScore.grimace ||
+      !valueScore.appearance
     ) {
       setOthers({
         ...others,
