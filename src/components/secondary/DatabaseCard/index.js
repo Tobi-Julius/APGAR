@@ -20,15 +20,21 @@ export const DatabaseCard = ({ item, handlePresentModalPress }) => {
           <View style={styles.dateTimeContainer}>
             <Text
               textStyle={styles.dateTime}
-              text={`${new Date(
-                item?.createdAt.seconds * 1000
-              ).toLocaleDateString()}`}
+              text={`${
+                item
+                  ? new Date(item?.createdAt?.seconds * 1000).toLocaleDateString()
+                  : ""
+              }`}
             />
             <Text
               textStyle={styles.dateTime}
-              text={`${new Date(
-                item?.createdAt.seconds * 1000
-              ).toLocaleTimeString()}`}
+              text={`${
+                item
+                  ? new Date(
+                      item?.createdAt?.seconds * 1000
+                    ).toLocaleTimeString()
+                  : ""
+              }`}
             />
           </View>
         </View>

@@ -29,4 +29,9 @@ export const styles = StyleSheet.create({
     color: theme.white,
     fontSize: layout.size.h3,
   },
+  error: {
+    color: theme.secondary,
+    fontFamily: "Montserrat_400Regular",
+    fontSize: layout.size.h5,
+  },
 });

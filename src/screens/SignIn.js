@@ -32,7 +32,7 @@ export const SignIn = () => {
         password: "",
         email: "",
       });
-      navigation.replace("RootNavigation");
+      navigation.replace("DrawerNavigation");
     } catch (error) {
       setValue({
         ...value,

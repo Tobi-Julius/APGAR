@@ -8,6 +8,7 @@ import { auth } from "../firebase/firebase-config";
 import { Header } from "../components/primary";
 import { MaternalFinal } from "../components/secondary";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import { ScrollView } from "react-native";
 
 export const MaternalRecordSecond = () => {
   const [value, setValue] = useState({
@@ -81,11 +82,13 @@ export const MaternalRecordSecond = () => {
         iconName="chevron-back"
         text="Maternal Records"
       />
-      <MaternalFinal
-        value={value}
-        setValue={setValue}
-        updateHandler={updateHandler}
-      />
+      <ScrollView>
+        <MaternalFinal
+          value={value}
+          setValue={setValue}
+          updateHandler={updateHandler}
+        />
+      </ScrollView>
     </View>
   );
 };

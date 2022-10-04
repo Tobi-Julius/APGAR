@@ -1,7 +1,7 @@
 import { Image, View, FlatList } from "react-native";
 import React from "react";
 import { Button, HomeListHeader, Text } from "../../common";
-import { image } from "../../../constants";
+import { image, theme } from "../../../constants";
 import { useNavigation } from "@react-navigation/native";
 import { styles } from "./styles";
 import { globalStyles } from "../../../styles";
@@ -9,8 +9,9 @@ import { BlurView } from "expo-blur";
 import { HomeList } from "../HomeList.js";
 import { layout } from "../../../utils";
 import { ListEmpty } from "../../common";
+import { ActivityIndicator } from "react-native";
 
-export const HomeBody = ({ patientValue }) => {
+export const HomeBody = ({ patientValue, searching }) => {
   const navigation = useNavigation();
 
   const data = [
@@ -69,30 +70,34 @@ export const HomeBody = ({ patientValue }) => {
           );
         })}
         <HomeListHeader title="Past Record" />
-        <FlatList
-          ListEmptyComponent={(props) => <ListEmpty {...props} />}
-          horizontal
-          initialNumToRender={10}
-          key={({ item }) => item.id}
-          data={patientValue}
-          renderItem={({ item, index }) => {
-            return (
-              <View
-                style={{
-                  marginRight:
-                    patientValue.length === index + 1
-                      ? 0
-                      : layout.pixelSizeHorizontal(28),
-                }}
-              >
-                <HomeList item={item} index={index} />
-              </View>
-            );
-          }}
-          contentContainerStyle={{
-            marginVertical: layout.pixelSizeVertical(2),
-          }}
-        />
+        {searching ? (
+          <ActivityIndicator color={theme.primary} size="large" />
+        ) : (
+          <FlatList
+            ListEmptyComponent={(props) => <ListEmpty show {...props} />}
+            horizontal
+            initialNumToRender={10}
+            key={({ item }) => item.id}
+            data={patientValue}
+            renderItem={({ item, index }) => {
+              return (
+                <View
+                  style={{
+                    marginRight:
+                      patientValue.length === index + 1
+                        ? 0
+                        : layout.pixelSizeHorizontal(28),
+                  }}
+                >
+                  <HomeList item={item} index={index} />
+                </View>
+              );
+            }}
+            contentContainerStyle={{
+              marginVertical: layout.pixelSizeVertical(2),
+            }}
+          />
+        )}
       </View>
     </View>
   );

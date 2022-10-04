@@ -11,7 +11,7 @@ function App() {
   return isFontReady ? (
     <AuthProvider>
       <ProviderPaper>
-        <NavigationContainer />
+        <NavigationContainer />  
       </ProviderPaper>
     </AuthProvider>
   ) : null;

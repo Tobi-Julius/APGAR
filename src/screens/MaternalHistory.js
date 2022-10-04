@@ -8,6 +8,7 @@ import { MaternalDetail } from "../components/secondary";
 import { useUserAuth } from "../context/firebaseContext/AuthContext";
 import { theme } from "../constants";
 import { ActivityIndicator } from "react-native";
+import { ScrollView } from "react-native";
 
 export const MaternalHistory = () => {
   const [patientValue, setPatientValue] = useState([]);
@@ -49,7 +50,9 @@ export const MaternalHistory = () => {
         text={`ID: ${data?.id.slice(0, 4)}`}
       />
       {data ? (
-        <MaternalDetail data={data} />
+        <ScrollView>
+          <MaternalDetail data={data} />
+        </ScrollView>
       ) : (
         <ActivityIndicator color={theme.primary} size={"large"} />
       )}

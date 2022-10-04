@@ -5,10 +5,10 @@ import { layout } from "../utils";
 export const styles = StyleSheet.create({
   container: {
     backgroundColor: theme.primary,
-    marginBottom: layout.pixelSizeHorizontal(100),
+    marginBottom: layout.pixelSizeHorizontal(50),
   },
   headerContainer: {
-    height: layout.heightPixel(230),
+    height: layout.heightPixel(165),
     padding: layout.pixelSizeVertical(10),
     justifyContent: "center",
   },
@@ -23,13 +23,13 @@ export const styles = StyleSheet.create({
     height: layout.heightPixel(20),
   },
   circleContainer: {
-    width: layout.widthPixel(160),
-    height: layout.heightPixel(160),
+    width: layout.widthPixel(140),
+    height: layout.heightPixel(140),
     backgroundColor: "#fcfcfc",
     position: "absolute",
-    bottom: -layout.pixelSizeHorizontal(80),
+    bottom: -layout.pixelSizeHorizontal(70),
     alignSelf: "center",
-    borderRadius: layout.fontPixel(80),
+    borderRadius: layout.fontPixel(70),
     justifyContent: "center",
     alignItems: "center",
   },

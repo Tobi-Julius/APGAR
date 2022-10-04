@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
   container: {
     width: layout.widthPixel(340),
     height: layout.height - layout.heightPixel(190),
-    marginVertical: layout.pixelSizeVertical(110),
+    marginTop: layout.pixelSizeVertical(110),
     alignItems: "center",
   },
   contentContainer: {

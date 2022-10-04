@@ -1,6 +1,6 @@
 import { View } from "react-native";
 import React, { useState } from "react";
-import { auth } from "../firebase/firebase-config";
+import { useUserAuth } from "../context/firebaseContext/AuthContext";
 
 import KeyBoardAvoidingWrapper from "../components/Keyboard/KeyBoardAvoidingWrapper";
 import { db } from "../firebase/firebase-config";
@@ -11,6 +11,8 @@ import { MaternalInitial } from "../components/secondary/MaternalInitial";
 
 export const MaternalRecord = () => {
   const navigation = useNavigation();
+  const route = useRoute();
+  const { id } = route.params;
   const [value, setValue] = useState({
     deliveryMode: "",
     birthWeight: "",
@@ -18,8 +20,8 @@ export const MaternalRecord = () => {
     loading: false,
     error: "",
   });
-  const route = useRoute();
-  const { id } = route.params;
+
+  const { user } = useUserAuth();
 
   const updateHandler = async () => {
     if (
@@ -37,7 +39,7 @@ export const MaternalRecord = () => {
           ...value,
           loading: true,
         });
-        const docRef = doc(db, `users/${auth.currentUser.uid}/user`, id);
+        const docRef = doc(db, `users/${user.uid}/user`, id);
         await updateDoc(docRef, {
           deliveryMode: value.deliveryMode,
           gestationPeriod: `${value.gestationPeriod}weeks`,

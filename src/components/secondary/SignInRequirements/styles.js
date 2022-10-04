@@ -20,6 +20,7 @@ export const styles = StyleSheet.create({
     fontSize: layout.size.h4,
     fontFamily: "Montserrat_400Regular",
     marginVertical: layout.pixelSizeVertical(6),
+    textDecorationLine: "underline",
   },
   btnContainer: {
     marginTop: layout.pixelSizeVertical(20),

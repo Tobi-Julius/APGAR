@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { createSharedElementStackNavigator } from "react-navigation-shared-element";
 import { Register, SignIn, RetrieveId, Onboarding } from "../screens";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import DrawerNavigation from "./DrawerNavigation";
 
 const AuthStack = createSharedElementStackNavigator();
 
@@ -63,6 +64,7 @@ const AuthNavigation = () => {
         screenOptions={{
           headerShown: false,
         }}
+        initialRouteName={"SignIn"}
       >
         {isAppFirstLaunch && (
           <AuthStack.Screen name="Onboarding" component={Onboarding} />
@@ -78,6 +80,11 @@ const AuthNavigation = () => {
         <AuthStack.Screen
           name="RetrieveId"
           component={RetrieveId}
+          options={options}
+        />
+        <AuthStack.Screen
+          name="DrawerNavigation"
+          component={DrawerNavigation}
           options={options}
         />
       </AuthStack.Navigator>

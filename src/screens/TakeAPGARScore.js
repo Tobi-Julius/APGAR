@@ -1,14 +1,16 @@
 import { ScrollView } from "react-native";
 import React, { useState } from "react";
 import { addDoc, collection, doc, serverTimestamp } from "firebase/firestore";
-import { auth, db } from "../firebase/firebase-config";
+import { db } from "../firebase/firebase-config";
 import { Header, PopUpModal } from "../components/primary";
 import { TakeScore } from "../components/secondary";
 import { useNavigation } from "@react-navigation/native";
 import { babyImage } from "../constants";
+import { useUserAuth } from "../context/firebaseContext/AuthContext";
 
 export const TakeAPGARScore = () => {
   const navigation = useNavigation();
+  const { user } = useUserAuth();
 
   const [valueScore, setValueScore] = useState({
     activity: "",
@@ -66,7 +68,7 @@ export const TakeAPGARScore = () => {
           ...others,
           loading: true,
         });
-        const docRef = doc(db, "users", auth.currentUser.uid);
+        const docRef = doc(db, "users", user.uid);
         const colRef = collection(docRef, "user");
         await addDoc(colRef, {
           activity,
@@ -82,7 +84,7 @@ export const TakeAPGARScore = () => {
           image: babyImage,
           score: arrayValue,
           createdAt: serverTimestamp(),
-          notificationMessage: `An APGAR score of has been recorded`,
+          notificationMessage: `An APGAR score taken at has been recorded successfully!`,
           comment:
             arrayValue <= 3
               ? "Severly Depressed"

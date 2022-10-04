@@ -1,6 +1,5 @@
 import { View } from "react-native";
 import React from "react";
-import { Text } from "../../common";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles } from "./styles";
 import { image, icon, theme } from "../../../constants";
@@ -10,7 +9,7 @@ import { Search } from "../../secondary";
 import { TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-export const HomeHeader = () => {
+export const HomeHeader = ({ searchKeyword, setSearchKeyword }) => {
   const navigation = useNavigation();
   return (
     <View>
@@ -33,7 +32,10 @@ export const HomeHeader = () => {
                 />
               </TouchableOpacity>
             </View>
-            <Search />
+            <Search
+              searchKeyword={searchKeyword}
+              setSearchKeyword={setSearchKeyword}
+            />
           </View>
         </SafeAreaView>
       </View>

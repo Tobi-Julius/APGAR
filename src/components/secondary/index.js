@@ -7,6 +7,7 @@ import { MaternalFinal } from "./MaternalFinal";
 import { DatabaseCard } from "./DatabaseCard";
 import { ScoreDetail } from "./ScoreDetail";
 import { MaternalDetail } from "./MaternalDetail";
+import { NotificationBody } from "./NotificationBody";
 
 export {
   RSHeader,
@@ -18,4 +19,5 @@ export {
   DatabaseCard,
   ScoreDetail,
   MaternalDetail,
+  NotificationBody,
 };

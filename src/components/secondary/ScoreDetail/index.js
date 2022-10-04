@@ -64,10 +64,11 @@ export const ScoreDetail = ({ data }) => {
               </View>
             </View>
             <View style={styles.footer}>
-              {data?.maternalHypertensiom ||
+              {data?.maternalHypertension ||
               data?.fetalPosition ||
               data?.birthWeight ||
               data?.gestationPeriod ||
+              data?.deliveryMode ||
               data?.MSL ? (
                 <TouchableOpacity
                   onPress={() => {

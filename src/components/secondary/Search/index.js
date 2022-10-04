@@ -2,17 +2,17 @@ import { View } from "react-native";
 import React from "react";
 import { Searchbar } from "react-native-paper";
 import { styles } from "./styles";
-import { Text } from "../../common";
 import { theme } from "../../../constants";
 import { layout } from "../../../utils";
 
-export const Search = () => {
+export const Search = ({ setSearchKeyword, searchKeyword }) => {
   return (
     <View>
       <Searchbar
-        // onChangeText={(text) => console.warn(text)}
-        // value=""
-        placeholder="Search"
+        keyboardType={"number-pad"}
+        onChangeText={(text) => setSearchKeyword(text)}
+        value={searchKeyword}
+        placeholder="Search Score"
         placeholderTextColor={theme.text}
         iconColor={theme.primary}
         textAlign="center"

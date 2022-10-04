@@ -90,6 +90,7 @@ export const MaternalFinal = ({ updateHandler, setValue, value }) => {
               <Picker.Item label="Abnormal" value="Abnormal" />
             </Picker>
           </View>
+          <Text text={value.error && value.error} textStyle={styles.error} />
         </View>
         <Button
           disabled={value.loading ? true : false}

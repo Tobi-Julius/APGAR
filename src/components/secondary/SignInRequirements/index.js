@@ -5,8 +5,11 @@ import { globalStyles } from "../../../styles";
 import { styles } from "./styles";
 import { ActivityIndicator } from "react-native";
 import { theme } from "../../../constants";
+import { useNavigation } from "@react-navigation/native";
 
 export const SignInRequirements = ({ value, setValue, handleSubmit }) => {
+  const navigation = useNavigation();
+
   return (
     <View style={[globalStyles.rowCenter]}>
       <View style={styles.container}>

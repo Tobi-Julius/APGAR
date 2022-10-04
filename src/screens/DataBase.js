@@ -6,14 +6,16 @@ import { DatabaseCard } from "../components/secondary";
 import { theme } from "../constants";
 import { ListEmpty } from "../components/common";
 import { globalStyles } from "../styles";
-import { db, auth } from "../firebase/firebase-config";
+import { db } from "../firebase/firebase-config";
 import { layout } from "../utils";
 import { useNavigation } from "@react-navigation/native";
 import { DeleteUser } from "../models/DeleteUser";
+import { useUserAuth } from "../context/firebaseContext/AuthContext";
 
 export const DataBase = () => {
   const [patientValue, setPatientValue] = useState([]);
   const [id, setId] = useState("");
+  const { user } = useUserAuth();
 
   const navigation = useNavigation();
 
@@ -28,10 +30,11 @@ export const DataBase = () => {
     bottomSheetModalRef.current.dismiss();
   }, []);
 
+  const q = query(collection(db, `users/${user.uid}/user`));
+
   const getData = useCallback(async () => {
-    const q = query(collection(db, `users/${auth.currentUser.uid}/user`));
     const querySnapshot = await getDocs(q);
-    const data = querySnapshot.docs.map((doc) => ({
+    const data = querySnapshot?.docs.map((doc) => ({
       ...doc.data(),
       id: doc.id,
     }));
@@ -49,7 +52,7 @@ export const DataBase = () => {
   return (
     <View style={{ backgroundColor: theme.white, flex: 1 }}>
       <Header
-        onPress={() => navigation.navigate("Home")}
+        onPress={() => navigation.navigate("DrawerNavigation")}
         iconName="chevron-back"
         show
         text="Database"
@@ -67,10 +70,10 @@ export const DataBase = () => {
         <FlatList
           onScroll={() => dismiss()}
           data={patientValue}
-          renderItem={(props) => (
+          renderItem={({ item }) => (
             <DatabaseCard
               handlePresentModalPress={handlePresentModalPress}
-              {...props}
+              item={item}
             />
           )}
           ListEmptyComponent={() => <ListEmpty />}
