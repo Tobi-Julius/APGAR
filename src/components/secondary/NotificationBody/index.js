@@ -14,16 +14,6 @@ export const NotificationBody = ({ patientValue }) => {
 
   const docRef = doc(db, "users", user.uid);
 
-  const _deleteHandler = async () => {
-    try {
-      await updateDoc(docRef, {
-        notificationMessage: deleteField(),
-      });
-    } catch (error) {
-      console.warn(error);
-    }
-  };
-
   return (
     <View>
       <View style={[globalStyles.rowCenter]}>
@@ -70,6 +60,8 @@ export const NotificationBody = ({ patientValue }) => {
               }
               return Math.floor(seconds) + " seconds";
             };
+
+            const notificationMessage = item?.notificationMessage;
             return (
               <View key={index} style={styles.messageContainer}>
                 <View
@@ -84,17 +76,31 @@ export const NotificationBody = ({ patientValue }) => {
                       numberOfLines={2}
                       ellipsizeMode={"tail"}
                       textStyle={styles.message}
-                      text={item.notificationMessage}
+                      text={notificationMessage}
                     />
                     <Text
                       textStyle={styles.timeStamp}
-                      text={agoTime(new Date(item.createdAt.seconds))}
+                      text={agoTime(new Date(item?.createdAt.seconds))}
                     />
                   </View>
                 </View>
                 <TouchableOpacity
                   activeOpacity={0.7}
-                  onPress={() => _deleteHandler()}
+                  onPress={async () => {
+                    try {
+                      await updateDoc(docRef, {
+                        notificationMessage: deleteField(),
+                      })
+                        .then((res) => {
+                          console.warn(res);
+                        })
+                        .catch((err) => {
+                          console.warn(err);
+                        });
+                    } catch (error) {
+                      console.warn(error);
+                    }
+                  }}
                 >
                   <Ionicons name="trash" size={20} color={theme.secondary} />
                 </TouchableOpacity>

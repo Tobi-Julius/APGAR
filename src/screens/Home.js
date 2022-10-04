@@ -17,7 +17,7 @@ export const Home = () => {
   const [searching, setSearching] = useState(false);
   const { user } = useUserAuth();
 
-  const q = query(collection(db, `users/${user.uid}/user`));
+  const q = query(collection(db, `users/${user?.uid}/user`));
   const getData = async () => {
     if (user) {
       if (!searchKeyword) {

@@ -1,6 +1,6 @@
 import { View, FlatList } from "react-native";
 import React, { useEffect, useState, useCallback, useRef } from "react";
-import { collection, getDocs, query } from "firebase/firestore";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { Header } from "../components/primary";
 import { DatabaseCard } from "../components/secondary";
 import { theme } from "../constants";
@@ -30,7 +30,10 @@ export const DataBase = () => {
     bottomSheetModalRef.current.dismiss();
   }, []);
 
-  const q = query(collection(db, `users/${user.uid}/user`));
+  const q = query(
+    collection(db, `users/${user.uid}/user`),
+    orderBy("createdAt")
+  );
 
   const getData = useCallback(async () => {
     const querySnapshot = await getDocs(q);

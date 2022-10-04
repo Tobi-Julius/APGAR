@@ -64,18 +64,17 @@ const AuthNavigation = () => {
         screenOptions={{
           headerShown: false,
         }}
-        initialRouteName={"SignIn"}
+        // initialRouteName={"SignIn"}
       >
         {isAppFirstLaunch && (
           <AuthStack.Screen name="Onboarding" component={Onboarding} />
         )}
+        <AuthStack.Screen name="SignIn" component={SignIn} options={options} />
         <AuthStack.Screen
           name="Register"
           component={Register}
           options={options}
         />
-
-        <AuthStack.Screen name="SignIn" component={SignIn} options={options} />
 
         <AuthStack.Screen
           name="RetrieveId"

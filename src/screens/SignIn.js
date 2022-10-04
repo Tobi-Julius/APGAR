@@ -6,6 +6,7 @@ import { Header } from "../components/primary";
 import { RSHeader } from "../components/secondary";
 import { useNavigation } from "@react-navigation/native";
 import KeyBoardAvoidingWrapper from "../components/Keyboard/KeyBoardAvoidingWrapper";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const SignIn = () => {
   const navigation = useNavigation();
@@ -17,7 +18,7 @@ export const SignIn = () => {
     error: "",
   });
 
-  const { logIn } = useUserAuth();
+  const { logIn, user } = useUserAuth();
 
   const handleSubmit = async () => {
     setValue({
@@ -33,6 +34,11 @@ export const SignIn = () => {
         email: "",
       });
       navigation.replace("DrawerNavigation");
+      try {
+        AsyncStorage.setItem("userData", JSON.stringify(user));
+      } catch (error) {
+        console.warn(err);
+      }
     } catch (error) {
       setValue({
         ...value,

@@ -19,15 +19,14 @@ export const styles = StyleSheet.create({
   },
   contentContainer: {
     maxWidth: layout.widthPixel(360),
-    width: layout.widthPixel(370),
-    marginVertical: layout.pixelSizeVertical(20),
+    width: layout.widthPixel(360),
     alignItems: "center",
   },
   messageContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginTop: layout.pixelSizeVertical(20),
+    marginTop: layout.pixelSizeVertical(27),
   },
   message: {
     fontFamily: "Montserrat_400Regular",
@@ -42,6 +41,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: layout.pixelSizeHorizontal(12),
     paddingVertical: layout.pixelSizeVertical(9),
     borderRadius: layout.fontPixel(10),
+    marginRight: layout.pixelSizeHorizontal(10),
   },
   timeStamp: {
     marginLeft: layout.pixelSizeHorizontal(7),

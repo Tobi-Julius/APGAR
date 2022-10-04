@@ -84,7 +84,7 @@ export const TakeAPGARScore = () => {
           image: babyImage,
           score: arrayValue,
           createdAt: serverTimestamp(),
-          notificationMessage: `An APGAR score taken at has been recorded successfully!`,
+          notificationMessage: `An APGAR score taken has been recorded successfully!`,
           comment:
             arrayValue <= 3
               ? "Severly Depressed"

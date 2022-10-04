@@ -32,6 +32,7 @@
     "web": {
       "favicon": "./src/assets/favicon.png"
     },
-    "description": "APGAR application2"
+    "description": "APGAR application",
+    "githubUrl": "https://github.com/Tobi-Julius/APGAR"
   }
 }
